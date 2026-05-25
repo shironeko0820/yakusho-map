@@ -24,11 +24,7 @@
       z-index: 10;
     }
 
-    header h1 {
-      font-size: 20px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
+    header h1 { font-size: 20px; font-weight: 700; flex-shrink: 0; }
 
     .search-bar {
       display: flex;
@@ -46,16 +42,8 @@
       outline: none;
     }
 
-    .search-bar select {
-      width: 160px;
-      background: white;
-      cursor: pointer;
-    }
-
-    .search-bar input {
-      flex: 1;
-      background: white;
-    }
+    .search-bar select { width: 160px; background: white; cursor: pointer; }
+    .search-bar input { flex: 1; background: white; }
 
     .search-bar button {
       padding: 8px 16px;
@@ -69,93 +57,117 @@
     }
 
     .search-bar button:hover { background: #1565c0; }
+    #resetBtn { background: #e53935 !important; }
+    #resetBtn:hover { background: #c62828 !important; }
 
-    #stats {
-      color: rgba(255,255,255,0.85);
+    #stats { color: rgba(255,255,255,0.85); font-size: 13px; flex-shrink: 0; }
+
+    #map { width: 100%; height: calc(100vh - 56px); }
+
+    /* ローディングオーバーレイ */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      gap: 20px;
+    }
+
+    #loading.hidden { display: none; }
+
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 5px solid #e0e0e0;
+      border-top-color: #1a73e8;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a73e8;
+    }
+
+    .loading-sub {
       font-size: 13px;
-      flex-shrink: 0;
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
     }
 
-    #map {
-      width: 100%;
-      height: calc(100vh - 56px);
+    .progress-bar {
+      width: 240px;
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
     }
 
-    /* Info window overrides */
+    .progress-fill {
+      height: 100%;
+      background: #1a73e8;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* エラーバナー */
+    #errorBanner {
+      display: none;
+      background: #fff3cd;
+      color: #856404;
+      padding: 8px 16px;
+      font-size: 13px;
+      text-align: center;
+      border-bottom: 1px solid #ffc107;
+    }
+
+    /* Info window */
     .gm-style .gm-style-iw-c {
       border-radius: 8px !important;
       padding: 0 !important;
-      max-width: 320px !important;
+      max-width: 300px !important;
     }
 
-    .gm-style .gm-style-iw-d {
-      overflow: hidden !important;
-    }
+    .gm-style .gm-style-iw-d { overflow: hidden !important; }
 
-    .info-window {
-      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
-      min-width: 260px;
-    }
+    .info-window { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; min-width: 240px; }
 
-    .info-window .iw-header {
+    .iw-header {
       background: #1a73e8;
       color: white;
       padding: 10px 14px;
     }
 
-    .info-window .iw-header h3 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
+    .iw-header h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .iw-header .pref { font-size: 12px; opacity: 0.85; }
 
-    .info-window .iw-header .pref {
-      font-size: 12px;
-      opacity: 0.85;
-    }
+    .iw-body { padding: 10px 14px; }
 
-    .info-window .iw-body {
-      padding: 12px 14px;
-    }
-
-    .info-window .iw-row {
+    .iw-row {
       display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 7px;
       font-size: 13px;
       line-height: 1.4;
     }
 
-    .info-window .iw-row .icon {
-      width: 18px;
-      flex-shrink: 0;
-      text-align: center;
-      margin-top: 1px;
-    }
+    .iw-row .icon { width: 18px; flex-shrink: 0; text-align: center; }
+    .iw-row .value { color: #333; }
+    .iw-row a { color: #1a73e8; text-decoration: none; }
+    .iw-row a:hover { text-decoration: underline; }
 
-    .info-window .iw-row .label {
-      color: #666;
-      flex-shrink: 0;
-      width: 56px;
-    }
+    .iw-footer { padding: 6px 14px 12px; border-top: 1px solid #eee; }
 
-    .info-window .iw-row .value {
-      color: #333;
-    }
-
-    .info-window .iw-row a {
-      color: #1a73e8;
-      text-decoration: none;
-    }
-
-    .info-window .iw-row a:hover { text-decoration: underline; }
-
-    .info-window .iw-footer {
-      padding: 8px 14px 12px;
-      border-top: 1px solid #eee;
-    }
-
-    .info-window .btn-route {
+    .btn-route {
       display: block;
       text-align: center;
       padding: 7px;
@@ -166,10 +178,22 @@
       font-size: 13px;
     }
 
-    .info-window .btn-route:hover { background: #1565c0; }
+    .btn-route:hover { background: #1565c0; }
   </style>
 </head>
 <body>
+
+<!-- ローディング画面 -->
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-title">全国役所データを取得中...</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="loading-sub" id="loadingSub">OpenStreetMapから役所データを読み込んでいます<br>初回のみ時間がかかります（約10〜30秒）</div>
+</div>
+
+<div id="errorBanner" id="errorBanner">
+  ⚠ データの取得に失敗しました。主要54件の役所を表示しています。
+</div>
 
 <header>
   <h1>🏛 全国役所マップ</h1>
@@ -179,168 +203,102 @@
     </select>
     <input type="text" id="searchInput" placeholder="役所名・住所で検索...">
     <button onclick="search()">検索</button>
-    <button onclick="resetMap()" style="background:#e53935;">リセット</button>
+    <button id="resetBtn" onclick="resetMap()">リセット</button>
   </div>
   <div id="stats"></div>
 </header>
 
 <div id="map"></div>
 
+<!-- MarkerClusterer -->
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+
 <script>
-const OFFICES = [
-  // 北海道
-  { id: 1, name: "札幌市役所", pref: "北海道", address: "北海道札幌市中央区北1条西2丁目", tel: "011-251-0311", hours: "月〜金 8:45〜17:15", url: "https://www.city.sapporo.jp/", lat: 43.0618, lng: 141.3545 },
-  { id: 2, name: "函館市役所", pref: "北海道", address: "北海道函館市東雲町4番13号", tel: "0138-21-3111", hours: "月〜金 8:45〜17:30", url: "https://www.city.hakodate.hokkaido.jp/", lat: 41.7688, lng: 140.7289 },
-  { id: 3, name: "旭川市役所", pref: "北海道", address: "北海道旭川市6条通9丁目46番地", tel: "0166-23-1111", hours: "月〜金 8:45〜17:15", url: "https://www.city.asahikawa.hokkaido.jp/", lat: 43.7706, lng: 142.3647 },
-
-  // 青森県
-  { id: 4, name: "青森市役所", pref: "青森県", address: "青森県青森市中央1丁目22番5号", tel: "017-734-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.aomori.aomori.jp/", lat: 40.8246, lng: 140.7401 },
-
-  // 岩手県
-  { id: 5, name: "盛岡市役所", pref: "岩手県", address: "岩手県盛岡市内丸12番2号", tel: "019-651-4111", hours: "月〜金 8:30〜17:15", url: "https://www.city.morioka.iwate.jp/", lat: 39.7036, lng: 141.1527 },
-
-  // 宮城県
-  { id: 6, name: "仙台市役所", pref: "宮城県", address: "宮城県仙台市青葉区国分町3丁目7番1号", tel: "022-261-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.sendai.jp/", lat: 38.2682, lng: 140.8694 },
-
-  // 秋田県
-  { id: 7, name: "秋田市役所", pref: "秋田県", address: "秋田県秋田市山王一丁目1番1号", tel: "018-866-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.akita.lg.jp/", lat: 39.7186, lng: 140.1023 },
-
-  // 山形県
-  { id: 8, name: "山形市役所", pref: "山形県", address: "山形県山形市旅篭町二丁目3番25号", tel: "023-641-1212", hours: "月〜金 8:30〜17:15", url: "https://www.city.yamagata-yamagata.lg.jp/", lat: 38.2404, lng: 140.3633 },
-
-  // 福島県
-  { id: 9, name: "福島市役所", pref: "福島県", address: "福島県福島市五老内町3番1号", tel: "024-525-3700", hours: "月〜金 8:30〜17:15", url: "https://www.city.fukushima.fukushima.jp/", lat: 37.7608, lng: 140.4748 },
-
-  // 茨城県
-  { id: 10, name: "水戸市役所", pref: "茨城県", address: "茨城県水戸市中央1丁目4番1号", tel: "029-224-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.mito.lg.jp/", lat: 36.3664, lng: 140.4713 },
-
-  // 栃木県
-  { id: 11, name: "宇都宮市役所", pref: "栃木県", address: "栃木県宇都宮市旭1丁目1番5号", tel: "028-632-2222", hours: "月〜金 8:30〜17:15", url: "https://www.city.utsunomiya.tochigi.jp/", lat: 36.5548, lng: 139.8836 },
-
-  // 群馬県
-  { id: 12, name: "前橋市役所", pref: "群馬県", address: "群馬県前橋市大手町二丁目12番1号", tel: "027-224-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.maebashi.gunma.jp/", lat: 36.3911, lng: 139.0608 },
-
-  // 埼玉県
-  { id: 13, name: "さいたま市役所", pref: "埼玉県", address: "埼玉県さいたま市浦和区常盤6丁目4番4号", tel: "048-829-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.saitama.lg.jp/", lat: 35.8617, lng: 139.6455 },
-
-  // 千葉県
-  { id: 14, name: "千葉市役所", pref: "千葉県", address: "千葉県千葉市中央区千葉港1番1号", tel: "043-245-5111", hours: "月〜金 8:30〜17:15", url: "https://www.city.chiba.jp/", lat: 35.6073, lng: 140.1063 },
-
-  // 東京都
-  { id: 15, name: "東京都庁", pref: "東京都", address: "東京都新宿区西新宿2丁目8番1号", tel: "03-5321-1111", hours: "月〜金 8:30〜17:15", url: "https://www.metro.tokyo.lg.jp/", lat: 35.6896, lng: 139.6922 },
-  { id: 16, name: "千代田区役所", pref: "東京都", address: "東京都千代田区九段南1丁目2番1号", tel: "03-3264-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.chiyoda.lg.jp/", lat: 35.6942, lng: 139.7497 },
-  { id: 17, name: "渋谷区役所", pref: "東京都", address: "東京都渋谷区宇田川町1番1号", tel: "03-3463-1211", hours: "月〜金 8:30〜17:00", url: "https://www.city.shibuya.tokyo.jp/", lat: 35.6617, lng: 139.6975 },
-  { id: 18, name: "新宿区役所", pref: "東京都", address: "東京都新宿区歌舞伎町1丁目4番1号", tel: "03-3209-1111", hours: "月〜金 8:30〜17:00", url: "https://www.city.shinjuku.lg.jp/", lat: 35.6938, lng: 139.7035 },
-
-  // 神奈川県
-  { id: 19, name: "横浜市役所", pref: "神奈川県", address: "神奈川県横浜市中区本町6丁目50番地10", tel: "045-671-2121", hours: "月〜金 8:45〜17:15", url: "https://www.city.yokohama.lg.jp/", lat: 35.4478, lng: 139.6425 },
-  { id: 20, name: "川崎市役所", pref: "神奈川県", address: "神奈川県川崎市川崎区宮本町1番地", tel: "044-200-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.kawasaki.jp/", lat: 35.5308, lng: 139.7029 },
-
-  // 新潟県
-  { id: 21, name: "新潟市役所", pref: "新潟県", address: "新潟県新潟市中央区学校町通1番町602番地1", tel: "025-228-1000", hours: "月〜金 8:30〜17:15", url: "https://www.city.niigata.lg.jp/", lat: 37.9026, lng: 139.0233 },
-
-  // 富山県
-  { id: 22, name: "富山市役所", pref: "富山県", address: "富山県富山市新総曲輪1番7号", tel: "076-443-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.toyama.lg.jp/", lat: 36.6953, lng: 137.2113 },
-
-  // 石川県
-  { id: 23, name: "金沢市役所", pref: "石川県", address: "石川県金沢市広坂1丁目1番1号", tel: "076-220-2111", hours: "月〜金 8:30〜17:15", url: "https://www4.city.kanazawa.lg.jp/", lat: 36.5944, lng: 136.6256 },
-
-  // 福井県
-  { id: 24, name: "福井市役所", pref: "福井県", address: "福井県福井市大手3丁目10番1号", tel: "0776-20-5111", hours: "月〜金 8:30〜17:15", url: "https://www.city.fukui.lg.jp/", lat: 36.0652, lng: 136.2219 },
-
-  // 山梨県
-  { id: 25, name: "甲府市役所", pref: "山梨県", address: "山梨県甲府市丸の内一丁目18番1号", tel: "055-237-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.kofu.yamanashi.jp/", lat: 35.6636, lng: 138.5686 },
-
-  // 長野県
-  { id: 26, name: "長野市役所", pref: "長野県", address: "長野県長野市大字鶴賀緑町1613番地", tel: "026-226-4911", hours: "月〜金 8:30〜17:15", url: "https://www.city.nagano.nagano.jp/", lat: 36.6486, lng: 138.1947 },
-
-  // 岐阜県
-  { id: 27, name: "岐阜市役所", pref: "岐阜県", address: "岐阜県岐阜市今沢町18番地", tel: "058-265-4141", hours: "月〜金 8:45〜17:30", url: "https://www.city.gifu.lg.jp/", lat: 35.4232, lng: 136.7607 },
-
-  // 静岡県
-  { id: 28, name: "静岡市役所", pref: "静岡県", address: "静岡県静岡市葵区追手町5番1号", tel: "054-254-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.shizuoka.lg.jp/", lat: 34.9756, lng: 138.3830 },
-
-  // 愛知県
-  { id: 29, name: "名古屋市役所", pref: "愛知県", address: "愛知県名古屋市中区三の丸三丁目1番1号", tel: "052-961-1111", hours: "月〜金 8:45〜17:30", url: "https://www.city.nagoya.jp/", lat: 35.1802, lng: 136.9066 },
-
-  // 三重県
-  { id: 30, name: "津市役所", pref: "三重県", address: "三重県津市西丸之内23番1号", tel: "059-229-3131", hours: "月〜金 8:30〜17:15", url: "https://www.info.city.tsu.mie.jp/", lat: 34.7303, lng: 136.5086 },
-
-  // 滋賀県
-  { id: 31, name: "大津市役所", pref: "滋賀県", address: "滋賀県大津市御陵町3番1号", tel: "077-523-1234", hours: "月〜金 8:30〜17:15", url: "https://www.city.otsu.lg.jp/", lat: 35.0045, lng: 135.8685 },
-
-  // 京都府
-  { id: 32, name: "京都市役所", pref: "京都府", address: "京都府京都市中京区寺町通御池上る上本能寺前町488番地", tel: "075-222-3111", hours: "月〜金 8:45〜17:30", url: "https://www.city.kyoto.lg.jp/", lat: 35.0116, lng: 135.7681 },
-
-  // 大阪府
-  { id: 33, name: "大阪市役所", pref: "大阪府", address: "大阪府大阪市北区中之島1丁目3番20号", tel: "06-6208-8181", hours: "月〜金 9:00〜17:30", url: "https://www.city.osaka.lg.jp/", lat: 34.6937, lng: 135.5023 },
-
-  // 兵庫県
-  { id: 34, name: "神戸市役所", pref: "兵庫県", address: "兵庫県神戸市中央区加納町6丁目5番1号", tel: "078-331-8181", hours: "月〜金 8:45〜17:30", url: "https://www.city.kobe.lg.jp/", lat: 34.6913, lng: 135.1830 },
-
-  // 奈良県
-  { id: 35, name: "奈良市役所", pref: "奈良県", address: "奈良県奈良市二条大路南一丁目1番1号", tel: "0742-34-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.nara.lg.jp/", lat: 34.6851, lng: 135.8050 },
-
-  // 和歌山県
-  { id: 36, name: "和歌山市役所", pref: "和歌山県", address: "和歌山県和歌山市七番丁23番地", tel: "073-432-0001", hours: "月〜金 8:30〜17:15", url: "https://www.city.wakayama.lg.jp/", lat: 34.2260, lng: 135.1675 },
-
-  // 鳥取県
-  { id: 37, name: "鳥取市役所", pref: "鳥取県", address: "鳥取県鳥取市幸町71番地", tel: "0857-20-0015", hours: "月〜金 8:30〜17:15", url: "https://www.city.tottori.lg.jp/", lat: 35.5011, lng: 134.2351 },
-
-  // 島根県
-  { id: 38, name: "松江市役所", pref: "島根県", address: "島根県松江市末次町86番地", tel: "0852-55-5111", hours: "月〜金 8:30〜17:15", url: "https://www.city.matsue.lg.jp/", lat: 35.4722, lng: 133.0505 },
-
-  // 岡山県
-  { id: 39, name: "岡山市役所", pref: "岡山県", address: "岡山県岡山市北区大供一丁目1番1号", tel: "086-803-1000", hours: "月〜金 8:30〜17:15", url: "https://www.city.okayama.jp/", lat: 34.6618, lng: 133.9350 },
-
-  // 広島県
-  { id: 40, name: "広島市役所", pref: "広島県", address: "広島県広島市中区国泰寺町一丁目6番34号", tel: "082-245-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.hiroshima.lg.jp/", lat: 34.3853, lng: 132.4553 },
-
-  // 山口県
-  { id: 41, name: "山口市役所", pref: "山口県", address: "山口県山口市亀山町2番1号", tel: "083-933-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.yamaguchi.lg.jp/", lat: 34.1860, lng: 131.4731 },
-
-  // 徳島県
-  { id: 42, name: "徳島市役所", pref: "徳島県", address: "徳島県徳島市幸町2丁目5番地", tel: "088-621-5111", hours: "月〜金 8:30〜17:15", url: "https://www.city.tokushima.tokushima.jp/", lat: 34.0658, lng: 134.5593 },
-
-  // 香川県
-  { id: 43, name: "高松市役所", pref: "香川県", address: "香川県高松市番町一丁目8番15号", tel: "087-839-2011", hours: "月〜金 8:30〜17:15", url: "https://www.city.takamatsu.kagawa.jp/", lat: 34.3428, lng: 134.0430 },
-
-  // 愛媛県
-  { id: 44, name: "松山市役所", pref: "愛媛県", address: "愛媛県松山市二番町四丁目7番地2", tel: "089-948-6688", hours: "月〜金 8:30〜17:15", url: "https://www.city.matsuyama.ehime.jp/", lat: 33.8392, lng: 132.7657 },
-
-  // 高知県
-  { id: 45, name: "高知市役所", pref: "高知県", address: "高知県高知市本町5丁目1番45号", tel: "088-823-9400", hours: "月〜金 8:30〜17:15", url: "https://www.city.kochi.kochi.jp/", lat: 33.5597, lng: 133.5311 },
-
-  // 福岡県
-  { id: 46, name: "福岡市役所", pref: "福岡県", address: "福岡県福岡市中央区天神1丁目8番1号", tel: "092-711-4111", hours: "月〜金 8:45〜17:45", url: "https://www.city.fukuoka.lg.jp/", lat: 33.5897, lng: 130.4017 },
-  { id: 47, name: "北九州市役所", pref: "福岡県", address: "福岡県北九州市小倉北区城内1番1号", tel: "093-582-2525", hours: "月〜金 8:30〜17:15", url: "https://www.city.kitakyushu.lg.jp/", lat: 33.8834, lng: 130.8751 },
-
-  // 佐賀県
-  { id: 48, name: "佐賀市役所", pref: "佐賀県", address: "佐賀県佐賀市栄町1番1号", tel: "0952-24-3111", hours: "月〜金 8:30〜17:15", url: "https://www.city.saga.lg.jp/", lat: 33.2635, lng: 130.3008 },
-
-  // 長崎県
-  { id: 49, name: "長崎市役所", pref: "長崎県", address: "長崎県長崎市桜町2番22号", tel: "095-822-8888", hours: "月〜金 8:45〜17:30", url: "https://www.city.nagasaki.lg.jp/", lat: 32.7448, lng: 129.8738 },
-
-  // 熊本県
-  { id: 50, name: "熊本市役所", pref: "熊本県", address: "熊本県熊本市中央区手取本町1番1号", tel: "096-328-2111", hours: "月〜金 8:30〜17:15", url: "https://www.city.kumamoto.lg.jp/", lat: 32.7898, lng: 130.7417 },
-
-  // 大分県
-  { id: 51, name: "大分市役所", pref: "大分県", address: "大分県大分市荷揚町2番31号", tel: "097-537-5611", hours: "月〜金 8:30〜17:15", url: "https://www.city.oita.oita.jp/", lat: 33.2382, lng: 131.6126 },
-
-  // 宮崎県
-  { id: 52, name: "宮崎市役所", pref: "宮崎県", address: "宮崎県宮崎市橘通西1丁目1番1号", tel: "0985-21-1714", hours: "月〜金 8:30〜17:15", url: "https://www.city.miyazaki.miyazaki.jp/", lat: 31.9110, lng: 131.4239 },
-
-  // 鹿児島県
-  { id: 53, name: "鹿児島市役所", pref: "鹿児島県", address: "鹿児島県鹿児島市山下町11番1号", tel: "099-224-1111", hours: "月〜金 8:30〜17:15", url: "https://www.city.kagoshima.lg.jp/", lat: 31.5966, lng: 130.5571 },
-
-  // 沖縄県
-  { id: 54, name: "那覇市役所", pref: "沖縄県", address: "沖縄県那覇市泉崎1丁目1番1号", tel: "098-867-0111", hours: "月〜金 8:30〜17:15", url: "https://www.city.naha.okinawa.jp/", lat: 26.2124, lng: 127.6792 },
+/* =========================================================
+   フォールバック用静的データ（Overpass取得失敗時に使用）
+   ========================================================= */
+const FALLBACK = [
+  { name:"札幌市役所", pref:"北海道", address:"北海道札幌市中央区北1条西2丁目", tel:"011-251-0311", hours:"月〜金 8:45〜17:15", lat:43.0618, lng:141.3545 },
+  { name:"函館市役所", pref:"北海道", address:"北海道函館市東雲町4番13号", tel:"0138-21-3111", hours:"月〜金 8:45〜17:30", lat:41.7688, lng:140.7289 },
+  { name:"旭川市役所", pref:"北海道", address:"北海道旭川市6条通9丁目46番地", tel:"0166-23-1111", hours:"月〜金 8:45〜17:15", lat:43.7706, lng:142.3647 },
+  { name:"青森市役所", pref:"青森県", address:"青森県青森市中央1丁目22番5号", tel:"017-734-2111", hours:"月〜金 8:30〜17:15", lat:40.8246, lng:140.7401 },
+  { name:"盛岡市役所", pref:"岩手県", address:"岩手県盛岡市内丸12番2号", tel:"019-651-4111", hours:"月〜金 8:30〜17:15", lat:39.7036, lng:141.1527 },
+  { name:"仙台市役所", pref:"宮城県", address:"宮城県仙台市青葉区国分町3丁目7番1号", tel:"022-261-1111", hours:"月〜金 8:30〜17:15", lat:38.2682, lng:140.8694 },
+  { name:"秋田市役所", pref:"秋田県", address:"秋田県秋田市山王一丁目1番1号", tel:"018-866-2111", hours:"月〜金 8:30〜17:15", lat:39.7186, lng:140.1023 },
+  { name:"山形市役所", pref:"山形県", address:"山形県山形市旅篭町二丁目3番25号", tel:"023-641-1212", hours:"月〜金 8:30〜17:15", lat:38.2404, lng:140.3633 },
+  { name:"福島市役所", pref:"福島県", address:"福島県福島市五老内町3番1号", tel:"024-525-3700", hours:"月〜金 8:30〜17:15", lat:37.7608, lng:140.4748 },
+  { name:"水戸市役所", pref:"茨城県", address:"茨城県水戸市中央1丁目4番1号", tel:"029-224-1111", hours:"月〜金 8:30〜17:15", lat:36.3664, lng:140.4713 },
+  { name:"宇都宮市役所", pref:"栃木県", address:"栃木県宇都宮市旭1丁目1番5号", tel:"028-632-2222", hours:"月〜金 8:30〜17:15", lat:36.5548, lng:139.8836 },
+  { name:"前橋市役所", pref:"群馬県", address:"群馬県前橋市大手町二丁目12番1号", tel:"027-224-1111", hours:"月〜金 8:30〜17:15", lat:36.3911, lng:139.0608 },
+  { name:"さいたま市役所", pref:"埼玉県", address:"埼玉県さいたま市浦和区常盤6丁目4番4号", tel:"048-829-1111", hours:"月〜金 8:30〜17:15", lat:35.8617, lng:139.6455 },
+  { name:"千葉市役所", pref:"千葉県", address:"千葉県千葉市中央区千葉港1番1号", tel:"043-245-5111", hours:"月〜金 8:30〜17:15", lat:35.6073, lng:140.1063 },
+  { name:"東京都庁", pref:"東京都", address:"東京都新宿区西新宿2丁目8番1号", tel:"03-5321-1111", hours:"月〜金 8:30〜17:15", lat:35.6896, lng:139.6922 },
+  { name:"千代田区役所", pref:"東京都", address:"東京都千代田区九段南1丁目2番1号", tel:"03-3264-2111", hours:"月〜金 8:30〜17:15", lat:35.6942, lng:139.7497 },
+  { name:"渋谷区役所", pref:"東京都", address:"東京都渋谷区宇田川町1番1号", tel:"03-3463-1211", hours:"月〜金 8:30〜17:00", lat:35.6617, lng:139.6975 },
+  { name:"新宿区役所", pref:"東京都", address:"東京都新宿区歌舞伎町1丁目4番1号", tel:"03-3209-1111", hours:"月〜金 8:30〜17:00", lat:35.6938, lng:139.7035 },
+  { name:"横浜市役所", pref:"神奈川県", address:"神奈川県横浜市中区本町6丁目50番地10", tel:"045-671-2121", hours:"月〜金 8:45〜17:15", lat:35.4478, lng:139.6425 },
+  { name:"川崎市役所", pref:"神奈川県", address:"神奈川県川崎市川崎区宮本町1番地", tel:"044-200-2111", hours:"月〜金 8:30〜17:15", lat:35.5308, lng:139.7029 },
+  { name:"新潟市役所", pref:"新潟県", address:"新潟県新潟市中央区学校町通1番町602番地1", tel:"025-228-1000", hours:"月〜金 8:30〜17:15", lat:37.9026, lng:139.0233 },
+  { name:"富山市役所", pref:"富山県", address:"富山県富山市新総曲輪1番7号", tel:"076-443-2111", hours:"月〜金 8:30〜17:15", lat:36.6953, lng:137.2113 },
+  { name:"金沢市役所", pref:"石川県", address:"石川県金沢市広坂1丁目1番1号", tel:"076-220-2111", hours:"月〜金 8:30〜17:15", lat:36.5944, lng:136.6256 },
+  { name:"福井市役所", pref:"福井県", address:"福井県福井市大手3丁目10番1号", tel:"0776-20-5111", hours:"月〜金 8:30〜17:15", lat:36.0652, lng:136.2219 },
+  { name:"甲府市役所", pref:"山梨県", address:"山梨県甲府市丸の内一丁目18番1号", tel:"055-237-1111", hours:"月〜金 8:30〜17:15", lat:35.6636, lng:138.5686 },
+  { name:"長野市役所", pref:"長野県", address:"長野県長野市大字鶴賀緑町1613番地", tel:"026-226-4911", hours:"月〜金 8:30〜17:15", lat:36.6486, lng:138.1947 },
+  { name:"岐阜市役所", pref:"岐阜県", address:"岐阜県岐阜市今沢町18番地", tel:"058-265-4141", hours:"月〜金 8:45〜17:30", lat:35.4232, lng:136.7607 },
+  { name:"静岡市役所", pref:"静岡県", address:"静岡県静岡市葵区追手町5番1号", tel:"054-254-2111", hours:"月〜金 8:30〜17:15", lat:34.9756, lng:138.3830 },
+  { name:"名古屋市役所", pref:"愛知県", address:"愛知県名古屋市中区三の丸三丁目1番1号", tel:"052-961-1111", hours:"月〜金 8:45〜17:30", lat:35.1802, lng:136.9066 },
+  { name:"津市役所", pref:"三重県", address:"三重県津市西丸之内23番1号", tel:"059-229-3131", hours:"月〜金 8:30〜17:15", lat:34.7303, lng:136.5086 },
+  { name:"大津市役所", pref:"滋賀県", address:"滋賀県大津市御陵町3番1号", tel:"077-523-1234", hours:"月〜金 8:30〜17:15", lat:35.0045, lng:135.8685 },
+  { name:"京都市役所", pref:"京都府", address:"京都府京都市中京区寺町通御池上る上本能寺前町488番地", tel:"075-222-3111", hours:"月〜金 8:45〜17:30", lat:35.0116, lng:135.7681 },
+  { name:"大阪市役所", pref:"大阪府", address:"大阪府大阪市北区中之島1丁目3番20号", tel:"06-6208-8181", hours:"月〜金 9:00〜17:30", lat:34.6937, lng:135.5023 },
+  { name:"神戸市役所", pref:"兵庫県", address:"兵庫県神戸市中央区加納町6丁目5番1号", tel:"078-331-8181", hours:"月〜金 8:45〜17:30", lat:34.6913, lng:135.1830 },
+  { name:"奈良市役所", pref:"奈良県", address:"奈良県奈良市二条大路南一丁目1番1号", tel:"0742-34-1111", hours:"月〜金 8:30〜17:15", lat:34.6851, lng:135.8050 },
+  { name:"和歌山市役所", pref:"和歌山県", address:"和歌山県和歌山市七番丁23番地", tel:"073-432-0001", hours:"月〜金 8:30〜17:15", lat:34.2260, lng:135.1675 },
+  { name:"鳥取市役所", pref:"鳥取県", address:"鳥取県鳥取市幸町71番地", tel:"0857-20-0015", hours:"月〜金 8:30〜17:15", lat:35.5011, lng:134.2351 },
+  { name:"松江市役所", pref:"島根県", address:"島根県松江市末次町86番地", tel:"0852-55-5111", hours:"月〜金 8:30〜17:15", lat:35.4722, lng:133.0505 },
+  { name:"岡山市役所", pref:"岡山県", address:"岡山県岡山市北区大供一丁目1番1号", tel:"086-803-1000", hours:"月〜金 8:30〜17:15", lat:34.6618, lng:133.9350 },
+  { name:"広島市役所", pref:"広島県", address:"広島県広島市中区国泰寺町一丁目6番34号", tel:"082-245-2111", hours:"月〜金 8:30〜17:15", lat:34.3853, lng:132.4553 },
+  { name:"山口市役所", pref:"山口県", address:"山口県山口市亀山町2番1号", tel:"083-933-2111", hours:"月〜金 8:30〜17:15", lat:34.1860, lng:131.4731 },
+  { name:"徳島市役所", pref:"徳島県", address:"徳島県徳島市幸町2丁目5番地", tel:"088-621-5111", hours:"月〜金 8:30〜17:15", lat:34.0658, lng:134.5593 },
+  { name:"高松市役所", pref:"香川県", address:"香川県高松市番町一丁目8番15号", tel:"087-839-2011", hours:"月〜金 8:30〜17:15", lat:34.3428, lng:134.0430 },
+  { name:"松山市役所", pref:"愛媛県", address:"愛媛県松山市二番町四丁目7番地2", tel:"089-948-6688", hours:"月〜金 8:30〜17:15", lat:33.8392, lng:132.7657 },
+  { name:"高知市役所", pref:"高知県", address:"高知県高知市本町5丁目1番45号", tel:"088-823-9400", hours:"月〜金 8:30〜17:15", lat:33.5597, lng:133.5311 },
+  { name:"福岡市役所", pref:"福岡県", address:"福岡県福岡市中央区天神1丁目8番1号", tel:"092-711-4111", hours:"月〜金 8:45〜17:45", lat:33.5897, lng:130.4017 },
+  { name:"北九州市役所", pref:"福岡県", address:"福岡県北九州市小倉北区城内1番1号", tel:"093-582-2525", hours:"月〜金 8:30〜17:15", lat:33.8834, lng:130.8751 },
+  { name:"佐賀市役所", pref:"佐賀県", address:"佐賀県佐賀市栄町1番1号", tel:"0952-24-3111", hours:"月〜金 8:30〜17:15", lat:33.2635, lng:130.3008 },
+  { name:"長崎市役所", pref:"長崎県", address:"長崎県長崎市桜町2番22号", tel:"095-822-8888", hours:"月〜金 8:45〜17:30", lat:32.7448, lng:129.8738 },
+  { name:"熊本市役所", pref:"熊本県", address:"熊本県熊本市中央区手取本町1番1号", tel:"096-328-2111", hours:"月〜金 8:30〜17:15", lat:32.7898, lng:130.7417 },
+  { name:"大分市役所", pref:"大分県", address:"大分県大分市荷揚町2番31号", tel:"097-537-5611", hours:"月〜金 8:30〜17:15", lat:33.2382, lng:131.6126 },
+  { name:"宮崎市役所", pref:"宮崎県", address:"宮崎県宮崎市橘通西1丁目1番1号", tel:"0985-21-1714", hours:"月〜金 8:30〜17:15", lat:31.9110, lng:131.4239 },
+  { name:"鹿児島市役所", pref:"鹿児島県", address:"鹿児島県鹿児島市山下町11番1号", tel:"099-224-1111", hours:"月〜金 8:30〜17:15", lat:31.5966, lng:130.5571 },
+  { name:"那覇市役所", pref:"沖縄県", address:"沖縄県那覇市泉崎1丁目1番1号", tel:"098-867-0111", hours:"月〜金 8:30〜17:15", lat:26.2124, lng:127.6792 },
 ];
 
-let map, markers = [], infoWindow;
-let filteredOffices = [...OFFICES];
+/* =========================================================
+   設定
+   ========================================================= */
+const CACHE_KEY = 'yakusho_overpass_v2';
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24時間
 
-function initMap() {
+const OVERPASS_QUERY = `[out:json][timeout:120];
+area["name"="日本"]["admin_level"="2"]->.japan;
+(
+  node["amenity"="townhall"](area.japan);
+  way["amenity"="townhall"](area.japan);
+  relation["amenity"="townhall"](area.japan);
+);
+out center;`;
+
+/* =========================================================
+   グローバル変数
+   ========================================================= */
+let map, clusterer, infoWindow;
+let allOffices = [];
+
+/* =========================================================
+   Google Maps 初期化
+   ========================================================= */
+async function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 36.5, lng: 137.5 },
     zoom: 5,
@@ -348,115 +306,199 @@ function initMap() {
     streetViewControl: false,
     fullscreenControl: true,
     styles: [
-      { featureType: "poi.business", stylers: [{ visibility: "off" }] },
-      { featureType: "transit", stylers: [{ visibility: "simplified" }] }
+      { featureType: "poi.business", stylers: [{ visibility: "off" }] }
     ]
   });
-
   infoWindow = new google.maps.InfoWindow();
 
-  // 都道府県セレクト
-  const prefs = [...new Set(OFFICES.map(o => o.pref))];
+  setProgress(10, 'キャッシュを確認中...');
+
+  try {
+    allOffices = await loadOffices();
+    document.getElementById('errorBanner').style.display = 'none';
+  } catch (e) {
+    console.warn('Overpass fetch failed, using fallback:', e);
+    allOffices = FALLBACK;
+    document.getElementById('errorBanner').style.display = 'block';
+  }
+
+  setProgress(90, 'マーカーを配置中...');
+  buildPrefSelect(allOffices);
+  renderMarkers(allOffices);
+  setProgress(100, '完了');
+
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 300);
+}
+
+/* =========================================================
+   Overpass API からデータ取得（LocalStorageキャッシュ付き）
+   ========================================================= */
+async function loadOffices() {
+  // キャッシュ確認
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (raw) {
+      const { data, ts } = JSON.parse(raw);
+      if (Date.now() - ts < CACHE_TTL && Array.isArray(data) && data.length > 100) {
+        setProgress(80, `キャッシュから ${data.length} 件を読み込み中...`);
+        return data;
+      }
+    }
+  } catch (_) {}
+
+  setProgress(20, 'OpenStreetMapへリクエスト送信中...');
+
+  const url = 'https://overpass-api.de/api/interpreter';
+  const res = await fetch(url, {
+    method: 'POST',
+    body: 'data=' + encodeURIComponent(OVERPASS_QUERY),
+  });
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+  setProgress(60, 'データを解析中...');
+  const json = await res.json();
+
+  const data = json.elements
+    .map(el => {
+      const lat = el.type === 'node' ? el.lat : el.center?.lat;
+      const lng = el.type === 'node' ? el.lon : el.center?.lon;
+      if (!lat || !lng) return null;
+
+      const t = el.tags || {};
+      const name = t['name:ja'] || t.name || '役場';
+      const pref = t['addr:province'] || t['is_in:prefecture'] || extractPref(name) || '';
+      const address = t['addr:full'] ||
+        [t['addr:province'], t['addr:city'], t['addr:suburb'], t['addr:quarter']]
+          .filter(Boolean).join('') || '';
+      const tel  = t.phone || t['contact:phone'] || '';
+      const url2 = t.website || t['contact:website'] || '';
+
+      return { name, pref, address, tel, url: url2, lat, lng };
+    })
+    .filter(Boolean);
+
+  setProgress(80, `${data.length} 件を取得しました`);
+
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+  } catch (_) {}
+
+  return data;
+}
+
+/* 役所名から都道府県を推定（「○○県△△市役所」形式対応） */
+function extractPref(name) {
+  const m = name.match(/^(東京都|北海道|(?:京都|大阪)府|.{2,3}県)/);
+  return m ? m[1] : '';
+}
+
+/* =========================================================
+   マーカー描画（MarkerClusterer使用）
+   ========================================================= */
+function renderMarkers(offices) {
+  // 既存クラスターをクリア
+  if (clusterer) {
+    clusterer.clearMarkers();
+  }
+
+  const markers = offices.map(office => {
+    const marker = new google.maps.Marker({
+      position: { lat: office.lat, lng: office.lng },
+      title: office.name,
+    });
+    marker.addListener('click', () => openInfo(marker, office));
+    return marker;
+  });
+
+  clusterer = new markerClusterer.MarkerClusterer({ map, markers });
+  document.getElementById('stats').textContent = `${offices.length.toLocaleString()} 件表示中`;
+}
+
+/* =========================================================
+   InfoWindow
+   ========================================================= */
+function openInfo(marker, o) {
+  const rows = [];
+  if (o.address) rows.push(`<div class="iw-row"><span class="icon">📍</span><span class="value">${o.address}</span></div>`);
+  if (o.tel)     rows.push(`<div class="iw-row"><span class="icon">📞</span><span class="value"><a href="tel:${o.tel}">${o.tel}</a></span></div>`);
+  if (o.hours)   rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
+  if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener">公式サイト</a></span></div>`);
+  if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
+
+  infoWindow.setContent(`
+    <div class="info-window">
+      <div class="iw-header">
+        <h3>${o.name}</h3>
+        ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
+      </div>
+      <div class="iw-body">${rows.join('')}</div>
+      <div class="iw-footer">
+        <a class="btn-route"
+           href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
+           target="_blank" rel="noopener">🚗 ルートを検索</a>
+      </div>
+    </div>`);
+  infoWindow.open(map, marker);
+}
+
+/* =========================================================
+   都道府県セレクトボックス構築
+   ========================================================= */
+function buildPrefSelect(offices) {
   const sel = document.getElementById('prefSelect');
+  const current = sel.value;
+  // 既存オプションをクリア（最初の「全て」以外）
+  while (sel.options.length > 1) sel.remove(1);
+
+  const prefs = [...new Set(offices.map(o => o.pref).filter(Boolean))].sort();
   prefs.forEach(p => {
     const opt = document.createElement('option');
     opt.value = p;
     opt.textContent = p;
     sel.appendChild(opt);
   });
-
-  renderMarkers(OFFICES);
+  sel.value = current;
 }
 
-function renderMarkers(offices) {
-  markers.forEach(m => m.setMap(null));
-  markers = [];
-
-  offices.forEach(office => {
-    const marker = new google.maps.Marker({
-      position: { lat: office.lat, lng: office.lng },
-      map,
-      title: office.name,
-      icon: {
-        url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-      }
-    });
-
-    marker.addListener('click', () => {
-      const content = `
-        <div class="info-window">
-          <div class="iw-header">
-            <h3>${office.name}</h3>
-            <div class="pref">${office.pref}</div>
-          </div>
-          <div class="iw-body">
-            <div class="iw-row">
-              <span class="icon">📍</span>
-              <span class="label">住所</span>
-              <span class="value">${office.address}</span>
-            </div>
-            <div class="iw-row">
-              <span class="icon">📞</span>
-              <span class="label">電話</span>
-              <span class="value"><a href="tel:${office.tel}">${office.tel}</a></span>
-            </div>
-            <div class="iw-row">
-              <span class="icon">🕐</span>
-              <span class="label">開庁時間</span>
-              <span class="value">${office.hours}</span>
-            </div>
-          </div>
-          <div class="iw-footer">
-            <a class="btn-route"
-               href="https://www.google.com/maps/dir/?api=1&destination=${office.lat},${office.lng}"
-               target="_blank" rel="noopener">
-              🚗 ルートを検索
-            </a>
-          </div>
-        </div>`;
-      infoWindow.setContent(content);
-      infoWindow.open(map, marker);
-    });
-
-    markers.push(marker);
-  });
-
-  document.getElementById('stats').textContent = `${offices.length} 件表示中`;
-}
-
+/* =========================================================
+   検索・リセット
+   ========================================================= */
 function search() {
   const pref = document.getElementById('prefSelect').value;
-  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+  const kw   = document.getElementById('searchInput').value.trim().toLowerCase();
 
-  let result = OFFICES.filter(o => {
+  const result = allOffices.filter(o => {
     const matchPref = !pref || o.pref === pref;
-    const matchKw = !keyword ||
-      o.name.toLowerCase().includes(keyword) ||
-      o.address.toLowerCase().includes(keyword) ||
-      o.pref.toLowerCase().includes(keyword);
+    const matchKw   = !kw ||
+      o.name.toLowerCase().includes(kw) ||
+      o.address.toLowerCase().includes(kw) ||
+      o.pref.toLowerCase().includes(kw);
     return matchPref && matchKw;
   });
 
   renderMarkers(result);
+  infoWindow.close();
 
   if (result.length === 1) {
     map.setCenter({ lat: result[0].lat, lng: result[0].lng });
-    map.setZoom(14);
+    map.setZoom(15);
   } else if (result.length > 1 && pref) {
     const lats = result.map(o => o.lat);
     const lngs = result.map(o => o.lng);
-    const bounds = new google.maps.LatLngBounds(
+    map.fitBounds(new google.maps.LatLngBounds(
       { lat: Math.min(...lats), lng: Math.min(...lngs) },
       { lat: Math.max(...lats), lng: Math.max(...lngs) }
-    );
-    map.fitBounds(bounds);
+    ));
   }
 }
 
 function resetMap() {
   document.getElementById('prefSelect').value = '';
   document.getElementById('searchInput').value = '';
-  renderMarkers(OFFICES);
+  renderMarkers(allOffices);
   map.setCenter({ lat: 36.5, lng: 137.5 });
   map.setZoom(5);
   infoWindow.close();
@@ -465,6 +507,14 @@ function resetMap() {
 document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') search();
 });
+
+/* =========================================================
+   ローディングUI
+   ========================================================= */
+function setProgress(pct, msg) {
+  document.getElementById('progressFill').style.width = pct + '%';
+  if (msg) document.getElementById('loadingSub').textContent = msg;
+}
 </script>
 
 <script
