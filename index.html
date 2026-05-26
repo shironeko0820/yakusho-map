@@ -277,17 +277,7 @@ const FALLBACK = [
 /* =========================================================
    設定
    ========================================================= */
-const CACHE_KEY = 'yakusho_overpass_v3';
-const CACHE_TTL = 24 * 60 * 60 * 1000; // 24時間
-
-// バウンディングボックス方式（日本全土: 南24°N 西122°E 北46°N 東146°E）
-const OVERPASS_QUERY = `[out:json][timeout:90][bbox:24,122,46,146];
-(
-  node["amenity"="townhall"];
-  way["amenity"="townhall"];
-  relation["amenity"="townhall"];
-);
-out center;`;
+const DATA_URL = './data.json'; // 静的JSONから読み込み（Vercel CDN配信）
 
 /* =========================================================
    グローバル変数
@@ -311,13 +301,13 @@ async function initMap() {
   });
   infoWindow = new google.maps.InfoWindow();
 
-  setProgress(10, 'キャッシュを確認中...');
+  setProgress(10, 'データを読み込み中...');
 
   try {
     allOffices = await loadOffices();
     document.getElementById('errorBanner').style.display = 'none';
   } catch (e) {
-    console.error('Overpass fetch failed:', e);
+    console.error('data.json fetch failed:', e);
     allOffices = FALLBACK;
     document.getElementById('errorBanner').style.display = 'block';
   } finally {
@@ -332,67 +322,16 @@ async function initMap() {
 }
 
 /* =========================================================
-   Overpass API からデータ取得（LocalStorageキャッシュ付き）
+   静的 data.json から自治体データを取得
    ========================================================= */
 async function loadOffices() {
-  // キャッシュ確認
-  try {
-    const raw = localStorage.getItem(CACHE_KEY);
-    if (raw) {
-      const { data, ts } = JSON.parse(raw);
-      if (Date.now() - ts < CACHE_TTL && Array.isArray(data) && data.length > 100) {
-        setProgress(80, `キャッシュから ${data.length} 件を読み込み中...`);
-        return data;
-      }
-    }
-  } catch (_) {}
-
-  setProgress(20, 'OpenStreetMapへリクエスト送信中...');
-
-  const url = 'https://overpass-api.de/api/interpreter';
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: 'data=' + encodeURIComponent(OVERPASS_QUERY),
-  });
-
+  setProgress(40, 'data.json を読み込み中...');
+  const res = await fetch(DATA_URL);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-  setProgress(60, 'データを解析中...');
-  const json = await res.json();
-
-  const data = json.elements
-    .map(el => {
-      const lat = el.type === 'node' ? el.lat : el.center?.lat;
-      const lng = el.type === 'node' ? el.lon : el.center?.lon;
-      if (!lat || !lng) return null;
-
-      const t = el.tags || {};
-      const name = t['name:ja'] || t.name || '役場';
-      const pref = t['addr:province'] || t['is_in:prefecture'] || extractPref(name) || '';
-      const address = t['addr:full'] ||
-        [t['addr:province'], t['addr:city'], t['addr:suburb'], t['addr:quarter']]
-          .filter(Boolean).join('') || '';
-      const tel  = t.phone || t['contact:phone'] || '';
-      const url2 = t.website || t['contact:website'] || '';
-
-      return { name, pref, address, tel, url: url2, lat, lng };
-    })
-    .filter(Boolean);
-
-  setProgress(80, `${data.length} 件を取得しました`);
-
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
-  } catch (_) {}
-
+  setProgress(75, 'データを解析中...');
+  const data = await res.json();
+  setProgress(85, `${data.length} 件を読み込みました`);
   return data;
-}
-
-/* 役所名から都道府県を推定（「○○県△△市役所」形式対応） */
-function extractPref(name) {
-  const m = name.match(/^(東京都|北海道|(?:京都|大阪)府|.{2,3}県)/);
-  return m ? m[1] : '';
 }
 
 /* =========================================================
