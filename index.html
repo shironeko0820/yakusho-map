@@ -165,20 +165,36 @@
     .iw-row a { color: #1a73e8; text-decoration: none; }
     .iw-row a:hover { text-decoration: underline; }
 
-    .iw-footer { padding: 6px 14px 12px; border-top: 1px solid #eee; }
-
-    .btn-route {
-      display: block;
-      text-align: center;
-      padding: 7px;
-      background: #1a73e8;
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 13px;
+    .iw-footer {
+      padding: 8px 14px 12px;
+      border-top: 1px solid #eee;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
     }
 
+    .iw-footer a {
+      display: block;
+      text-align: center;
+      padding: 7px 4px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn-route {
+      background: #1a73e8;
+      color: white !important;
+    }
     .btn-route:hover { background: #1565c0; }
+
+    .btn-congestion {
+      background: #f1f3f4;
+      color: #3c4043 !important;
+      border: 1px solid #dadce0;
+    }
+    .btn-congestion:hover { background: #e8eaed; }
   </style>
 </head>
 <body>
@@ -378,6 +394,9 @@ function openInfo(marker, o) {
         <a class="btn-route"
            href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
            target="_blank" rel="noopener">🚗 ルートを検索</a>
+        <a class="btn-congestion"
+           href="https://www.google.com/maps/place/${encodeURIComponent(o.name)}/@${o.lat},${o.lng},17z"
+           target="_blank" rel="noopener">🕐 混雑時間帯を確認</a>
       </div>
     </div>`);
   infoWindow.open(map, marker);
