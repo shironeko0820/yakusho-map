@@ -277,15 +277,15 @@ const FALLBACK = [
 /* =========================================================
    設定
    ========================================================= */
-const CACHE_KEY = 'yakusho_overpass_v2';
+const CACHE_KEY = 'yakusho_overpass_v3';
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24時間
 
-const OVERPASS_QUERY = `[out:json][timeout:120];
-area["name"="日本"]["admin_level"="2"]->.japan;
+// バウンディングボックス方式（日本全土: 南24°N 西122°E 北46°N 東146°E）
+const OVERPASS_QUERY = `[out:json][timeout:90][bbox:24,122,46,146];
 (
-  node["amenity"="townhall"](area.japan);
-  way["amenity"="townhall"](area.japan);
-  relation["amenity"="townhall"](area.japan);
+  node["amenity"="townhall"];
+  way["amenity"="townhall"];
+  relation["amenity"="townhall"];
 );
 out center;`;
 
@@ -317,19 +317,18 @@ async function initMap() {
     allOffices = await loadOffices();
     document.getElementById('errorBanner').style.display = 'none';
   } catch (e) {
-    console.warn('Overpass fetch failed, using fallback:', e);
+    console.error('Overpass fetch failed:', e);
     allOffices = FALLBACK;
     document.getElementById('errorBanner').style.display = 'block';
+  } finally {
+    setProgress(90, 'マーカーを配置中...');
+    buildPrefSelect(allOffices);
+    renderMarkers(allOffices);
+    setProgress(100, '完了');
+    setTimeout(() => {
+      document.getElementById('loading').classList.add('hidden');
+    }, 300);
   }
-
-  setProgress(90, 'マーカーを配置中...');
-  buildPrefSelect(allOffices);
-  renderMarkers(allOffices);
-  setProgress(100, '完了');
-
-  setTimeout(() => {
-    document.getElementById('loading').classList.add('hidden');
-  }, 300);
 }
 
 /* =========================================================
@@ -353,6 +352,7 @@ async function loadOffices() {
   const url = 'https://overpass-api.de/api/interpreter';
   const res = await fetch(url, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'data=' + encodeURIComponent(OVERPASS_QUERY),
   });
 
