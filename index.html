@@ -173,14 +173,18 @@
       gap: 6px;
     }
 
-    .iw-footer a {
+    .iw-footer a,
+    .iw-footer button {
       display: block;
+      width: 100%;
       text-align: center;
       padding: 7px 4px;
       border-radius: 4px;
       text-decoration: none;
       font-size: 12px;
       font-weight: 600;
+      cursor: pointer;
+      border: none;
     }
 
     .btn-route {
@@ -192,12 +196,89 @@
     .btn-congestion {
       background: #f1f3f4;
       color: #3c4043 !important;
-      border: 1px solid #dadce0;
+      border: 1px solid #dadce0 !important;
     }
     .btn-congestion:hover { background: #e8eaed; }
+
+    /* 混雑パネル（右スライドイン） */
+    #congestionPanel {
+      position: fixed;
+      top: 56px;
+      right: -380px;
+      width: 360px;
+      height: calc(100vh - 56px);
+      background: white;
+      box-shadow: -3px 0 12px rgba(0,0,0,0.15);
+      transition: right 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+    #congestionPanel.open { right: 0; }
+
+    .cp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #1a73e8;
+      color: white;
+      flex-shrink: 0;
+    }
+    .cp-header h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cp-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 0 0 12px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .cp-close:hover { opacity: 0.7; }
+
+    .cp-note {
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #666;
+      background: #fffde7;
+      border-bottom: 1px solid #fff9c4;
+      flex-shrink: 0;
+    }
+
+    #cpFrame {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+
+    @media (max-width: 400px) {
+      #congestionPanel { width: 100%; right: -100%; }
+    }
   </style>
 </head>
 <body>
+
+<!-- 混雑時間帯パネル -->
+<div id="congestionPanel">
+  <div class="cp-header">
+    <h3 id="cpTitle"></h3>
+    <button class="cp-close" onclick="closeCongestion()">✕</button>
+  </div>
+  <div class="cp-note">
+    🕐 Googleマップの「混雑する時間帯」を表示しています。<br>
+    登録情報がない施設は地図のみ表示されます。
+  </div>
+  <iframe id="cpFrame" src="" allowfullscreen loading="lazy"></iframe>
+</div>
 
 <!-- ローディング画面 -->
 <div id="loading">
@@ -394,12 +475,35 @@ function openInfo(marker, o) {
         <a class="btn-route"
            href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
            target="_blank" rel="noopener">🚗 ルートを検索</a>
-        <a class="btn-congestion"
-           href="https://www.google.com/maps/place/${encodeURIComponent(o.name)}/@${o.lat},${o.lng},17z"
-           target="_blank" rel="noopener">🕐 混雑時間帯を確認</a>
+        <button class="btn-congestion"
+           onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑時間帯を確認</button>
       </div>
     </div>`);
   infoWindow.open(map, marker);
+}
+
+/* =========================================================
+   混雑時間帯パネル
+   ========================================================= */
+const MAPS_KEY = 'AIzaSyD4myQ-yye_b-uoEQEk_Bntf3nS_00YSWc';
+
+function openCongestion(name, pref, lat, lng) {
+  const panel = document.getElementById('congestionPanel');
+  document.getElementById('cpTitle').textContent = name + ' の混雑時間帯';
+
+  // Maps Embed API で場所を指定して表示（Popular Times含む）
+  const q = encodeURIComponent(name + (pref ? ' ' + pref : ''));
+  document.getElementById('cpFrame').src =
+    `https://www.google.com/maps/embed/v1/place?key=${MAPS_KEY}&q=${q}&center=${lat},${lng}&zoom=17&language=ja`;
+
+  panel.classList.add('open');
+}
+
+function closeCongestion() {
+  const panel = document.getElementById('congestionPanel');
+  panel.classList.remove('open');
+  // iframeをリセット（リソース解放）
+  setTimeout(() => { document.getElementById('cpFrame').src = ''; }, 300);
 }
 
 /* =========================================================
