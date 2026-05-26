@@ -245,14 +245,37 @@
     }
     .cp-close:hover { opacity: 0.7; }
 
-    .cp-note {
+    .cp-toolbar {
       padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e0e0e0;
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .cp-toolbar .cp-label {
       font-size: 11px;
       color: #666;
-      background: #fffde7;
-      border-bottom: 1px solid #fff9c4;
+      flex: 1;
+    }
+
+    .cp-toolbar .cp-gmlink {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      background: #1a73e8;
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
       flex-shrink: 0;
     }
+    .cp-toolbar .cp-gmlink:hover { background: #1565c0; }
 
     #cpFrame {
       flex: 1;
@@ -273,9 +296,11 @@
     <h3 id="cpTitle"></h3>
     <button class="cp-close" onclick="closeCongestion()">✕</button>
   </div>
-  <div class="cp-note">
-    🕐 Googleマップの「混雑する時間帯」を表示しています。<br>
-    登録情報がない施設は地図のみ表示されます。
+  <div class="cp-toolbar">
+    <span class="cp-label">🕐 混雑する時間帯はGoogleマップで確認できます</span>
+    <a id="cpGmLink" class="cp-gmlink" href="#" target="_blank" rel="noopener">
+      Googleマップで開く ↗
+    </a>
   </div>
   <iframe id="cpFrame" src="" allowfullscreen loading="lazy"></iframe>
 </div>
@@ -489,12 +514,16 @@ const MAPS_KEY = 'AIzaSyD4myQ-yye_b-uoEQEk_Bntf3nS_00YSWc';
 
 function openCongestion(name, pref, lat, lng) {
   const panel = document.getElementById('congestionPanel');
-  document.getElementById('cpTitle').textContent = name + ' の混雑時間帯';
+  document.getElementById('cpTitle').textContent = name;
 
-  // Maps Embed API で場所を指定して表示（Popular Times含む）
-  const q = encodeURIComponent(name + (pref ? ' ' + pref : ''));
+  // 座標ベース埋め込み（登録状況に関わらず常に正確な場所を表示）
   document.getElementById('cpFrame').src =
-    `https://www.google.com/maps/embed/v1/place?key=${MAPS_KEY}&q=${q}&center=${lat},${lng}&zoom=17&language=ja`;
+    `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed&hl=ja`;
+
+  // 「Googleマップで開く」リンク → 混雑する時間帯が確認できる場所ページへ
+  const q = encodeURIComponent(name + (pref ? ' ' + pref : ''));
+  document.getElementById('cpGmLink').href =
+    `https://www.google.com/maps/place/${q}/@${lat},${lng},17z`;
 
   panel.classList.add('open');
 }
