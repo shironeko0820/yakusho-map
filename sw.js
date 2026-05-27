@@ -1,7 +1,7 @@
 /* =============================================
    Service Worker — 全国役所マップ
    ============================================= */
-const CACHE = 'yakusho-map-v1';
+const CACHE = 'yakusho-map-v2';
 const PRECACHE_URLS = ['/index.html', '/data.json', '/icon.svg', '/manifest.json'];
 
 // ── インストール：主要アセットをキャッシュ ──

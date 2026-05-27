@@ -681,7 +681,7 @@ function search() {
     const matchPref = !pref || o.pref === pref;
     const matchKw   = !kw ||
       o.name.toLowerCase().includes(kw) ||
-      o.address.toLowerCase().includes(kw) ||
+      (o.address || '').toLowerCase().includes(kw) ||
       o.pref.toLowerCase().includes(kw);
     return matchPref && matchKw;
   });
