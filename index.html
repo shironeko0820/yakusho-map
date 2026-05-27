@@ -579,8 +579,9 @@ function renderMarkers(offices, isNearby = false) {
 function openInfo(marker, o) {
   const rows = [];
   if (o.address) rows.push(`<div class="iw-row"><span class="icon">📍</span><span class="value">${o.address}</span></div>`);
-  if (o.tel)     rows.push(`<div class="iw-row"><span class="icon">📞</span><span class="value"><a href="tel:${o.tel}">${o.tel}</a></span></div>`);
-  if (o.hours)   rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
+  if (o.tel)      rows.push(`<div class="iw-row"><span class="icon">📞</span><span class="value"><a href="tel:${o.tel}">${o.tel}</a></span></div>`);
+  if (o.taxPhone) rows.push(`<div class="iw-row"><span class="icon">🏢</span><span class="value">税務課: <a href="tel:${o.taxPhone}">${o.taxPhone}</a></span></div>`);
+  if (o.hours)    rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
   if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener noreferrer">${o.url.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></span></div>`);
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
