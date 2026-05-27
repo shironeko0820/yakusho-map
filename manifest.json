@@ -1,0 +1,21 @@
+{
+  "name": "全国役所マップ",
+  "short_name": "役所マップ",
+  "description": "全国1,894の市区町村役所を地図で検索できるサービス",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a73e8",
+  "lang": "ja",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["utilities", "navigation"]
+}
