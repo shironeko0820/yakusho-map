@@ -238,6 +238,13 @@
     }
     .btn-congestion:hover { background: #e8eaed; }
 
+    .btn-website {
+      background: #e8f5e9;
+      color: #2e7d32 !important;
+      border: 1px solid #a5d6a7 !important;
+    }
+    .btn-website:hover { background: #c8e6c9; }
+
     /* 混雑パネル（右スライドイン） */
     #congestionPanel {
       position: fixed;
@@ -574,7 +581,7 @@ function openInfo(marker, o) {
   if (o.address) rows.push(`<div class="iw-row"><span class="icon">📍</span><span class="value">${o.address}</span></div>`);
   if (o.tel)     rows.push(`<div class="iw-row"><span class="icon">📞</span><span class="value"><a href="tel:${o.tel}">${o.tel}</a></span></div>`);
   if (o.hours)   rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
-  if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener">公式サイト</a></span></div>`);
+  if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener noreferrer">${o.url.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></span></div>`);
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
   const distBadge = (o.dist != null)
@@ -588,12 +595,13 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-body">${rows.join('')}</div>
-      <div class="iw-footer">
+      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr' : '1fr 1fr'}">
         <a class="btn-route"
            href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
-           target="_blank" rel="noopener">🚗 ルートを検索</a>
+           target="_blank" rel="noopener noreferrer">🚗 ルート</a>
         <button class="btn-congestion"
-           onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑時間帯を確認</button>
+           onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑</button>
+        ${o.url ? `<a class="btn-website" href="${o.url}" target="_blank" rel="noopener noreferrer">🌐 公式HP</a>` : ''}
       </div>
     </div>`);
   infoWindow.open(map, marker);
