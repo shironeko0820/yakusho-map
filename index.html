@@ -583,6 +583,12 @@ function openInfo(marker, o) {
   if (o.taxPhone) rows.push(`<div class="iw-row"><span class="icon">🏢</span><span class="value">${o.taxDept || '税務課'}: <a href="tel:${o.taxPhone}">${o.taxPhone}</a></span></div>`);
   if (o.hours)    rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
   if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener noreferrer">${o.url.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></span></div>`);
+  if (o.fiscalStrength != null) {
+    const fi = o.fiscalStrength;
+    const label = fi >= 1.0 ? '強' : fi >= 0.5 ? '中' : '弱';
+    const color = fi >= 1.0 ? '#1a73e8' : fi >= 0.5 ? '#188038' : '#c5221f';
+    rows.push(`<div class="iw-row"><span class="icon">📊</span><span class="value">財政力指数: <strong style="color:${color}">${fi.toFixed(2)}（${label}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 0.49</span></span></div>`);
+  }
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
   const distBadge = (o.dist != null)
