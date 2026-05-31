@@ -1,7 +1,7 @@
 /* =============================================
    Service Worker — 全国役所マップ
    ============================================= */
-const CACHE = 'yakusho-map-v2';
+const CACHE = 'yakusho-map-v3';
 const PRECACHE_URLS = ['/index.html', '/data.json', '/icon.svg', '/manifest.json'];
 
 // ── インストール：主要アセットをキャッシュ ──
@@ -49,8 +49,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // data.json → Stale-While-Revalidate（即座にキャッシュ返却しつつバックグラウンド更新）
-  if (url.pathname === '/data.json') {
+  // data.json / fiscal_detail.json → Stale-While-Revalidate（即座にキャッシュ返却しつつバックグラウンド更新）
+  if (url.pathname === '/data.json' || url.pathname === '/fiscal_detail.json') {
     event.respondWith(
       caches.open(CACHE).then(cache =>
         cache.match(req).then(cached => {

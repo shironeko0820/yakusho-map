@@ -374,9 +374,61 @@
       .search-bar select { width: 90px; font-size: 12px; }
       .search-bar button { padding: 7px 7px; font-size: 12px; }
     }
+
+    /* ── 財政フローパネル（左スライドイン） ── */
+    #fiscalPanel {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 400px;
+      height: 100vh;
+      background: white;
+      box-shadow: 3px 0 12px rgba(0,0,0,0.15);
+      transition: left 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #fiscalPanel.open { left: 0; }
+    .fp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #188038;
+      color: white;
+      flex-shrink: 0;
+    }
+    .fp-header h3 { font-size: 14px; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fp-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 0 0 0 12px; flex-shrink: 0; line-height: 1; }
+    .fp-close:hover { opacity: 0.7; }
+    .fp-subtitle { font-size: 11px; color: #555; padding: 6px 14px; background: #f5f5f5; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
+    #fpChart { flex: 1; overflow: hidden; padding: 4px 0 0; }
+    .fp-note { padding: 4px 14px; font-size: 10px; color: #aaa; flex-shrink: 0; line-height: 1.5; border-top: 1px solid #f0f0f0; }
+    .fp-credit { padding: 5px 14px; font-size: 10px; color: #999; flex-shrink: 0; line-height: 1.5; }
+    .fp-credit a { color: #1a73e8; }
+    .btn-fiscal { background: #188038; color: white; border: none; border-radius: 0 0 8px 8px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+    .btn-fiscal:hover { background: #0d6b2e; }
+    @media (max-width: 600px) {
+      #fiscalPanel { width: 100%; left: -100%; }
+    }
   </style>
 </head>
 <body>
+
+<!-- 財政フローパネル（左スライドイン） -->
+<div id="fiscalPanel">
+  <div class="fp-header">
+    <h3 id="fpTitle"></h3>
+    <button class="fp-close" onclick="closeFiscal()">✕</button>
+  </div>
+  <div id="fpSubtitle" class="fp-subtitle">読み込み中...</div>
+  <div id="fpChart"></div>
+  <div class="fp-note">※歳入・歳出の各内訳を示す概念図（財源と用途に直接対応関係はありません）</div>
+  <div class="fp-credit">出典：<a href="https://www.e-stat.go.jp/" target="_blank" rel="noopener">政府統計の総合窓口(e-Stat)</a>
+    ／総務省「市町村別決算状況調（令和5年度）」</div>
+</div>
 
 <!-- 混雑時間帯パネル -->
 <div id="congestionPanel">
@@ -602,12 +654,14 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-body">${rows.join('')}</div>
-      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr' : '1fr 1fr'}">
+      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr 1fr' : '1fr 1fr 1fr'}">
         <a class="btn-route"
            href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
            target="_blank" rel="noopener noreferrer">🚗 ルート</a>
         <button class="btn-congestion"
            onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑</button>
+        <button class="btn-fiscal"
+           onclick="openFiscal('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}')">📊 財政</button>
         ${o.url ? `<a class="btn-website" href="${o.url}" target="_blank" rel="noopener noreferrer">🌐 公式HP</a>` : ''}
       </div>
     </div>`);
@@ -815,6 +869,101 @@ function haversine(lat1, lng1, lat2, lng2) {
     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/* =========================================================
+   財政フローパネル（サンキー図）
+   ========================================================= */
+let _fiscalData = null;
+const _INCOME_LABELS  = ['地方税','地方交付税','国庫支出金','都道府県支出金','地方債','その他歳入'];
+const _EXPENSE_LABELS = ['総務費','民生費','衛生費','土木費','教育費','公債費','その他歳出'];
+
+function _fiscalKey(name, pref) {
+  let city = name.replace(/(役所|役場)$/, '');
+  const mG = city.match(/^.+郡(.+(町|村))$/);
+  if (mG) city = mG[1];
+  const mK = name.match(/^(.+市)[^市]+区役所$/);
+  if (mK) city = mK[1];
+  return `${pref}|${city}`;
+}
+
+async function _loadFiscal() {
+  if (_fiscalData) return;
+  const res = await fetch('/fiscal_detail.json');
+  const arr = await res.json();
+  _fiscalData = {};
+  for (const item of arr) _fiscalData[item.k] = item;
+}
+
+function _loadGoogleCharts() {
+  return new Promise((resolve, reject) => {
+    if (window._gChartsReady) { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://www.gstatic.com/charts/loader.js';
+    s.onload = () => {
+      google.charts.load('current', {packages: ['sankey'], language: 'ja'});
+      google.charts.setOnLoadCallback(() => { window._gChartsReady = true; resolve(); });
+    };
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function openFiscal(name, pref) {
+  const panel = document.getElementById('fiscalPanel');
+  document.getElementById('fpTitle').textContent = name;
+  document.getElementById('fpSubtitle').textContent = '読み込み中...';
+  document.getElementById('fpChart').innerHTML = '';
+  panel.classList.add('open');
+
+  try {
+    await Promise.all([_loadFiscal(), _loadGoogleCharts()]);
+    const key = _fiscalKey(name, pref);
+    const fd  = _fiscalData[key] || _fiscalData[key.replace(/ヶ/g, 'ケ')];
+    if (!fd) {
+      document.getElementById('fpSubtitle').textContent = '財政データなし';
+      document.getElementById('fpChart').innerHTML =
+        '<p style="padding:24px;color:#999;text-align:center">このデータは収録されていません</p>';
+      return;
+    }
+    const totalI = fd.i.reduce((a, b) => a + b, 0);
+    const oku = (Math.round(totalI / 1000) / 100).toLocaleString();
+    document.getElementById('fpSubtitle').textContent =
+      `一般会計 歳入総額 ${oku}億円（令和5年度決算）`;
+    _drawSankey(fd);
+  } catch(err) {
+    document.getElementById('fpSubtitle').textContent = 'エラー';
+    document.getElementById('fpChart').innerHTML =
+      '<p style="padding:24px;color:#c5221f;text-align:center">データ取得に失敗しました</p>';
+  }
+}
+
+function _drawSankey(fd) {
+  const dt = new google.visualization.DataTable();
+  dt.addColumn('string', '歳入');
+  dt.addColumn('string', '歳出');
+  dt.addColumn('number', '千円');
+  const C = '一般会計';
+  const rows = [];
+  _INCOME_LABELS.forEach((l, i)  => { if (fd.i[i] > 0) rows.push([l, C, fd.i[i]]); });
+  _EXPENSE_LABELS.forEach((l, i) => { if (fd.e[i] > 0) rows.push([C, l, fd.e[i]]); });
+  dt.addRows(rows);
+  const chartDiv = document.getElementById('fpChart');
+  const h = Math.max(320, Math.min(480, chartDiv.offsetHeight - 8));
+  new google.visualization.Sankey(chartDiv).draw(dt, {
+    height: h,
+    sankey: {
+      node: {
+        label: { fontSize: 11, fontName: 'Hiragino Sans, Meiryo, sans-serif', bold: false },
+        width: 10, nodePadding: 10, interactivity: true
+      },
+      link: { colorMode: 'gradient' }
+    }
+  });
+}
+
+function closeFiscal() {
+  document.getElementById('fiscalPanel').classList.remove('open');
 }
 
 /* =========================================================
