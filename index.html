@@ -404,6 +404,10 @@
     .fp-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 0 0 0 12px; flex-shrink: 0; line-height: 1; }
     .fp-close:hover { opacity: 0.7; }
     .fp-subtitle { font-size: 11px; color: #555; padding: 6px 14px; background: #f5f5f5; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
+    .fp-tabs { display: flex; border-bottom: 2px solid #e0e0e0; flex-shrink: 0; background: white; }
+    .fp-tab { flex: 1; padding: 8px 4px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; border: none; background: none; color: #888; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+    .fp-tab.active { color: #188038; border-bottom-color: #188038; }
+    .fp-tab:hover:not(.active) { background: #f5f5f5; color: #555; }
     #fpChart { flex: 1; overflow: hidden; padding: 4px 0 0; }
     .fp-note { padding: 4px 14px; font-size: 10px; color: #aaa; flex-shrink: 0; line-height: 1.5; border-top: 1px solid #f0f0f0; }
     .fp-credit { padding: 5px 14px; font-size: 10px; color: #999; flex-shrink: 0; line-height: 1.5; }
@@ -424,10 +428,11 @@
     <button class="fp-close" onclick="closeFiscal()">✕</button>
   </div>
   <div id="fpSubtitle" class="fp-subtitle">読み込み中...</div>
+  <div id="fpTabs" class="fp-tabs" style="display:none"></div>
   <div id="fpChart"></div>
   <div class="fp-note">※歳入・歳出の各内訳を示す概念図（財源と用途に直接対応関係はありません）</div>
   <div class="fp-credit">出典：<a href="https://www.e-stat.go.jp/" target="_blank" rel="noopener">政府統計の総合窓口(e-Stat)</a>
-    ／総務省「市町村別決算状況調（令和5年度）」</div>
+    ／総務省「市町村別決算状況調」</div>
 </div>
 
 <!-- 混雑時間帯パネル -->
@@ -906,11 +911,15 @@ function _loadGoogleCharts() {
   });
 }
 
+const _YEAR_LABELS = { R2:'令和2年度', R3:'令和3年度', R4:'令和4年度', R5:'令和5年度' };
+let _currentFd = null;   // 現在表示中のfiscal entry
+
 async function openFiscal(name, pref) {
   const panel = document.getElementById('fiscalPanel');
   document.getElementById('fpTitle').textContent = name;
   document.getElementById('fpSubtitle').textContent = '読み込み中...';
   document.getElementById('fpChart').innerHTML = '';
+  document.getElementById('fpTabs').style.display = 'none';
   panel.classList.add('open');
 
   try {
@@ -923,11 +932,9 @@ async function openFiscal(name, pref) {
         '<p style="padding:24px;color:#999;text-align:center">このデータは収録されていません</p>';
       return;
     }
-    const totalI = fd.i.reduce((a, b) => a + b, 0);
-    const oku = (Math.round(totalI / 1000) / 100).toLocaleString();
-    document.getElementById('fpSubtitle').textContent =
-      `一般会計 歳入総額 ${oku}億円（令和5年度決算）`;
-    _drawSankey(fd);
+    _currentFd = fd;
+    _buildYearTabs(fd);
+    _showYear('R5', fd);
   } catch(err) {
     document.getElementById('fpSubtitle').textContent = 'エラー';
     document.getElementById('fpChart').innerHTML =
@@ -935,15 +942,52 @@ async function openFiscal(name, pref) {
   }
 }
 
-function _drawSankey(fd) {
+function _buildYearTabs(fd) {
+  const tabsEl = document.getElementById('fpTabs');
+  // 利用可能な年度リスト（新しい順）
+  const available = ['R5','R4','R3','R2'].filter(yr =>
+    yr === 'R5' || (fd.h && fd.h[yr])
+  );
+  if (available.length <= 1) { tabsEl.style.display = 'none'; return; }
+  tabsEl.style.display = 'flex';
+  tabsEl.innerHTML = available.map(yr =>
+    `<button class="fp-tab" data-yr="${yr}" onclick="_switchYear('${yr}')">${_YEAR_LABELS[yr].replace('年度','')}</button>`
+  ).join('');
+}
+
+function _switchYear(yr) {
+  if (!_currentFd) return;
+  // タブのアクティブ切り替え
+  document.querySelectorAll('.fp-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.yr === yr)
+  );
+  _showYear(yr, _currentFd);
+}
+
+function _showYear(yr, fd) {
+  const data = yr === 'R5' ? fd : (fd.h && fd.h[yr]);
+  if (!data) return;
+  // アクティブタブ
+  document.querySelectorAll('.fp-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.yr === yr)
+  );
+  // サブタイトル
+  const totalI = data.i.reduce((a, b) => a + b, 0);
+  const oku = (Math.round(totalI / 1000) / 100).toLocaleString();
+  document.getElementById('fpSubtitle').textContent =
+    `一般会計 歳入総額 ${oku}億円（${_YEAR_LABELS[yr]}決算）`;
+  _drawSankey(data);
+}
+
+function _drawSankey(data) {
   const dt = new google.visualization.DataTable();
   dt.addColumn('string', '歳入');
   dt.addColumn('string', '歳出');
   dt.addColumn('number', '千円');
   const C = '一般会計';
   const rows = [];
-  _INCOME_LABELS.forEach((l, i)  => { if (fd.i[i] > 0) rows.push([l, C, fd.i[i]]); });
-  _EXPENSE_LABELS.forEach((l, i) => { if (fd.e[i] > 0) rows.push([C, l, fd.e[i]]); });
+  _INCOME_LABELS.forEach((l, i)  => { if (data.i[i] > 0) rows.push([l, C, data.i[i]]); });
+  _EXPENSE_LABELS.forEach((l, i) => { if (data.e[i] > 0) rows.push([C, l, data.e[i]]); });
   dt.addRows(rows);
   const chartDiv = document.getElementById('fpChart');
   const h = Math.max(320, Math.min(480, chartDiv.offsetHeight - 8));
