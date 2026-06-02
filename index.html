@@ -654,10 +654,7 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-body">${rows.join('')}</div>
-      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr 1fr' : '1fr 1fr 1fr'}">
-        <a class="btn-route"
-           href="https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}"
-           target="_blank" rel="noopener noreferrer">🚗 ルート</a>
+      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr' : '1fr 1fr'}">
         <button class="btn-congestion"
            onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑</button>
         <button class="btn-fiscal"
