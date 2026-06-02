@@ -979,15 +979,22 @@ function _showYear(yr, fd) {
   _drawSankey(data);
 }
 
+function _oku(v) { return (Math.round(v / 1000) / 10).toFixed(1) + '億円'; }
+
 function _drawSankey(data) {
   const dt = new google.visualization.DataTable();
   dt.addColumn('string', '歳入');
   dt.addColumn('string', '歳出');
-  dt.addColumn('number', '千円');
+  dt.addColumn('number', '金額');
+  dt.addColumn({type: 'string', role: 'tooltip'});
   const C = '一般会計';
   const rows = [];
-  _INCOME_LABELS.forEach((l, i)  => { if (data.i[i] > 0) rows.push([l, C, data.i[i]]); });
-  _EXPENSE_LABELS.forEach((l, i) => { if (data.e[i] > 0) rows.push([C, l, data.e[i]]); });
+  _INCOME_LABELS.forEach((l, i)  => {
+    if (data.i[i] > 0) rows.push([l, C, data.i[i], `${l} → ${C}\n${_oku(data.i[i])}`]);
+  });
+  _EXPENSE_LABELS.forEach((l, i) => {
+    if (data.e[i] > 0) rows.push([C, l, data.e[i], `${C} → ${l}\n${_oku(data.e[i])}`]);
+  });
   dt.addRows(rows);
   const chartDiv = document.getElementById('fpChart');
   const h = Math.max(320, Math.min(480, chartDiv.offsetHeight - 8));
