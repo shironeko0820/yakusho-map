@@ -788,7 +788,7 @@ function _loadGoogleCharts() {
   });
 }
 
-const _YEAR_LABELS = { R2:'2020年度', R3:'2021年度', R4:'2022年度', R5:'2023年度' };
+const _YEAR_LABELS = { R2:'2020年度', R3:'2021年度', R4:'2022年度', R5:'2023年度', R6:'2024年度' };
 let _currentFd = null;   // 現在表示中のfiscal entry
 
 async function openFiscal(name, pref) {
@@ -822,7 +822,7 @@ async function openFiscal(name, pref) {
 function _buildYearTabs(fd) {
   const tabsEl = document.getElementById('fpTabs');
   // 利用可能な年度リスト（新しい順）
-  const available = ['R5','R4','R3','R2'].filter(yr =>
+  const available = ['R6','R5','R4','R3','R2'].filter(yr =>
     yr === 'R5' || (fd.h && fd.h[yr])
   );
   if (available.length <= 1) { tabsEl.style.display = 'none'; return; }
@@ -842,7 +842,7 @@ function _switchYear(yr) {
 }
 
 function _showYear(yr, fd) {
-  const data = yr === 'R5' ? fd : (fd.h && fd.h[yr]);
+  const data = yr === 'R5' ? { i: fd.i, e: fd.e } : (fd.h && fd.h[yr]);
   if (!data) return;
   // アクティブタブ
   document.querySelectorAll('.fp-tab').forEach(t =>
