@@ -871,11 +871,15 @@ function _showYear(yr, fd) {
   document.querySelectorAll('.fp-tab').forEach(t =>
     t.classList.toggle('active', t.dataset.yr === yr)
   );
-  // サブタイトル
-  const totalI = data.i.reduce((a, b) => a + b, 0);
-  const oku = (Math.round(totalI / 1000) / 100).toLocaleString();
-  document.getElementById('fpSubtitle').textContent =
-    `一般会計 歳入総額 ${oku}億円（${_YEAR_LABELS[yr]}決算）`;
+  // サブタイトル（歳入 / 歳出 / 収支）
+  const totalI   = data.i.reduce((a, b) => a + b, 0);
+  const totalE   = data.e.reduce((a, b) => a + b, 0);
+  const balance  = totalI - totalE;
+  const fmt = v  => (Math.round(Math.abs(v) / 1000) / 100).toLocaleString();
+  const balStr   = (balance < 0 ? '-' : '') + fmt(balance) + '億円';
+  const balColor = balance < 0 ? '#c5221f' : '#202124';
+  document.getElementById('fpSubtitle').innerHTML =
+    `歳入：${fmt(totalI)}億円 / 歳出：${fmt(totalE)}億円　収支：<span style="color:${balColor};font-weight:700">${balStr}</span>　（${_YEAR_LABELS[yr]}決算）`;
   _drawSankey(data);
 }
 
