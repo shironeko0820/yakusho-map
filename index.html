@@ -231,102 +231,12 @@
     }
     .btn-route:hover { background: #1565c0; }
 
-    .btn-congestion {
-      background: #f1f3f4;
-      color: #3c4043 !important;
-      border: 1px solid #dadce0 !important;
-    }
-    .btn-congestion:hover { background: #e8eaed; }
-
     .btn-website {
       background: #e8f5e9;
       color: #2e7d32 !important;
       border: 1px solid #a5d6a7 !important;
     }
     .btn-website:hover { background: #c8e6c9; }
-
-    /* 混雑パネル（右スライドイン） */
-    #congestionPanel {
-      position: fixed;
-      top: 0;
-      right: -380px;
-      width: 360px;
-      height: 100vh;
-      background: white;
-      box-shadow: -3px 0 12px rgba(0,0,0,0.15);
-      transition: right 0.3s ease;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-    }
-    #congestionPanel.open { right: 0; }
-
-    .cp-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: #1a73e8;
-      color: white;
-      flex-shrink: 0;
-    }
-    .cp-header h3 {
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .cp-close {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 0 0 12px;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-    .cp-close:hover { opacity: 0.7; }
-
-    .cp-toolbar {
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e0e0e0;
-      flex-shrink: 0;
-      gap: 8px;
-    }
-
-    .cp-toolbar .cp-label {
-      font-size: 11px;
-      color: #666;
-      flex: 1;
-    }
-
-    .cp-toolbar .cp-gmlink {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 5px 10px;
-      background: #1a73e8;
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .cp-toolbar .cp-gmlink:hover { background: #1565c0; }
-
-    #cpFrame {
-      flex: 1;
-      border: none;
-      width: 100%;
-    }
 
     /* ── モバイル対応 ── */
     @media (max-width: 600px) {
@@ -362,9 +272,6 @@
 
       /* 現在地ボタンはモバイルでコンパクトに */
       #locateBtn { padding: 7px 8px !important; font-size: 13px; }
-
-      /* 混雑パネルはモバイルで全幅 */
-      #congestionPanel { width: 100%; right: -100%; }
 
       /* InfoWindow ボタンをタップしやすく */
       .iw-footer a, .iw-footer button { padding: 9px 4px; font-size: 12px; }
@@ -433,21 +340,6 @@
   <div class="fp-note">※歳入・歳出の各内訳を示す概念図（財源と用途に直接対応関係はありません）</div>
   <div class="fp-credit">出典：<a href="https://www.e-stat.go.jp/" target="_blank" rel="noopener">政府統計の総合窓口(e-Stat)</a>
     ／総務省「市町村別決算状況調」</div>
-</div>
-
-<!-- 混雑時間帯パネル -->
-<div id="congestionPanel">
-  <div class="cp-header">
-    <h3 id="cpTitle"></h3>
-    <button class="cp-close" onclick="closeCongestion()">✕</button>
-  </div>
-  <div class="cp-toolbar">
-    <span class="cp-label">🕐 混雑する時間帯はGoogleマップで確認できます</span>
-    <a id="cpGmLink" class="cp-gmlink" href="#" target="_blank" rel="noopener">
-      Googleマップで開く ↗
-    </a>
-  </div>
-  <iframe id="cpFrame" src="" allowfullscreen loading="lazy"></iframe>
 </div>
 
 <!-- ローディング画面 -->
@@ -659,43 +551,13 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-body">${rows.join('')}</div>
-      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr 1fr' : '1fr 1fr'}">
-        <button class="btn-congestion"
-           onclick="openCongestion('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}',${o.lat},${o.lng})">🕐 混雑</button>
+      <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr' : '1fr'}">
         <button class="btn-fiscal"
            onclick="openFiscal('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}')">📊 財政</button>
         ${o.url ? `<a class="btn-website" href="${o.url}" target="_blank" rel="noopener noreferrer">🌐 公式HP</a>` : ''}
       </div>
     </div>`);
   infoWindow.open(map, marker);
-}
-
-/* =========================================================
-   混雑時間帯パネル
-   ========================================================= */
-const MAPS_KEY = 'AIzaSyD4myQ-yye_b-uoEQEk_Bntf3nS_00YSWc';
-
-function openCongestion(name, pref, lat, lng) {
-  const panel = document.getElementById('congestionPanel');
-  document.getElementById('cpTitle').textContent = name;
-
-  // 座標ベース埋め込み（登録状況に関わらず常に正確な場所を表示）
-  document.getElementById('cpFrame').src =
-    `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed&hl=ja`;
-
-  // 「Googleマップで開く」リンク → 混雑する時間帯が確認できる場所ページへ
-  const q = encodeURIComponent(name + (pref ? ' ' + pref : ''));
-  document.getElementById('cpGmLink').href =
-    `https://www.google.com/maps/place/${q}/@${lat},${lng},17z`;
-
-  panel.classList.add('open');
-}
-
-function closeCongestion() {
-  const panel = document.getElementById('congestionPanel');
-  panel.classList.remove('open');
-  // iframeをリセット（リソース解放）
-  setTimeout(() => { document.getElementById('cpFrame').src = ''; }, 300);
 }
 
 /* =========================================================
