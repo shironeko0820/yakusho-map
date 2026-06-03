@@ -547,14 +547,18 @@ function renderMarkers(offices, isNearby = false) {
 function openInfo(marker, o) {
   const rows = [];
   if (o.address) rows.push(`<div class="iw-row"><span class="icon">📍</span><span class="value">${o.address}</span></div>`);
-  // tel / taxPhone は非表示（データはdata.jsonに保持）
-  if (o.hours)    rows.push(`<div class="iw-row"><span class="icon">🕐</span><span class="value">${o.hours}</span></div>`);
-  if (o.url)     rows.push(`<div class="iw-row"><span class="icon">🌐</span><span class="value"><a href="${o.url}" target="_blank" rel="noopener noreferrer">${o.url.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></span></div>`);
+  // tel / taxPhone / hours / url は非表示（データはdata.jsonに保持）
   if (o.fiscalStrength != null) {
     const fi = o.fiscalStrength;
     const label = fi >= 1.0 ? '強' : fi >= 0.5 ? '中' : '弱';
     const color = fi >= 1.0 ? '#1a73e8' : fi >= 0.5 ? '#188038' : '#c5221f';
     rows.push(`<div class="iw-row"><span class="icon">📊</span><span class="value">財政力指数: <strong style="color:${color}">${fi.toFixed(2)}（${label}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 0.49</span></span></div>`);
+  }
+  if (o.finAdj != null && o.stdFin != null) {
+    const amt   = (o.finAdj / 100000).toFixed(1);
+    const ratio = (o.finAdj / o.stdFin * 100).toFixed(1);
+    const rColor = ratio >= 20 ? '#1a73e8' : ratio >= 10 ? '#188038' : ratio >= 5 ? '#e37400' : '#c5221f';
+    rows.push(`<div class="iw-row"><span class="icon">🏦</span><span class="value">財政調整基金: <strong>${amt}億円</strong><span style="color:${rColor};font-size:11px;margin-left:4px">規模比 ${ratio}%</span></span></div>`);
   }
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
