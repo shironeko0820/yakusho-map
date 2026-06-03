@@ -814,7 +814,10 @@ async function openFiscal(name, pref) {
     }
     _currentFd = fd;
     _buildYearTabs(fd);
-    _showYear('R5', fd);
+    const _latestYr = ['R6','R5','R4','R3','R2'].find(yr =>
+      yr === 'R5' || (fd.h && fd.h[yr])
+    ) || 'R5';
+    _showYear(_latestYr, fd);
   } catch(err) {
     document.getElementById('fpSubtitle').textContent = 'エラー';
     document.getElementById('fpChart').innerHTML =
