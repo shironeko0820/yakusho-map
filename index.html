@@ -558,7 +558,8 @@ function openInfo(marker, o) {
     const amt   = (o.finAdj / 100000).toFixed(1);
     const ratio = (o.finAdj / o.stdFin * 100).toFixed(1);
     const rColor = ratio >= 20 ? '#1a73e8' : ratio >= 10 ? '#188038' : ratio >= 5 ? '#e37400' : '#c5221f';
-    rows.push(`<div class="iw-row"><span class="icon">🏦</span><span class="value">財政調整基金: <strong>${amt}億円</strong><span style="color:${rColor};font-size:11px;margin-left:4px">規模比 ${ratio}%</span></span></div>`);
+    const yrLabel = o.finAdjYr ? `${o.finAdjYr}年度決算` : '';
+    rows.push(`<div class="iw-row"><span class="icon">🏦</span><span class="value">財政調整基金: <strong>${amt}億円</strong><span style="color:${rColor};font-size:11px;margin-left:4px">規模比 ${ratio}%</span>${yrLabel ? `<span style="color:#999;font-size:11px;margin-left:4px">${yrLabel}</span>` : ''}</span></div>`);
   }
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
