@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>全国役所マップ</title>
+  <title>全国役所財政マップ｜市区町村の財政状況を地図で確認</title>
 
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
@@ -11,15 +11,30 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="役所マップ">
+  <meta name="apple-mobile-web-app-title" content="役所財政マップ">
   <link rel="apple-touch-icon" href="/icon.svg">
 
   <!-- SEO -->
-  <meta name="description" content="全国1,894の市区町村役所を地図で検索。都道府県・キーワードで絞り込み、ルート案内・混雑時間帯の確認も可能。">
-  <meta property="og:title" content="全国役所マップ">
-  <meta property="og:description" content="全国1,894の役所を地図で検索できるサービス">
+  <meta name="description" content="全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳（サンキー図）・過去年度との比較を無料で閲覧できます。総務省「市町村別決算状況調」データを使用。">
+  <meta name="keywords" content="財政力指数,市区町村,財政状況,歳入,歳出,財政マップ,地方財政,役所">
+  <meta property="og:title" content="全国役所財政マップ｜市区町村の財政状況を地図で確認">
+  <meta property="og:description" content="全国1,894市区町村の財政力指数・歳入歳出内訳をサンキー図で可視化。無料で閲覧できます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakusho-map-site.vercel.app">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="canonical" href="https://yakusho-map-site.vercel.app/">
+
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "全国役所財政マップ",
+    "url": "https://yakusho-map-site.vercel.app/",
+    "description": "全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳をサンキー図で可視化。",
+    "inLanguage": "ja"
+  }
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
