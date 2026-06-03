@@ -327,10 +327,13 @@
     .fp-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 0 0 0 12px; flex-shrink: 0; line-height: 1; }
     .fp-close:hover { opacity: 0.7; }
     .fp-subtitle { font-size: 11px; color: #555; padding: 6px 14px; background: #f5f5f5; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
-    .fp-tabs { display: flex; border-bottom: 2px solid #e0e0e0; flex-shrink: 0; background: white; }
+    .fp-tabs { display: flex; border-bottom: 2px solid #e0e0e0; flex-shrink: 0; background: white; align-items: stretch; }
     .fp-tab { flex: 1; padding: 8px 4px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; border: none; background: none; color: #888; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
     .fp-tab.active { color: #188038; border-bottom-color: #188038; }
     .fp-tab:hover:not(.active) { background: #f5f5f5; color: #555; }
+    .fp-year-select { flex: 1; padding: 0 4px; font-size: 12px; font-weight: 600; color: #888; border: none; border-left: 1px solid #e0e0e0; background: none; cursor: pointer; text-align: center; outline: none; appearance: none; -webkit-appearance: none; }
+    .fp-year-select:focus { color: #188038; background: #f5f5f5; }
+    .fp-year-select.selected { color: #188038; border-bottom: 3px solid #188038; margin-bottom: -2px; }
     #fpChart { flex: 1; overflow: hidden; padding: 4px 0 0; }
     .fp-note { padding: 4px 14px; font-size: 10px; color: #aaa; flex-shrink: 0; line-height: 1.5; border-top: 1px solid #f0f0f0; }
     .fp-credit { padding: 5px 14px; font-size: 10px; color: #999; flex-shrink: 0; line-height: 1.5; }
@@ -821,23 +824,43 @@ async function openFiscal(name, pref) {
 
 function _buildYearTabs(fd) {
   const tabsEl = document.getElementById('fpTabs');
-  // 利用可能な年度リスト（新しい順）
   const available = ['R6','R5','R4','R3','R2'].filter(yr =>
     yr === 'R5' || (fd.h && fd.h[yr])
   );
   if (available.length <= 1) { tabsEl.style.display = 'none'; return; }
-  tabsEl.style.display = 'flex';
-  tabsEl.innerHTML = available.map(yr =>
+
+  const tabYrs  = available.slice(0, 3);   // 直近3年 → タブ
+  const dropYrs = available.slice(3);       // それ以前 → プルダウン
+
+  let html = tabYrs.map(yr =>
     `<button class="fp-tab" data-yr="${yr}" onclick="_switchYear('${yr}')">${_YEAR_LABELS[yr].replace('年度','')}</button>`
   ).join('');
+
+  if (dropYrs.length > 0) {
+    html += `<select class="fp-year-select" id="fpYearSelect"
+               onchange="if(this.value) _switchYear(this.value)">
+               <option value="">過去 ▾</option>
+               ${dropYrs.map(yr => `<option value="${yr}">${_YEAR_LABELS[yr]}</option>`).join('')}
+             </select>`;
+  }
+
+  tabsEl.style.display = 'flex';
+  tabsEl.innerHTML = html;
 }
 
 function _switchYear(yr) {
-  if (!_currentFd) return;
+  if (!_currentFd || !yr) return;
   // タブのアクティブ切り替え
   document.querySelectorAll('.fp-tab').forEach(t =>
     t.classList.toggle('active', t.dataset.yr === yr)
   );
+  // プルダウンの状態更新
+  const sel = document.getElementById('fpYearSelect');
+  if (sel) {
+    const isDropYr = Array.from(sel.options).some(o => o.value === yr);
+    sel.value = isDropYr ? yr : '';
+    sel.classList.toggle('selected', isDropYr);
+  }
   _showYear(yr, _currentFd);
 }
 
