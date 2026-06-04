@@ -100,7 +100,11 @@
     #locateBtn { background: #34a853 !important; }
     #locateBtn:hover { background: #2e7d32 !important; }
     #locateBtn:disabled { background: #9e9e9e !important; cursor: not-allowed; }
-    #rankingBtn { background: #f57c00 !important; }
+    #rankingBtn {
+      background: #f57c00 !important; flex-shrink: 0;
+      padding: 8px 14px; border: none; border-radius: 6px;
+      color: white; font-weight: 700; cursor: pointer; font-size: 14px;
+    }
     #rankingBtn:hover { background: #e65100 !important; }
 
     #stats { color: rgba(255,255,255,0.85); font-size: 13px; flex-shrink: 0; }
@@ -453,8 +457,8 @@
     <button onclick="search()">検索</button>
     <button id="resetBtn" onclick="resetMap()">リセット</button>
     <button id="locateBtn" onclick="locateMe()">📍 現在地</button>
-    <button id="rankingBtn" onclick="openRanking()">🔢 一覧</button>
   </div>
+  <button id="rankingBtn" onclick="openRanking()">🔢 一覧</button>
   <div id="stats"></div>
 </header>
 
