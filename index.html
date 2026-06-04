@@ -555,9 +555,10 @@ function openInfo(marker, o) {
     rows.push(`<div class="iw-row"><span class="icon">📊</span><span class="value">財政力指数: <strong style="color:${color}">${fi.toFixed(2)}（${label}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 0.49</span></span></div>`);
   }
   if (o.finAdj != null && o.stdFin != null) {
-    const amt   = (o.finAdj / 100000).toFixed(1);
-    const ratio = (o.finAdj / o.stdFin * 100).toFixed(1);
-    const rColor = ratio >= 20 ? '#1a73e8' : ratio >= 10 ? '#188038' : ratio >= 5 ? '#e37400' : '#c5221f';
+    const amt      = (o.finAdj / 100000).toFixed(1);
+    const ratioNum = o.finAdj / o.stdFin * 100;          // 比較は丸め前の実数値で
+    const ratio    = ratioNum.toFixed(1);
+    const rColor   = ratioNum >= 20 ? '#1a73e8' : ratioNum >= 10 ? '#188038' : ratioNum >= 5 ? '#e37400' : '#c5221f';
     const yrLabel = o.finAdjYr ? `${o.finAdjYr}年度決算` : '';
     rows.push(`<div class="iw-row"><span class="icon">🏦</span><span class="value">財政調整基金: <strong>${amt}億円</strong><span style="color:${rColor};font-size:11px;margin-left:4px">規模比 ${ratio}%</span>${yrLabel ? `<span style="color:#999;font-size:11px;margin-left:4px">${yrLabel}</span>` : ''}</span></div>`);
   }
