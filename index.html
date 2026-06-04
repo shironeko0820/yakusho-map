@@ -326,6 +326,11 @@
     }
     .rk-toolbar select { flex: 1; padding: 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; }
     .rk-count { font-size: 11px; color: #888; white-space: nowrap; }
+    .rk-legend {
+      padding: 6px 12px; background: #fff8f0; border-bottom: 1px solid #ffe0b2;
+      flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;
+    }
+    .rk-legend span { font-size: 11px; color: #555; line-height: 1.5; }
     .rk-table-wrap { flex: 1; overflow-y: auto; }
     .rk-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .rk-table thead { position: sticky; top: 0; z-index: 1; }
@@ -405,6 +410,10 @@
       <option value="">全国（1,894件）</option>
     </select>
     <span class="rk-count" id="rkCount"></span>
+  </div>
+  <div class="rk-legend">
+    <span>📊 <b>財政力指数</b>：高いほど財政自立（1.0以上＝交付税不要）</span>
+    <span>🏦 <b>財調基金比率</b>：高いほど「貯金」に余裕（目安10〜20%）</span>
   </div>
   <div class="rk-table-wrap">
     <table class="rk-table">
