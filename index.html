@@ -637,6 +637,12 @@ function openInfo(marker, o) {
   const rows = [];
   if (o.address) rows.push(`<div class="iw-row"><span class="icon">📍</span><span class="value">${o.address}</span></div>`);
   // tel / taxPhone / hours / url は非表示（データはdata.jsonに保持）
+  if (o.population != null && o.population > 0) {
+    const pop = o.population >= 10000
+      ? (o.population / 10000).toFixed(1) + '万人'
+      : o.population.toLocaleString() + '人';
+    rows.push(`<div class="iw-row"><span class="icon">👥</span><span class="value">人口: <strong>${pop}</strong><span style="color:#999;font-size:11px;margin-left:4px">2024年1月現在</span></span></div>`);
+  }
   if (o.fiscalStrength != null) {
     const fi = o.fiscalStrength;
     const label = fi >= 1.0 ? '強' : fi >= 0.5 ? '中' : '弱';
