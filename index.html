@@ -415,6 +415,7 @@
     <span>📊 <b>財政力指数</b>：高いほど財政自立（1.0以上＝交付税不要）</span>
     <span>🏦 <b>財調基金比率</b>：高いほど「貯金」に余裕（目安10〜20%）</span>
     <span>🔄 <b>経常収支比率</b>：低いほど財政に余裕（80%未満＝余裕大）</span>
+    <span>💳 <b>実質公債費比率</b>：低いほど借金返済負担が小さい（25%以上＝警戒）</span>
   </div>
   <div class="rk-table-wrap">
     <table class="rk-table">
@@ -426,6 +427,7 @@
           <th onclick="sortRanking('fi')" id="th-fi">財政力指数</th>
           <th onclick="sortRanking('far')" id="th-far">財調基金比率</th>
           <th onclick="sortRanking('cer')" id="th-cer">経常収支比率</th>
+          <th onclick="sortRanking('rdr')" id="th-rdr">実質公債費比率</th>
         </tr>
       </thead>
       <tbody id="rkBody"></tbody>
@@ -655,6 +657,18 @@ function openInfo(marker, o) {
     const cLabel = cer < 80 ? '余裕大' : cer < 90 ? '普通' : cer < 100 ? '硬直気味' : '硬直';
     const cYr = o.curExpYear ? `${o.curExpYear}年度決算` : '';
     rows.push(`<div class="iw-row"><span class="icon">🔄</span><span class="value">経常収支比率: <strong style="color:${cColor}">${cer.toFixed(1)}%（${cLabel}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 90.4%</span>${cYr ? `<span style="color:#999;font-size:11px;margin-left:4px">${cYr}</span>` : ''}</span></div>`);
+  }
+  if (o.bondBalance != null) {
+    const bondOku = (o.bondBalance / 100000).toFixed(0);
+    const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
+    const perStr = perCapita ? `<span style="color:#555;font-size:11px;margin-left:4px">市民一人あたり ${perCapita}万円</span>` : '';
+    rows.push(`<div class="iw-row"><span class="icon">🏛</span><span class="value">地方債残高: <strong>${Number(bondOku).toLocaleString()}億円</strong>${perStr}</span></div>`);
+  }
+  if (o.realDebtRatio != null) {
+    const rdr = o.realDebtRatio;
+    const rdrColor = rdr < 10 ? '#1a73e8' : rdr < 18 ? '#188038' : rdr < 25 ? '#e37400' : '#c5221f';
+    const rdrLabel = rdr < 10 ? '健全' : rdr < 18 ? '普通' : rdr < 25 ? '注意' : '危険';
+    rows.push(`<div class="iw-row"><span class="icon">💳</span><span class="value">実質公債費比率: <strong style="color:${rdrColor}">${rdr.toFixed(1)}%（${rdrLabel}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 7.2%　警戒25%</span></span></div>`);
   }
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
@@ -1082,6 +1096,7 @@ function renderRanking() {
         vb = (b.finAdj && b.stdFin) ? b.finAdj / b.stdFin : -1;
         break;
       case 'cer': va = a.curExpRatio ?? 999; vb = b.curExpRatio ?? 999; break;
+      case 'rdr': va = a.realDebtRatio ?? 999; vb = b.realDebtRatio ?? 999; break;
       case 'pref': va = a.pref; vb = b.pref; break;
       default:     va = a.name; vb = b.name;
     }
@@ -1090,8 +1105,8 @@ function renderRanking() {
   });
 
   // ソートインジケーター更新
-  ['fi','far','cer','rank','name','pref'].forEach(k => {
-    const thId = k === 'fi' ? 'th-fi' : k === 'far' ? 'th-far' : k === 'cer' ? 'th-cer' : null;
+  ['fi','far','cer','rdr','rank','name','pref'].forEach(k => {
+    const thId = k === 'fi' ? 'th-fi' : k === 'far' ? 'th-far' : k === 'cer' ? 'th-cer' : k === 'rdr' ? 'th-rdr' : null;
     if (thId) {
       const th = document.getElementById(thId);
       if (th) { th.className = key === k ? (asc ? 'sort-asc' : 'sort-desc') : ''; }
@@ -1117,6 +1132,10 @@ function renderRanking() {
     const cerCol = o.curExpRatio != null
       ? (o.curExpRatio < 80 ? '#1a73e8' : o.curExpRatio < 90 ? '#188038' : o.curExpRatio < 100 ? '#e37400' : '#c5221f')
       : '#999';
+    const rdr    = o.realDebtRatio != null ? o.realDebtRatio.toFixed(1) + '%' : '–';
+    const rdrCol = o.realDebtRatio != null
+      ? (o.realDebtRatio < 10 ? '#1a73e8' : o.realDebtRatio < 18 ? '#188038' : o.realDebtRatio < 25 ? '#e37400' : '#c5221f')
+      : '#999';
     return `<tr onclick="jumpToOffice('${o.name.replace(/'/g,"\\'")}')">
       <td class="td-rank td-num">${rank}</td>
       <td class="td-name">${o.name.replace(/(役所|役場)$/,'')}</td>
@@ -1124,6 +1143,7 @@ function renderRanking() {
       <td class="td-num" style="color:${fiCol};font-weight:600">${fi}</td>
       <td class="td-num" style="color:${farCol};font-weight:600">${far}</td>
       <td class="td-num" style="color:${cerCol};font-weight:600">${cer}</td>
+      <td class="td-num" style="color:${rdrCol};font-weight:600">${rdr}</td>
     </tr>`;
   }).join('');
 
