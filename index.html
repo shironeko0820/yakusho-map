@@ -1028,7 +1028,8 @@ function closeRanking() {
 
 function _initRanking() {
   // 都道府県フィルター構築
-  const prefs = [...new Set(allOffices.map(o => o.pref))].sort();
+  const inData = new Set(allOffices.map(o => o.pref));
+  const prefs = PREF_ORDER.filter(p => inData.has(p));
   const sel = document.getElementById('rkPrefFilter');
   prefs.forEach(p => {
     const opt = document.createElement('option');
