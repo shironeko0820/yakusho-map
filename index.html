@@ -414,6 +414,7 @@
   <div class="rk-legend">
     <span>📊 <b>財政力指数</b>：高いほど財政自立（1.0以上＝交付税不要）</span>
     <span>🏦 <b>財調基金比率</b>：高いほど「貯金」に余裕（目安10〜20%）</span>
+    <span>🔄 <b>経常収支比率</b>：低いほど財政に余裕（80%未満＝余裕大）</span>
   </div>
   <div class="rk-table-wrap">
     <table class="rk-table">
@@ -424,6 +425,7 @@
           <th onclick="sortRanking('pref')">都道府県</th>
           <th onclick="sortRanking('fi')" id="th-fi">財政力指数</th>
           <th onclick="sortRanking('far')" id="th-far">財調基金比率</th>
+          <th onclick="sortRanking('cer')" id="th-cer">経常収支比率</th>
         </tr>
       </thead>
       <tbody id="rkBody"></tbody>
@@ -646,6 +648,13 @@ function openInfo(marker, o) {
     const rColor   = ratioNum >= 20 ? '#1a73e8' : ratioNum >= 10 ? '#188038' : ratioNum >= 5 ? '#e37400' : '#c5221f';
     const yrLabel = o.finAdjYr ? `${o.finAdjYr}年度決算` : '';
     rows.push(`<div class="iw-row"><span class="icon">🏦</span><span class="value">財政調整基金: <strong>${amt}億円</strong><span style="color:${rColor};font-size:11px;margin-left:4px">規模比 ${ratio}%</span>${yrLabel ? `<span style="color:#999;font-size:11px;margin-left:4px">${yrLabel}</span>` : ''}</span></div>`);
+  }
+  if (o.curExpRatio != null) {
+    const cer = o.curExpRatio;
+    const cColor = cer < 80 ? '#1a73e8' : cer < 90 ? '#188038' : cer < 100 ? '#e37400' : '#c5221f';
+    const cLabel = cer < 80 ? '余裕大' : cer < 90 ? '普通' : cer < 100 ? '硬直気味' : '硬直';
+    const cYr = o.curExpYear ? `${o.curExpYear}年度決算` : '';
+    rows.push(`<div class="iw-row"><span class="icon">🔄</span><span class="value">経常収支比率: <strong style="color:${cColor}">${cer.toFixed(1)}%（${cLabel}）</strong><span style="color:#999;font-size:11px;margin-left:4px">全国平均 90.4%</span>${cYr ? `<span style="color:#999;font-size:11px;margin-left:4px">${cYr}</span>` : ''}</span></div>`);
   }
   if (!rows.length) rows.push(`<div class="iw-row"><span class="value" style="color:#999">詳細情報なし</span></div>`);
 
@@ -1072,6 +1081,7 @@ function renderRanking() {
         va = (a.finAdj && a.stdFin) ? a.finAdj / a.stdFin : -1;
         vb = (b.finAdj && b.stdFin) ? b.finAdj / b.stdFin : -1;
         break;
+      case 'cer': va = a.curExpRatio ?? 999; vb = b.curExpRatio ?? 999; break;
       case 'pref': va = a.pref; vb = b.pref; break;
       default:     va = a.name; vb = b.name;
     }
@@ -1080,8 +1090,8 @@ function renderRanking() {
   });
 
   // ソートインジケーター更新
-  ['fi','far','rank','name','pref'].forEach(k => {
-    const thId = k === 'fi' ? 'th-fi' : k === 'far' ? 'th-far' : null;
+  ['fi','far','cer','rank','name','pref'].forEach(k => {
+    const thId = k === 'fi' ? 'th-fi' : k === 'far' ? 'th-far' : k === 'cer' ? 'th-cer' : null;
     if (thId) {
       const th = document.getElementById(thId);
       if (th) { th.className = key === k ? (asc ? 'sort-asc' : 'sort-desc') : ''; }
@@ -1103,12 +1113,17 @@ function renderRanking() {
         : o.finAdj / o.stdFin * 100 >= 10 ? '#188038'
         : o.finAdj / o.stdFin * 100 >= 5  ? '#e37400' : '#c5221f')
       : '#999';
+    const cer    = o.curExpRatio != null ? o.curExpRatio.toFixed(1) + '%' : '–';
+    const cerCol = o.curExpRatio != null
+      ? (o.curExpRatio < 80 ? '#1a73e8' : o.curExpRatio < 90 ? '#188038' : o.curExpRatio < 100 ? '#e37400' : '#c5221f')
+      : '#999';
     return `<tr onclick="jumpToOffice('${o.name.replace(/'/g,"\\'")}')">
       <td class="td-rank td-num">${rank}</td>
       <td class="td-name">${o.name.replace(/(役所|役場)$/,'')}</td>
       <td class="td-pref">${o.pref}</td>
       <td class="td-num" style="color:${fiCol};font-weight:600">${fi}</td>
       <td class="td-num" style="color:${farCol};font-weight:600">${far}</td>
+      <td class="td-num" style="color:${cerCol};font-weight:600">${cer}</td>
     </tr>`;
   }).join('');
 
