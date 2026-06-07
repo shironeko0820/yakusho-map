@@ -1060,13 +1060,13 @@ function renderRanking() {
   // 財政力指数順でのグローバル順位（全国順位）
   const fiRank = {};
   const sorted = allOffices.slice().sort((a, b) => (b.fiscalStrength || 0) - (a.fiscalStrength || 0));
-  sorted.forEach((o, i) => { fiRank[o.name] = i + 1; });
+  sorted.forEach((o, i) => { fiRank[o.pref + '_' + o.name] = i + 1; });
 
   // ソート
   data.sort((a, b) => {
     let va, vb;
     switch (key) {
-      case 'rank': va = fiRank[a.name]; vb = fiRank[b.name]; break;
+      case 'rank': va = fiRank[a.pref + '_' + a.name]; vb = fiRank[b.pref + '_' + b.name]; break;
       case 'fi':   va = a.fiscalStrength || 0; vb = b.fiscalStrength || 0; break;
       case 'far':
         va = (a.finAdj && a.stdFin) ? a.finAdj / a.stdFin : -1;
@@ -1090,7 +1090,7 @@ function renderRanking() {
 
   // テーブル描画
   const rows = data.map(o => {
-    const rank  = fiRank[o.name];
+    const rank  = fiRank[o.pref + '_' + o.name];
     const fi    = o.fiscalStrength != null ? o.fiscalStrength.toFixed(2) : '–';
     const fiCol = o.fiscalStrength != null
       ? (o.fiscalStrength >= 1 ? '#1a73e8' : o.fiscalStrength >= 0.5 ? '#188038' : '#c5221f')
