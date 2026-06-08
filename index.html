@@ -232,7 +232,7 @@
       white-space: nowrap;
     }
     .iw-tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
-    .iw-tab-content { display: none; padding: 10px 14px; }
+    .iw-tab-content { display: none; padding: 10px 14px; min-height: 172px; }
     .iw-tab-content.active { display: block; }
     .iw-row-na { opacity: 0.4; }
 
@@ -665,7 +665,7 @@ function iwRow(icon, label, valueHtml) {
   return `<div class="iw-row"><span class="icon">${icon}</span><span class="value">${label}: ${valueHtml}</span></div>`;
 }
 function iwRowNa(icon, label) {
-  return `<div class="iw-row iw-row-na"><span class="icon">${icon}</span><span class="value">${label}: <span style="font-size:11px">− （未実装）</span></span></div>`;
+  return `<div class="iw-row iw-row-na"><span class="icon">${icon}</span><span class="value">${label}:<br><span style="font-size:11px;padding-left:2px">− （未実装）</span></span></div>`;
 }
 
 function openInfo(marker, o) {
