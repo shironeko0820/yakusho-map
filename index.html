@@ -749,8 +749,13 @@ function openInfo(marker, o) {
   } else {
     t2.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
   }
-  // ラスパイレス指数（未取得）
-  t2.push(iwRowNa('👔', 'ラスパイレス指数'));
+  // ラスパイレス指数
+  if (o.laspeyres != null) {
+    const v = o.laspeyres;
+    const c = v < 90 ? '#1a73e8' : v < 100 ? '#188038' : v < 102 ? '#e37400' : '#c5221f';
+    const l = v < 90 ? '低' : v < 100 ? '標準' : v < 102 ? 'やや高' : '高';
+    t2.push(iwRow('👔', 'ラスパイレス指数', `<strong style="color:${c}">${v.toFixed(1)}（${l}）</strong><br><span class="iw-sub">全国平均 96.9　100=国家公務員水準</span>`));
+  } else { t2.push(iwRowNa('👔', 'ラスパイレス指数')); }
 
   const distBadge = (o.dist != null)
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
