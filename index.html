@@ -247,6 +247,7 @@
     .iw-exp-bar-fill { background: #1a73e8; border-radius: 3px; height: 6px; }
     .iw-exp-pct { color: #555; width: 36px; text-align: right; flex-shrink: 0; }
     .iw-exp-amt { color: #999; width: 44px; text-align: right; flex-shrink: 0; font-size: 11px; }
+    .iw-furusato-detail { margin: 4px 0 2px 26px; font-size: 11px; color: #999; display: flex; gap: 12px; }
 
     .iw-row {
       display: flex;
@@ -679,6 +680,15 @@ function iwRow(icon, label, valueHtml) {
 function iwRowNa(icon, label) {
   return `<div class="iw-row iw-row-na"><span class="icon">${icon}</span><span class="value">${label}:<br><span style="font-size:11px;padding-left:2px">− （未実装）</span></span></div>`;
 }
+function iwFurusato(recv, deduct) {
+  const net     = recv - deduct;
+  const netOku  = (net  / 1e8).toFixed(1);
+  const recvOku = (recv / 1e8).toFixed(1);
+  const dOku    = (deduct / 1e8).toFixed(1);
+  const netStr  = net >= 0 ? '+' + netOku : netOku;
+  const c       = net >= 0 ? '#188038' : '#c5221f';
+  return `<strong style="color:${c}">純収支 ${netStr}億円</strong><br><span class="iw-sub">2024年度決算</span><div class="iw-furusato-detail"><span>📥 受入 ${recvOku}億円</span><span>📤 住民税控除 ${dOku}億円</span></div>`;
+}
 function iwExpTop3(top3) {
   const rows = top3.map((item, i) => {
     const fill = Math.min(item.p, 100);
@@ -718,6 +728,9 @@ function openInfo(marker, o) {
     const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
     const perStr   = perCapita ? `<br><span class="iw-sub">市民一人あたり ${perCapita}万円</span>` : '';
     t0.push(iwRow('🏛', '地方債残高', `<strong>${Number(bondOku).toLocaleString()}億円</strong>${perStr}`));
+  }
+  if (o.furusatoNet != null) {
+    t0.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
   }
   if (o.expTop3 && o.expTop3.length) {
     t0.push(iwExpTop3(o.expTop3));
