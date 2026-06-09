@@ -237,6 +237,17 @@
     .iw-row-na { opacity: 0.4; }
     .iw-sub { display: block; font-size: 11px; color: #999; margin-top: 1px; }
 
+    .iw-exp { margin-bottom: 7px; font-size: 13px; }
+    .iw-exp-title { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .iw-exp-title .icon { width: 18px; text-align: center; }
+    .iw-exp-row { display: flex; align-items: center; gap: 5px; margin: 3px 0 3px 24px; font-size: 12px; }
+    .iw-exp-rank { color: #999; width: 10px; flex-shrink: 0; }
+    .iw-exp-name { width: 72px; flex-shrink: 0; color: #333; }
+    .iw-exp-bar-wrap { flex: 1; background: #e8eaed; border-radius: 3px; height: 6px; }
+    .iw-exp-bar-fill { background: #1a73e8; border-radius: 3px; height: 6px; }
+    .iw-exp-pct { color: #555; width: 36px; text-align: right; flex-shrink: 0; }
+    .iw-exp-amt { color: #999; width: 44px; text-align: right; flex-shrink: 0; font-size: 11px; }
+
     .iw-row {
       display: flex;
       gap: 6px;
@@ -668,6 +679,22 @@ function iwRow(icon, label, valueHtml) {
 function iwRowNa(icon, label) {
   return `<div class="iw-row iw-row-na"><span class="icon">${icon}</span><span class="value">${label}:<br><span style="font-size:11px;padding-left:2px">− （未実装）</span></span></div>`;
 }
+function iwExpTop3(top3) {
+  const rows = top3.map((item, i) => {
+    const fill = Math.min(item.p, 100);
+    return `<div class="iw-exp-row">
+      <span class="iw-exp-rank">${i+1}</span>
+      <span class="iw-exp-name">${item.l}</span>
+      <span class="iw-exp-bar-wrap"><span class="iw-exp-bar-fill" style="width:${fill}%"></span></span>
+      <span class="iw-exp-pct">${item.p}%</span>
+      <span class="iw-exp-amt">${item.a}億円</span>
+    </div>`;
+  }).join('');
+  return `<div class="iw-exp">
+    <div class="iw-exp-title"><span class="icon">💰</span><span style="color:#333">歳出トップ3</span><span class="iw-sub" style="display:inline;margin-left:4px">令和5年度</span></div>
+    ${rows}
+  </div>`;
+}
 
 function openInfo(marker, o) {
   // ── Tab 0: 基本情報 ──────────────────────────────────────
@@ -691,6 +718,9 @@ function openInfo(marker, o) {
     const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
     const perStr   = perCapita ? `<br><span class="iw-sub">市民一人あたり ${perCapita}万円</span>` : '';
     t0.push(iwRow('🏛', '地方債残高', `<strong>${Number(bondOku).toLocaleString()}億円</strong>${perStr}`));
+  }
+  if (o.expTop3 && o.expTop3.length) {
+    t0.push(iwExpTop3(o.expTop3));
   }
 
   // ── Tab 1: 財政健全化4指標 ───────────────────────────────
