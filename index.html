@@ -691,7 +691,7 @@ function iwExpTop3(top3) {
     </div>`;
   }).join('');
   return `<div class="iw-exp">
-    <div class="iw-exp-title"><span class="icon">💰</span><span style="color:#333">歳出トップ3</span><span class="iw-sub" style="display:inline;margin-left:4px">令和5年度</span></div>
+    <div class="iw-exp-title"><span class="icon">💰</span><span style="color:#333">歳出トップ3</span><span class="iw-sub" style="display:inline;margin-left:4px">2023年度</span></div>
     ${rows}
   </div>`;
 }
@@ -726,9 +726,9 @@ function openInfo(marker, o) {
   // ── Tab 1: 財政健全化4指標 ───────────────────────────────
   const t1 = [];
   // 実質赤字比率（未取得）
-  t1.push(iwRow('🟢', '実質赤字比率', `<strong style="color:#188038">−（黒字）</strong><br><span class="iw-sub">令和5年度決算・全自治体黒字</span>`));
+  t1.push(iwRow('🟢', '実質赤字比率', `<strong style="color:#188038">−（黒字）</strong><br><span class="iw-sub">2023年度決算・全自治体黒字</span>`));
   // 連結実質赤字比率
-  t1.push(iwRow('🟢', '連結実質赤字比率', `<strong style="color:#188038">−（黒字）</strong><br><span class="iw-sub">令和5年度決算・全自治体黒字</span>`));
+  t1.push(iwRow('🟢', '連結実質赤字比率', `<strong style="color:#188038">−（黒字）</strong><br><span class="iw-sub">2023年度決算・全自治体黒字</span>`));
   // 実質公債費比率（実装済み）
   if (o.realDebtRatio != null) {
     const v = o.realDebtRatio;
