@@ -198,7 +198,7 @@
       max-width: 300px !important;
     }
 
-    .gm-style .gm-style-iw-d { overflow: hidden !important; }
+    .gm-style .gm-style-iw-d { overflow: visible !important; max-height: none !important; }
 
     .info-window { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; min-width: 240px; }
 
@@ -232,8 +232,9 @@
       white-space: nowrap;
     }
     .iw-tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
-    .iw-tab-content { display: none; padding: 10px 14px; min-height: 220px; }
-    .iw-tab-content.active { display: block; }
+    .iw-tab-wrapper { display: grid; }
+    .iw-tab-content { grid-row: 1; grid-column: 1; padding: 10px 14px; visibility: hidden; }
+    .iw-tab-content.active { visibility: visible; }
     .iw-row-na { opacity: 0.4; }
     .iw-sub { display: block; font-size: 11px; color: #999; margin-top: 1px; }
 
@@ -247,7 +248,8 @@
     .iw-exp-bar-fill { background: #1a73e8; border-radius: 3px; height: 6px; }
     .iw-exp-pct { color: #555; width: 36px; text-align: right; flex-shrink: 0; }
     .iw-exp-amt { color: #999; width: 44px; text-align: right; flex-shrink: 0; font-size: 11px; }
-    .iw-furusato-detail { margin: 4px 0 2px 26px; font-size: 11px; color: #999; display: flex; gap: 12px; }
+    .iw-furusato-detail { margin: 3px 0 2px 0; font-size: 11px; color: #999; display: flex; gap: 8px; flex-wrap: nowrap; }
+    .iw-furusato-detail span { white-space: nowrap; }
 
     .iw-row {
       display: flex;
@@ -815,9 +817,11 @@ function openInfo(marker, o) {
         <button class="iw-tab-btn"        onclick="iwSwitchTab(1)">財政健全化指数</button>
         <button class="iw-tab-btn"        onclick="iwSwitchTab(2)">総務省5大指標</button>
       </div>
-      <div class="iw-tab-content active">${t0.join('')}</div>
-      <div class="iw-tab-content">${t1.join('')}</div>
-      <div class="iw-tab-content">${t2.join('')}</div>
+      <div class="iw-tab-wrapper">
+        <div class="iw-tab-content active">${t0.join('')}</div>
+        <div class="iw-tab-content">${t1.join('')}</div>
+        <div class="iw-tab-content">${t2.join('')}</div>
+      </div>
       <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr' : '1fr'}">
         <button class="btn-fiscal"
            onclick="openFiscal('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}')">📊 財政</button>
