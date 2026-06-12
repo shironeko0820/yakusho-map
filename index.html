@@ -232,8 +232,8 @@
       white-space: nowrap;
     }
     .iw-tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
-    .iw-tab-wrapper { display: grid; width: 100%; }
-    .iw-tab-content { grid-row: 1; grid-column: 1; padding: 10px 14px; visibility: hidden; width: 100%; box-sizing: border-box; }
+    .iw-tab-wrapper { display: grid; grid-template-columns: 1fr; }
+    .iw-tab-content { grid-row: 1; grid-column: 1; padding: 10px 14px; visibility: hidden; min-width: 0; }
     .iw-tab-content.active { visibility: visible; }
     .iw-row-na { opacity: 0.4; }
     .iw-sub { display: block; font-size: 11px; color: #999; margin-top: 1px; }
