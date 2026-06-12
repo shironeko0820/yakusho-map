@@ -1270,7 +1270,7 @@ function _showYear(yr, fd) {
   _drawSankey(data);
 }
 
-function _oku(v) { return (Math.round(v / 1000) / 10).toFixed(1) + '億円'; }
+function _oku(v) { return (v / 100000).toFixed(1) + '億円'; }
 
 function _drawSankey(data) {
   const dt = new google.visualization.DataTable();
