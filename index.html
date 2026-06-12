@@ -199,6 +199,7 @@
     }
 
     .gm-style .gm-style-iw-d { overflow: visible !important; max-height: none !important; }
+    .gm-style .gm-style-iw { max-height: none !important; overflow: visible !important; }
 
     .info-window { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; width: 290px; }
 
@@ -779,13 +780,13 @@ function iwRowNa(icon, label) {
 function popSparkSvg(o) {
   const pops = [o.pop2020, o.population, o.pop2030, o.pop2040];
   const yrs  = ['20',     '24',          '30',       '40'];
-  const W = 215, CH = 26, LH = 13;
+  const W = 215, CH = 20, LH = 11;
   const PAD = 6, years = [2020, 2024, 2030, 2040];
   const cw = W - PAD * 2;
   const xs = years.map(yr => PAD + (yr - 2020) / 20 * cw);
   const mn = Math.min(...pops), mx = Math.max(...pops);
   const rng = mx - mn || 1;
-  const VP = 3;
+  const VP = 2;
   const ys = pops.map(v => VP + (1 - (v - mn) / rng) * (CH - VP * 2));
   const pct = (o.pop2040 - o.population) / o.population * 100;
   const tc = pct >= 0 ? '#1a73e8' : pct > -15 ? '#e37400' : '#c5221f';
@@ -796,8 +797,8 @@ function popSparkSvg(o) {
   const dots = [0, 1, 3].map(i =>
     `<circle cx="${xs[i]}" cy="${ys[i]}" r="${i === 1 ? 3 : 2.5}" fill="${i === 3 ? tc : '#1a73e8'}" stroke="white" stroke-width="1"/>`
   ).join('');
-  const trendX = xs[3] - 2, trendY = Math.min(ys[3] - 4, CH - 3);
-  return `<svg width="${W}" height="${CH + LH}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:4px;overflow:visible">` +
+  const trendX = xs[3] - 2, trendY = Math.min(ys[3] - 4, CH - 2);
+  return `<svg width="${W}" height="${CH + LH}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:2px;overflow:visible">` +
     `<path d="M${xs[0]},${ys[0]}L${xs[1]},${ys[1]}" stroke="#1a73e8" stroke-width="2" fill="none" stroke-linecap="round"/>` +
     `<path d="M${xs[1]},${ys[1]}L${xs[2]},${ys[2]}L${xs[3]},${ys[3]}" stroke="#bbb" stroke-width="1.5" stroke-dasharray="3,3" fill="none" stroke-linecap="round"/>` +
     dots + lbls +
@@ -842,7 +843,7 @@ function openInfo(marker, o) {
       const pct = (o.pop2040 - o.population) / o.population * 100;
       const tc = pct >= 0 ? '#1a73e8' : pct > -15 ? '#e37400' : '#c5221f';
       const badge = `<span style="font-size:10px;color:${tc};margin-left:4px;white-space:nowrap">${pct >= 0 ? '▲' : '▼'}${pct >= 0 ? '+' : ''}${pct.toFixed(1)}% (2040推計)</span>`;
-      t0.push(iwRow('👥', '人口', `<strong>${pop}</strong>${badge}<span class="iw-sub">2024年1月 / 社人研2023年推計</span>${popSparkSvg(o)}`));
+      t0.push(iwRow('👥', '人口', `<strong>${pop}</strong>${badge}${popSparkSvg(o)}`));
     } else {
       t0.push(iwRow('👥', '人口', `<strong>${pop}</strong><br><span class="iw-sub">2024年1月現在</span>`));
     }
