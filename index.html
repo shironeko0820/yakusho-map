@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>全国役所財政マップ｜市区町村の財政状況を地図で確認</title>
+  <title>まちカルテ｜市区町村の財政状況を地図で確認</title>
 
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
@@ -17,7 +17,7 @@
   <!-- SEO -->
   <meta name="description" content="全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳（サンキー図）・過去年度との比較を無料で閲覧できます。総務省「市町村別決算状況調」データを使用。">
   <meta name="keywords" content="財政力指数,市区町村,財政状況,歳入,歳出,財政マップ,地方財政,役所">
-  <meta property="og:title" content="全国役所財政マップ｜市区町村の財政状況を地図で確認">
+  <meta property="og:title" content="まちカルテ｜市区町村の財政状況を地図で確認">
   <meta property="og:description" content="全国1,894市区町村の財政力指数・歳入歳出内訳をサンキー図で可視化。無料で閲覧できます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakusho-map-site.vercel.app">
@@ -30,7 +30,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "全国役所財政マップ",
+    "name": "まちカルテ",
     "url": "https://yakusho-map-site.vercel.app/",
     "description": "全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳をサンキー図で可視化。",
     "inLanguage": "ja"
@@ -520,7 +520,7 @@
 </div>
 
 <header>
-  <h1>🏛 全国役所財政マップ</h1>
+  <h1>🏛 まちカルテ</h1>
   <div class="search-bar">
     <select id="prefSelect">
       <option value="">都道府県を選択</option>
@@ -635,6 +635,9 @@ let myLocationMarker = null;
 let colorMode = 'none';
 let currentOffices = [];
 let currentIsNearby = false;
+let _idleTimer = null;
+let currentMarkers = [];
+const ZOOM_VIEWPORT = 9; // このズーム以上でビューポート絞り込みを適用
 
 /* =========================================================
    Google Maps 初期化
@@ -665,6 +668,10 @@ async function initMap() {
     setProgress(90, 'マーカーを配置中...');
     buildPrefSelect(allOffices);
     renderMarkers(allOffices);
+    map.addListener('idle', () => {
+      if (_idleTimer) clearTimeout(_idleTimer);
+      _idleTimer = setTimeout(_applyViewport, 200);
+    });
     setProgress(100, '完了');
     setTimeout(() => {
       document.getElementById('loading').classList.add('hidden');
@@ -691,34 +698,71 @@ async function loadOffices() {
 function renderMarkers(offices, isNearby = false) {
   currentOffices = offices;
   currentIsNearby = isNearby;
-  if (clusterer) {
-    clusterer.clearMarkers();
-  }
+  _applyViewport();
+}
 
+function _buildIcon(office) {
+  if (colorMode === 'none') return undefined;
+  return {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 6,
+    fillColor: getMarkerColor(office),
+    fillOpacity: 0.9,
+    strokeColor: 'white',
+    strokeWeight: 1.5,
+  };
+}
+
+function _flushMarkers(offices) {
+  if (clusterer) { clusterer.clearMarkers(); }
   const markers = offices.map(office => {
-    const icon = colorMode !== 'none' ? {
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 6,
-      fillColor: getMarkerColor(office),
-      fillOpacity: 0.9,
-      strokeColor: 'white',
-      strokeWeight: 1.5,
-    } : undefined;
     const marker = new google.maps.Marker({
       position: { lat: office.lat, lng: office.lng },
       title: office.name,
-      icon,
+      icon: _buildIcon(office),
     });
     marker.addListener('click', () => openInfo(marker, office));
     return marker;
   });
-
+  currentMarkers = markers.map((marker, i) => ({ marker, office: offices[i] }));
   clusterer = new markerClusterer.MarkerClusterer({ map, markers });
+}
 
-  if (isNearby) {
-    document.getElementById('stats').textContent = `📍 近くの役所 TOP${offices.length}`;
+function _refreshIcons() {
+  currentMarkers.forEach(({ marker, office }) => {
+    marker.setIcon(_buildIcon(office));
+  });
+}
+
+function _applyViewport() {
+  const zoom = map.getZoom();
+  let offices;
+  if (zoom >= ZOOM_VIEWPORT && !currentIsNearby) {
+    const bounds = map.getBounds();
+    if (!bounds) {
+      offices = currentOffices;
+    } else {
+      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest();
+      const latPad = (ne.lat() - sw.lat()) * 0.3;
+      const lngPad = (ne.lng() - sw.lng()) * 0.3;
+      offices = currentOffices.filter(o =>
+        o.lat >= sw.lat() - latPad && o.lat <= ne.lat() + latPad &&
+        o.lng >= sw.lng() - lngPad && o.lng <= ne.lng() + lngPad
+      );
+    }
   } else {
-    document.getElementById('stats').textContent = `${offices.length.toLocaleString()} 件表示中`;
+    offices = currentOffices;
+  }
+  _flushMarkers(offices);
+  const total = currentOffices.length;
+  const shown = offices.length;
+  if (currentIsNearby) {
+    document.getElementById('stats').textContent = `📍 近くの役所 TOP${total}`;
+  } else if (zoom >= ZOOM_VIEWPORT && shown < total) {
+    document.getElementById('stats').textContent = `${total.toLocaleString()} 件中 ${shown.toLocaleString()} 件表示中`;
+  } else {
+    document.getElementById('stats').textContent = `${total.toLocaleString()} 件表示中`;
   }
 }
 
@@ -759,7 +803,8 @@ function setColorMode(mode) {
     document.getElementById('ccL2').textContent = l2;
     document.getElementById('ccL3').textContent = l3;
   }
-  if (currentOffices.length > 0) renderMarkers(currentOffices, currentIsNearby);
+  if (currentMarkers.length > 0) _refreshIcons();
+  else if (currentOffices.length > 0) renderMarkers(currentOffices, currentIsNearby);
 }
 
 /* =========================================================
