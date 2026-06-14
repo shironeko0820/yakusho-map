@@ -893,6 +893,14 @@ function openInfo(marker, o) {
       t0.push(iwRow('👥', '人口', `<strong>${pop}</strong><br><span class="iw-sub">2024年1月現在</span>`));
     }
   }
+  if (o.tfr != null) {
+    const NAT_TFR = 1.33;
+    const ratio = o.tfr / NAT_TFR;
+    const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
+    const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
+    const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
+    t0.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">H30〜R4平均 / 全国 ${NAT_TFR}</span>`));
+  }
   if (o.finAdj != null && o.stdFin != null) {
     const amt      = (o.finAdj / 100000).toFixed(1);
     const ratioNum = o.finAdj / o.stdFin * 100;
