@@ -912,6 +912,14 @@ function openInfo(marker, o) {
     const ageBadge = `<span style="font-size:10px;color:${ageColor};margin-left:4px">${ageLabel}</span>`;
     t0.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">令和6年1月 / 全国 ${NAT_AGE}%</span>`));
   }
+  if (o.incomePerCapita != null) {
+    const NAT_INC = 393;
+    const incRatio = o.incomePerCapita / NAT_INC * 100;
+    const incColor = incRatio >= 120 ? '#1a73e8' : incRatio >= 110 ? '#185fa5' : incRatio <= 80 ? '#c5221f' : incRatio <= 90 ? '#e37400' : '#5f6368';
+    const incLabel = incRatio >= 120 ? '▲かなり高い' : incRatio >= 110 ? '▲高い' : incRatio <= 80 ? '▼低い' : incRatio <= 90 ? '▼やや低い' : '≒全国平均';
+    const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
+    t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">令和6年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
+  }
   if (o.finAdj != null && o.stdFin != null) {
     const amt      = (o.finAdj / 100000).toFixed(1);
     const ratioNum = o.finAdj / o.stdFin * 100;
