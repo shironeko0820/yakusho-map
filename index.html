@@ -636,6 +636,7 @@ let colorMode = 'none';
 let currentOffices = [];
 let currentIsNearby = false;
 let _idleTimer = null;
+let _infoOpen = false;
 let currentMarkers = [];
 const ZOOM_VIEWPORT = 9; // このズーム以上でビューポート絞り込みを適用
 
@@ -668,7 +669,9 @@ async function initMap() {
     setProgress(90, 'マーカーを配置中...');
     buildPrefSelect(allOffices);
     renderMarkers(allOffices);
+    infoWindow.addListener('closeclick', () => { _infoOpen = false; });
     map.addListener('idle', () => {
+      if (_infoOpen) return;
       if (_idleTimer) clearTimeout(_idleTimer);
       _idleTimer = setTimeout(_applyViewport, 200);
     });
@@ -877,6 +880,7 @@ function iwExpTop3(top3) {
 }
 
 function openInfo(marker, o) {
+  _infoOpen = true;
   // ── Tab 0: 基本情報 ──────────────────────────────────────
   const t0 = [];
   if (o.population != null && o.population > 0) {
