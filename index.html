@@ -1517,7 +1517,7 @@ function renderRanking() {
       const bond  = o.bondBalance!=null ? Math.round(o.bondBalance/100000)+'億' : '–';
       const bondc = (o.bondBalance&&o.population) ? Math.round(o.bondBalance/o.population/10)+'万' : '–';
       const furuV = o.furusatoNet;
-      const furu  = furuV!=null ? `<span style="color:${furuV>=0?'#188038':'#c5221f'}">${furuV>=0?'+':''}${(furuV/100000).toFixed(1)}億</span>` : '–';
+      const furu  = furuV!=null ? `<span style="color:${furuV>=0?'#188038':'#c5221f'}">${furuV>=0?'+':''}${(furuV/1e8).toFixed(1)}億</span>` : '–';
       cells += `<td class="td-num" style="color:${farC};font-weight:600">${farV!=null?farV.toFixed(1)+'%':'–'}</td>` +
         `<td class="td-num">${bond}</td>` +
         `<td class="td-num">${bondc}</td>` +
