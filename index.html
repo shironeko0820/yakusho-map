@@ -697,15 +697,27 @@ function renderMarkers(offices, isNearby = false) {
   _applyViewport();
 }
 
+const _svgCache = {};
+function _buildMarkerSvg(color) {
+  if (_svgCache[color]) return _svgCache[color];
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">' +
+    '<ellipse cx="14" cy="35" rx="4" ry="1.5" fill="rgba(0,0,0,0.2)"/>' +
+    '<path d="M14 1C7.9 1 3 6 3 12c0 7.5 11 23 11 23S25 19.5 25 12C25 6 20.1 1 14 1z"' +
+      ' fill="' + color + '" stroke="white" stroke-width="1.5"/>' +
+    '<path d="M7 15h14M7 15V9h14v6M7 9l7-4 7 4M11 15v-4h6v4"' +
+      ' stroke="white" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+  _svgCache[color] = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+  return _svgCache[color];
+}
+
 function _buildIcon(office) {
-  if (colorMode === 'none') return undefined;
+  const color = colorMode === 'none' ? '#1a73e8' : getMarkerColor(office);
   return {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 6,
-    fillColor: getMarkerColor(office),
-    fillOpacity: 0.9,
-    strokeColor: 'white',
-    strokeWeight: 1.5,
+    url: _buildMarkerSvg(color),
+    scaledSize: new google.maps.Size(28, 36),
+    anchor: new google.maps.Point(14, 36),
   };
 }
 
