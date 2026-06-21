@@ -221,8 +221,8 @@
     }
     .iw-tab-btn {
       flex: 1;
-      padding: 7px 4px;
-      font-size: 11px;
+      padding: 6px 2px;
+      font-size: 10.5px;
       font-weight: 600;
       border: none;
       background: none;
@@ -920,28 +920,30 @@ function openInfo(marker, o) {
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
     t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">令和6年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
   }
+  // ── Tab 1: 財政概要 ──────────────────────────────────────
+  const tf = [];
   if (o.finAdj != null && o.stdFin != null) {
     const amt      = (o.finAdj / 100000).toFixed(1);
     const ratioNum = o.finAdj / o.stdFin * 100;
     const ratio    = ratioNum.toFixed(2);
     const rColor   = ratioNum >= 20 ? '#1a73e8' : ratioNum >= 10 ? '#188038' : ratioNum >= 5 ? '#e37400' : '#c5221f';
     const yrLabel  = o.finAdjYr ? ` ${o.finAdjYr}年度決算` : '';
-    t0.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
+    tf.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
   }
   if (o.bondBalance != null) {
     const bondOku  = (o.bondBalance / 100000).toFixed(0);
     const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
     const perStr   = perCapita ? `<br><span class="iw-sub">市民一人あたり ${perCapita}万円</span>` : '';
-    t0.push(iwRow('🏛', '地方債残高', `<strong>${Number(bondOku).toLocaleString()}億円</strong>${perStr}`));
+    tf.push(iwRow('🏛', '地方債残高', `<strong>${Number(bondOku).toLocaleString()}億円</strong>${perStr}`));
   }
   if (o.furusatoNet != null) {
-    t0.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
+    tf.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
   }
   if (o.expTop3 && o.expTop3.length) {
-    t0.push(iwExpTop3(o.expTop3));
+    tf.push(iwExpTop3(o.expTop3));
   }
 
-  // ── Tab 1: 財政健全化4指標 ───────────────────────────────
+  // ── Tab 2: 財政健全化4指標 ───────────────────────────────
   const t1 = [];
   // 実質赤字比率（未取得）
   t1.push(iwRow('🟢', '実質赤字比率', `<strong style="color:#188038">−（黒字）</strong><br><span class="iw-sub">2023年度決算・全自治体黒字</span>`));
@@ -964,7 +966,7 @@ function openInfo(marker, o) {
     t1.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
   }
 
-  // ── Tab 2: 総務省5大指標 ─────────────────────────────────
+  // ── Tab 3: 総務省5大指標 ─────────────────────────────────
   const t2 = [];
   // 財政力指数（実装済み）
   if (o.fiscalStrength != null) {
@@ -1016,12 +1018,14 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-tabs">
-        <button class="iw-tab-btn active" onclick="iwSwitchTab(0)">基本情報</button>
-        <button class="iw-tab-btn"        onclick="iwSwitchTab(1)">財政健全化指数</button>
-        <button class="iw-tab-btn"        onclick="iwSwitchTab(2)">総務省5大指標</button>
+        <button class="iw-tab-btn active" onclick="iwSwitchTab(0)">社会指標</button>
+        <button class="iw-tab-btn"        onclick="iwSwitchTab(1)">財政概要</button>
+        <button class="iw-tab-btn"        onclick="iwSwitchTab(2)">健全化指数</button>
+        <button class="iw-tab-btn"        onclick="iwSwitchTab(3)">5大指標</button>
       </div>
       <div class="iw-tab-wrapper">
         <div class="iw-tab-content active">${t0.join('')}</div>
+        <div class="iw-tab-content">${tf.join('')}</div>
         <div class="iw-tab-content">${t1.join('')}</div>
         <div class="iw-tab-content">${t2.join('')}</div>
       </div>
