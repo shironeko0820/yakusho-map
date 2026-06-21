@@ -955,6 +955,10 @@ function openInfo(marker, o) {
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
     t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
   }
+  if (o.waterRate != null) {
+    const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
+    t0.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
+  }
   // ── Tab 1: 財政概要 ──────────────────────────────────────
   const tf = [];
   if (o.finAdj != null && o.stdFin != null) {
@@ -976,10 +980,6 @@ function openInfo(marker, o) {
   }
   if (o.expTop3 && o.expTop3.length) {
     tf.push(iwExpTop3(o.expTop3));
-  }
-  if (o.waterRate != null) {
-    const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
-    tf.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
   if (o.taxDependency != null) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
@@ -1054,7 +1054,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 1 : colorMode === 'taxDependency' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'taxDependency' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
