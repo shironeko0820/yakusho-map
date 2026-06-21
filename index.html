@@ -370,22 +370,25 @@
       flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;
     }
     .rk-legend span { font-size: 11px; color: #555; line-height: 1.5; }
-    .rk-table-wrap { flex: 1; overflow-y: auto; }
-    .rk-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .rk-tabs { display: flex; border-bottom: 2px solid #e8eaed; background: #f8f9fa; flex-shrink: 0; }
+    .rk-tab-btn { flex: 1; padding: 7px 4px; font-size: 11px; font-weight: 600; border: none; background: none; cursor: pointer; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+    .rk-tab-btn.active { color: #f57c00; border-bottom-color: #f57c00; }
+    .rk-table-wrap { flex: 1; overflow-y: auto; overflow-x: auto; }
+    .rk-table { width: 100%; min-width: 460px; border-collapse: collapse; font-size: 12px; }
     .rk-table thead { position: sticky; top: 0; z-index: 1; }
     .rk-table th {
-      padding: 8px 6px; background: #f5f5f5; border-bottom: 2px solid #ddd;
+      padding: 8px 4px; background: #f5f5f5; border-bottom: 2px solid #ddd;
       cursor: pointer; user-select: none; white-space: nowrap; text-align: center;
       font-weight: 600; color: #333;
     }
     .rk-table th:hover { background: #e8e8e8; }
     .rk-table th.sort-asc::after  { content: ' ↑'; color: #f57c00; }
     .rk-table th.sort-desc::after { content: ' ↓'; color: #f57c00; }
-    .rk-table td { padding: 7px 6px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+    .rk-table td { padding: 7px 4px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
     .rk-table tr:hover td { background: #fff8f0; cursor: pointer; }
-    .rk-table .td-rank  { text-align: center; color: #888; width: 36px; }
-    .rk-table .td-name  { font-weight: 600; }
-    .rk-table .td-pref  { color: #666; }
+    .rk-table .td-code  { font-size: 10px; color: #aaa; font-family: monospace; text-align: center; width: 54px; }
+    .rk-table .td-name  { font-weight: 600; min-width: 80px; }
+    .rk-table .td-pref  { color: #666; font-size: 11px; }
     .rk-table .td-num   { text-align: right; font-variant-numeric: tabular-nums; }
     @media (max-width: 600px) { #rankingPanel { width: 100%; right: -100%; } }
 
@@ -469,25 +472,16 @@
     </select>
     <span class="rk-count" id="rkCount"></span>
   </div>
-  <div class="rk-legend">
-    <span>📊 <b>財政力指数</b>：高いほど財政自立（1.0以上＝交付税不要）</span>
-    <span>🏦 <b>財調基金比率</b>：高いほど「貯金」に余裕（目安10〜20%）</span>
-    <span>🔄 <b>経常収支比率</b>：低いほど財政に余裕（80%未満＝余裕大）</span>
-    <span>💳 <b>実質公債費比率</b>：低いほど借金返済負担が小さい（25%以上＝警戒）</span>
+  <div class="rk-tabs">
+    <button class="rk-tab-btn active" onclick="switchRkTab(0)">社会指標</button>
+    <button class="rk-tab-btn"        onclick="switchRkTab(1)">財政概要</button>
+    <button class="rk-tab-btn"        onclick="switchRkTab(2)">健全化指数</button>
+    <button class="rk-tab-btn"        onclick="switchRkTab(3)">5大指標</button>
   </div>
+  <div class="rk-legend" id="rkLegend"></div>
   <div class="rk-table-wrap">
     <table class="rk-table">
-      <thead>
-        <tr>
-          <th class="td-rank" onclick="sortRanking('rank')">順位</th>
-          <th onclick="sortRanking('name')">自治体名</th>
-          <th onclick="sortRanking('pref')">都道府県</th>
-          <th onclick="sortRanking('fi')" id="th-fi">財政力指数</th>
-          <th onclick="sortRanking('far')" id="th-far">財調基金比率</th>
-          <th onclick="sortRanking('cer')" id="th-cer">経常収支比率</th>
-          <th onclick="sortRanking('rdr')" id="th-rdr">実質公債費比率</th>
-        </tr>
-      </thead>
+      <thead id="rkHead"><tr></tr></thead>
       <tbody id="rkBody"></tbody>
     </table>
   </div>
@@ -1384,8 +1378,40 @@ function closeFiscal() {
 /* =========================================================
    ランキングパネル
    ========================================================= */
-let _rkSort = { key: 'fi', asc: false };
+let _rkSort  = { key: 'code', asc: true };
+let _rkTab   = 0;
 let _rkReady = false;
+
+const RK_LEGENDS = [
+  '人口（2024年1月）・出生率（H30〜R4平均）・高齢化率（令和6年1月）・課税所得（令和6年度）',
+  '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円）',
+  '実質公債費比率：警戒25% ／ 将来負担比率：警戒350%',
+  '財政力指数・経常収支比率・実質公債費比率・将来負担比率・ラスパイレス指数（5大指標）'
+];
+
+function _rkCols() {
+  switch (_rkTab) {
+    case 0: return [
+      {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
+      {k:'pop',l:'人口'},{k:'pop40',l:'2040推計'},{k:'tfr',l:'出生率'},
+      {k:'age',l:'高齢化率'},{k:'inc',l:'課税所得/人'}
+    ];
+    case 1: return [
+      {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
+      {k:'far',l:'財調基金比率'},{k:'bond',l:'地方債残高'},{k:'bondc',l:'地方債/人'},
+      {k:'furu',l:'ふるさと納税'}
+    ];
+    case 2: return [
+      {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
+      {k:'rdr',l:'実質公債費比率'},{k:'fbr',l:'将来負担比率'}
+    ];
+    case 3: return [
+      {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
+      {k:'fi',l:'財政力指数'},{k:'cer',l:'経常収支比率'},{k:'rdr',l:'実質公債費比率'},
+      {k:'fbr',l:'将来負担比率'},{k:'las',l:'ラスパイレス'}
+    ];
+  }
+}
 
 function openRanking() {
   document.getElementById('rankingPanel').classList.add('open');
@@ -1396,10 +1422,9 @@ function closeRanking() {
 }
 
 function _initRanking() {
-  // 都道府県フィルター構築
   const inData = new Set(allOffices.map(o => o.pref));
-  const prefs = PREF_ORDER.filter(p => inData.has(p));
-  const sel = document.getElementById('rkPrefFilter');
+  const prefs  = PREF_ORDER.filter(p => inData.has(p));
+  const sel    = document.getElementById('rkPrefFilter');
   prefs.forEach(p => {
     const opt = document.createElement('option');
     opt.value = p; opt.textContent = p;
@@ -1409,88 +1434,115 @@ function _initRanking() {
   renderRanking();
 }
 
+function switchRkTab(n) {
+  _rkTab  = n;
+  _rkSort = { key: 'code', asc: true };
+  document.querySelectorAll('.rk-tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  renderRanking();
+}
+
 function sortRanking(key) {
   if (_rkSort.key === key) {
     _rkSort.asc = !_rkSort.asc;
   } else {
     _rkSort.key = key;
-    _rkSort.asc = (key === 'name' || key === 'pref');
+    _rkSort.asc = (key === 'code' || key === 'name' || key === 'pref');
   }
   renderRanking();
 }
 
 function renderRanking() {
-  const pref   = document.getElementById('rkPrefFilter').value;
+  const pref       = document.getElementById('rkPrefFilter').value;
   const { key, asc } = _rkSort;
-
-  // フィルタリング
   let data = pref ? allOffices.filter(o => o.pref === pref) : allOffices.slice();
 
-  // 財政力指数順でのグローバル順位（全国順位）
-  const fiRank = {};
-  const sorted = allOffices.slice().sort((a, b) => (b.fiscalStrength || 0) - (a.fiscalStrength || 0));
-  sorted.forEach((o, i) => { fiRank[o.pref + '_' + o.name] = i + 1; });
+  const pop40r = (o) => (o.population && o.pop2040) ? (o.pop2040 - o.population) / o.population : -999;
 
-  // ソート
   data.sort((a, b) => {
     let va, vb;
     switch (key) {
-      case 'rank': va = fiRank[a.pref + '_' + a.name]; vb = fiRank[b.pref + '_' + b.name]; break;
-      case 'fi':   va = a.fiscalStrength || 0; vb = b.fiscalStrength || 0; break;
-      case 'far':
-        va = (a.finAdj && a.stdFin) ? a.finAdj / a.stdFin : -1;
-        vb = (b.finAdj && b.stdFin) ? b.finAdj / b.stdFin : -1;
-        break;
-      case 'cer': va = a.curExpRatio ?? 999; vb = b.curExpRatio ?? 999; break;
-      case 'rdr': va = a.realDebtRatio ?? 999; vb = b.realDebtRatio ?? 999; break;
-      case 'pref': va = a.pref; vb = b.pref; break;
-      default:     va = a.name; vb = b.name;
+      case 'code':  va = a.code||'zzz'; vb = b.code||'zzz'; break;
+      case 'name':  va = a.name; vb = b.name; break;
+      case 'pref':  va = a.pref; vb = b.pref; break;
+      case 'pop':   va = a.population||0; vb = b.population||0; break;
+      case 'pop40': va = pop40r(a); vb = pop40r(b); break;
+      case 'tfr':   va = a.tfr??-1; vb = b.tfr??-1; break;
+      case 'age':   va = a.agingRate??-1; vb = b.agingRate??-1; break;
+      case 'inc':   va = a.incomePerCapita??-1; vb = b.incomePerCapita??-1; break;
+      case 'far':   va = (a.finAdj&&a.stdFin)?a.finAdj/a.stdFin:-1; vb = (b.finAdj&&b.stdFin)?b.finAdj/b.stdFin:-1; break;
+      case 'bond':  va = a.bondBalance??-1; vb = b.bondBalance??-1; break;
+      case 'bondc': va = (a.bondBalance&&a.population)?a.bondBalance/a.population:-1; vb = (b.bondBalance&&b.population)?b.bondBalance/b.population:-1; break;
+      case 'furu':  va = a.furusatoNet??-9e9; vb = b.furusatoNet??-9e9; break;
+      case 'rdr':   va = a.realDebtRatio??999; vb = b.realDebtRatio??999; break;
+      case 'fbr':   va = a.futBurdenRatio??999; vb = b.futBurdenRatio??999; break;
+      case 'fi':    va = a.fiscalStrength??-1; vb = b.fiscalStrength??-1; break;
+      case 'cer':   va = a.curExpRatio??999; vb = b.curExpRatio??999; break;
+      case 'las':   va = a.laspeyres??-1; vb = b.laspeyres??-1; break;
+      default:      va = a.name; vb = b.name;
     }
-    if (typeof va === 'string') return asc ? va.localeCompare(vb, 'ja') : vb.localeCompare(va, 'ja');
+    if (typeof va === 'string') return asc ? va.localeCompare(vb,'ja') : vb.localeCompare(va,'ja');
     return asc ? va - vb : vb - va;
   });
 
-  // ソートインジケーター更新
-  ['fi','far','cer','rdr','rank','name','pref'].forEach(k => {
-    const thId = k === 'fi' ? 'th-fi' : k === 'far' ? 'th-far' : k === 'cer' ? 'th-cer' : k === 'rdr' ? 'th-rdr' : null;
-    if (thId) {
-      const th = document.getElementById(thId);
-      if (th) { th.className = key === k ? (asc ? 'sort-asc' : 'sort-desc') : ''; }
-    }
-  });
+  document.getElementById('rkLegend').textContent = RK_LEGENDS[_rkTab];
 
-  // テーブル描画
+  const cols     = _rkCols();
+  const headHtml = cols.map(c => {
+    const cls = _rkSort.key === c.k ? (_rkSort.asc ? 'sort-asc' : 'sort-desc') : '';
+    return `<th class="${cls}" onclick="sortRanking('${c.k}')">${c.l}</th>`;
+  }).join('');
+  document.getElementById('rkHead').innerHTML = `<tr>${headHtml}</tr>`;
+
   const rows = data.map(o => {
-    const rank  = fiRank[o.pref + '_' + o.name];
-    const fi    = o.fiscalStrength != null ? o.fiscalStrength.toFixed(2) : '–';
-    const fiCol = o.fiscalStrength != null
-      ? (o.fiscalStrength >= 1 ? '#1a73e8' : o.fiscalStrength >= 0.5 ? '#188038' : '#c5221f')
-      : '#999';
-    const far   = (o.finAdj && o.stdFin)
-      ? (o.finAdj / o.stdFin * 100).toFixed(2) + '%'
-      : '–';
-    const farCol = (o.finAdj && o.stdFin)
-      ? (o.finAdj / o.stdFin * 100 >= 20 ? '#1a73e8'
-        : o.finAdj / o.stdFin * 100 >= 10 ? '#188038'
-        : o.finAdj / o.stdFin * 100 >= 5  ? '#e37400' : '#c5221f')
-      : '#999';
-    const cer    = o.curExpRatio != null ? o.curExpRatio.toFixed(1) + '%' : '–';
-    const cerCol = o.curExpRatio != null
-      ? (o.curExpRatio < 80 ? '#1a73e8' : o.curExpRatio < 90 ? '#188038' : o.curExpRatio < 100 ? '#e37400' : '#c5221f')
-      : '#999';
-    const rdr    = o.realDebtRatio != null ? o.realDebtRatio.toFixed(1) + '%' : '–';
-    const rdrCol = o.realDebtRatio != null
-      ? (o.realDebtRatio < 10 ? '#1a73e8' : o.realDebtRatio < 18 ? '#188038' : o.realDebtRatio < 25 ? '#e37400' : '#c5221f')
-      : '#999';
-    return `<tr onclick="jumpToOffice('${o.name.replace(/'/g,"\\'")}')">
-      <td class="td-rank td-num">${rank}</td>
-      <td class="td-name">${o.name.replace(/(役所|役場)$/,'')}</td>
-      <td class="td-pref">${o.pref}</td>
-      <td class="td-num" style="color:${fiCol};font-weight:600">${fi}</td>
-      <td class="td-num" style="color:${farCol};font-weight:600">${far}</td>
-      <td class="td-num" style="color:${cerCol};font-weight:600">${cer}</td>
-      <td class="td-num" style="color:${rdrCol};font-weight:600">${rdr}</td>
-    </tr>`;
+    const jump = `jumpToOffice('${o.name.replace(/'/g,"\\'")}')`;
+    let cells  = `<td class="td-code">${o.code||'–'}</td>` +
+                 `<td class="td-name" onclick="${jump}">${o.name.replace(/(役所|役場)$/,'')}</td>` +
+                 `<td class="td-pref">${o.pref}</td>`;
+
+    if (_rkTab === 0) {
+      const pop  = o.population ? (o.population>=10000 ? (o.population/10000).toFixed(1)+'万' : o.population.toLocaleString()) : '–';
+      const pct  = (o.population&&o.pop2040) ? (o.pop2040-o.population)/o.population*100 : null;
+      const p40  = pct!=null ? `<span style="color:${pct>=0?'#1a73e8':pct>-15?'#e37400':'#c5221f'}">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</span>` : '–';
+      const tfrC = o.tfr!=null ? (o.tfr>=1.6?'#1a73e8':o.tfr>=1.2?'#188038':o.tfr>=0.9?'#e37400':'#c5221f') : '#999';
+      const ageC = o.agingRate!=null ? (o.agingRate>=40?'#c5221f':o.agingRate>=33?'#e37400':o.agingRate>=25?'#5f6368':'#1a73e8') : '#999';
+      const incC = o.incomePerCapita!=null ? (o.incomePerCapita/393>=1.1?'#1a73e8':o.incomePerCapita/393<=0.8?'#c5221f':o.incomePerCapita/393<=0.9?'#e37400':'#5f6368') : '#999';
+      cells += `<td class="td-num">${pop}</td>` +
+        `<td class="td-num">${p40}</td>` +
+        `<td class="td-num" style="color:${tfrC}">${o.tfr!=null?o.tfr.toFixed(2):'–'}</td>` +
+        `<td class="td-num" style="color:${ageC}">${o.agingRate!=null?o.agingRate.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num" style="color:${incC};font-weight:600">${o.incomePerCapita!=null?o.incomePerCapita.toLocaleString()+'万':'–'}</td>`;
+
+    } else if (_rkTab === 1) {
+      const farV = (o.finAdj&&o.stdFin) ? o.finAdj/o.stdFin*100 : null;
+      const farC = farV!=null ? (farV>=20?'#1a73e8':farV>=10?'#188038':farV>=5?'#e37400':'#c5221f') : '#999';
+      const bond  = o.bondBalance!=null ? Math.round(o.bondBalance/100000)+'億' : '–';
+      const bondc = (o.bondBalance&&o.population) ? Math.round(o.bondBalance/o.population/10)+'万' : '–';
+      const furuV = o.furusatoNet;
+      const furu  = furuV!=null ? `<span style="color:${furuV>=0?'#188038':'#c5221f'}">${furuV>=0?'+':''}${(furuV/100000).toFixed(1)}億</span>` : '–';
+      cells += `<td class="td-num" style="color:${farC};font-weight:600">${farV!=null?farV.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num">${bond}</td>` +
+        `<td class="td-num">${bondc}</td>` +
+        `<td class="td-num">${furu}</td>`;
+
+    } else if (_rkTab === 2) {
+      const rdrC = o.realDebtRatio!=null ? (o.realDebtRatio<10?'#1a73e8':o.realDebtRatio<18?'#188038':o.realDebtRatio<25?'#e37400':'#c5221f') : '#999';
+      const fbrC = o.futBurdenRatio!=null ? (o.futBurdenRatio<100?'#1a73e8':o.futBurdenRatio<200?'#188038':o.futBurdenRatio<350?'#e37400':'#c5221f') : '#999';
+      cells += `<td class="td-num" style="color:${rdrC};font-weight:600">${o.realDebtRatio!=null?o.realDebtRatio.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num" style="color:${fbrC};font-weight:600">${o.futBurdenRatio!=null?o.futBurdenRatio.toFixed(1)+'%':'<span style="color:#aaa">–(基準未満)</span>'}</td>`;
+
+    } else {
+      const fiC  = o.fiscalStrength!=null ? (o.fiscalStrength>=1?'#1a73e8':o.fiscalStrength>=0.5?'#188038':'#c5221f') : '#999';
+      const cerC = o.curExpRatio!=null ? (o.curExpRatio<80?'#1a73e8':o.curExpRatio<90?'#188038':o.curExpRatio<100?'#e37400':'#c5221f') : '#999';
+      const rdrC = o.realDebtRatio!=null ? (o.realDebtRatio<10?'#1a73e8':o.realDebtRatio<18?'#188038':o.realDebtRatio<25?'#e37400':'#c5221f') : '#999';
+      const fbrC = o.futBurdenRatio!=null ? (o.futBurdenRatio<100?'#1a73e8':o.futBurdenRatio<200?'#188038':o.futBurdenRatio<350?'#e37400':'#c5221f') : '#999';
+      const lasC = o.laspeyres!=null ? (o.laspeyres<90?'#1a73e8':o.laspeyres<100?'#188038':o.laspeyres<102?'#e37400':'#c5221f') : '#999';
+      cells += `<td class="td-num" style="color:${fiC};font-weight:600">${o.fiscalStrength!=null?o.fiscalStrength.toFixed(2):'–'}</td>` +
+        `<td class="td-num" style="color:${cerC};font-weight:600">${o.curExpRatio!=null?o.curExpRatio.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num" style="color:${rdrC};font-weight:600">${o.realDebtRatio!=null?o.realDebtRatio.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num" style="color:${fbrC};font-weight:600">${o.futBurdenRatio!=null?o.futBurdenRatio.toFixed(1)+'%':'–'}</td>` +
+        `<td class="td-num" style="color:${lasC};font-weight:600">${o.laspeyres!=null?o.laspeyres.toFixed(1):'–'}</td>`;
+    }
+    return `<tr onclick="${jump}">${cells}</tr>`;
   }).join('');
 
   document.getElementById('rkBody').innerHTML = rows;
