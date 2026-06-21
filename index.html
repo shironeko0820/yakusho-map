@@ -896,14 +896,14 @@ function openInfo(marker, o) {
     const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
     const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
     const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
-    t0.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">H30〜R4平均 / 全国 ${NAT_TFR}</span>`));
+    t0.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">2018〜2022年平均 / 全国 ${NAT_TFR}</span>`));
   }
   if (o.agingRate != null) {
     const NAT_AGE = 29.1;
     const ageColor = o.agingRate >= 40 ? '#c5221f' : o.agingRate >= 33 ? '#e37400' : o.agingRate >= 25 ? '#5f6368' : o.agingRate >= 20 ? '#1a73e8' : '#0d47a1';
     const ageLabel = o.agingRate >= 40 ? '▲かなり高い' : o.agingRate >= 33 ? '▲やや高い' : o.agingRate >= 25 ? '≒全国平均' : o.agingRate >= 20 ? '▼低い' : '▼かなり低い';
     const ageBadge = `<span style="font-size:10px;color:${ageColor};margin-left:4px">${ageLabel}</span>`;
-    t0.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">令和6年1月 / 全国 ${NAT_AGE}%</span>`));
+    t0.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">2024年1月 / 全国 ${NAT_AGE}%</span>`));
   }
   if (o.incomePerCapita != null) {
     const NAT_INC = 393;
@@ -911,7 +911,7 @@ function openInfo(marker, o) {
     const incColor = incRatio >= 120 ? '#1a73e8' : incRatio >= 110 ? '#185fa5' : incRatio <= 80 ? '#c5221f' : incRatio <= 90 ? '#e37400' : '#5f6368';
     const incLabel = incRatio >= 120 ? '▲かなり高い' : incRatio >= 110 ? '▲高い' : incRatio <= 80 ? '▼低い' : incRatio <= 90 ? '▼やや低い' : '≒全国平均';
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
-    t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">令和6年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
+    t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
   }
   // ── Tab 1: 財政概要 ──────────────────────────────────────
   const tf = [];
@@ -1382,7 +1382,7 @@ let _rkTab   = 0;
 let _rkReady = false;
 
 const RK_LEGENDS = [
-  '人口（2024年1月）・出生率（H30〜R4平均）・高齢化率（令和6年1月）・課税所得（令和6年度）',
+  '人口（2024年1月）・出生率（2018〜2022年平均）・高齢化率（2024年1月）・課税所得（2024年度）',
   '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円）',
   '実質公債費比率：警戒25% ／ 将来負担比率：警戒350%',
   '財政力指数・経常収支比率・実質公債費比率・将来負担比率・ラスパイレス指数（5大指標）'
