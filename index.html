@@ -536,6 +536,7 @@
     <option value="fiscalStrength">財政力指数で色分け</option>
     <option value="furusatoNet">ふるさと納税 純収支で色分け</option>
     <option value="waterRate">水道料金で色分け</option>
+    <option value="taxDependency">地方交付税依存度で色分け</option>
   </select>
   <div class="cc-legend" id="ccLegend">
     <div class="cc-bar">
@@ -804,6 +805,15 @@ function getMarkerColor(office) {
     if (v <= 4200) return '#E24B4A';
     return '#A32D2D';
   }
+  if (colorMode === 'taxDependency') {
+    const v = office.taxDependency;
+    if (v == null) return '#888780';
+    if (v <= 5)  return '#1565C0';
+    if (v <= 15) return '#1a73e8';
+    if (v <= 25) return '#639922';
+    if (v <= 35) return '#EF9F27';
+    return '#E24B4A';
+  }
   return '#1a73e8';
 }
 
@@ -818,9 +828,13 @@ function setColorMode(mode) {
       ? ['0.2以下', '0.5', '1.0以上']
       : mode === 'waterRate'
       ? ['〜2,000円', '3,400円', '4,200円〜']
+      : mode === 'taxDependency'
+      ? ['〜5%', '15%', '35%〜']
       : ['流出', '均衡', '受益'];
     const barColors = mode === 'waterRate'
       ? ['#1565C0', '#1a73e8', '#EF9F27', '#E24B4A', '#A32D2D']
+      : mode === 'taxDependency'
+      ? ['#1565C0', '#1a73e8', '#639922', '#EF9F27', '#E24B4A']
       : ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11'];
     legend.querySelectorAll('.cc-bar div').forEach((d, i) => { d.style.background = barColors[i]; });
     document.getElementById('ccL1').textContent = l1;
@@ -967,6 +981,10 @@ function openInfo(marker, o) {
     const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
     tf.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
+  if (o.taxDependency != null) {
+    const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
+    tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（R5）</span>`));
+  }
 
   // ── Tab 2: 財政健全化4指標 ───────────────────────────────
   const t1 = [];
@@ -1036,7 +1054,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 1 : colorMode === 'taxDependency' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
@@ -1418,7 +1436,7 @@ let _rkReady = false;
 
 const RK_LEGENDS = [
   '人口（2024年1月）・出生率（2018〜2022年平均）・高齢化率（2024年1月）・課税所得（2024年度）',
-  '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円） ／ 水道料金＝月20m³（総務省R5年鑑）',
+  '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円） ／ 水道料金＝月20m³（総務省R5年鑑） ／ 交付税依存度＝地方交付税合計÷歳入総額（R5、市区のみ）',
   '実質公債費比率：警戒25% ／ 将来負担比率：警戒350%',
   '財政力指数・経常収支比率・実質公債費比率・将来負担比率・ラスパイレス指数（5大指標）'
 ];
@@ -1433,7 +1451,7 @@ function _rkCols() {
     case 1: return [
       {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
       {k:'far',l:'財調基金比率'},{k:'bond',l:'地方債残高'},{k:'bondc',l:'地方債/人'},
-      {k:'furu',l:'ふるさと納税'},{k:'water',l:'水道料金'}
+      {k:'furu',l:'ふるさと納税'},{k:'water',l:'水道料金'},{k:'taxDep',l:'交付税依存度'}
     ];
     case 2: return [
       {k:'code',l:'コード'},{k:'name',l:'自治体名'},{k:'pref',l:'都道府県'},
@@ -1508,6 +1526,7 @@ function renderRanking() {
       case 'bondc': va = (a.bondBalance&&a.population)?a.bondBalance/a.population:-1; vb = (b.bondBalance&&b.population)?b.bondBalance/b.population:-1; break;
       case 'furu':  va = a.furusatoNet??-9e9; vb = b.furusatoNet??-9e9; break;
       case 'water': va = a.waterRate??9999; vb = b.waterRate??9999; break;
+      case 'taxDep': va = a.taxDependency??999; vb = b.taxDependency??999; break;
       case 'rdr':   va = a.realDebtRatio??999; vb = b.realDebtRatio??999; break;
       case 'fbr':   va = a.futBurdenRatio??999; vb = b.futBurdenRatio??999; break;
       case 'fi':    va = a.fiscalStrength??-1; vb = b.fiscalStrength??-1; break;
@@ -1555,11 +1574,13 @@ function renderRanking() {
       const furuV = o.furusatoNet;
       const furu  = furuV!=null ? `<span style="color:${furuV>=0?'#188038':'#c5221f'}">${furuV>=0?'+':''}${(furuV/1e8).toFixed(1)}億</span>` : '–';
       const waterC = o.waterRate!=null ? (o.waterRate<=2000?'#1565C0':o.waterRate<=2800?'#1a73e8':o.waterRate<=3400?'#e37400':'#c5221f') : '#999';
+      const taxDepC = o.taxDependency!=null ? (o.taxDependency<=5?'#1565C0':o.taxDependency<=15?'#1a73e8':o.taxDependency<=25?'#639922':o.taxDependency<=35?'#e37400':'#c5221f') : '#999';
       cells += `<td class="td-num" style="color:${farC};font-weight:600">${farV!=null?farV.toFixed(1)+'%':'–'}</td>` +
         `<td class="td-num">${bond}</td>` +
         `<td class="td-num">${bondc}</td>` +
         `<td class="td-num">${furu}</td>` +
-        `<td class="td-num" style="color:${waterC};font-weight:600">${o.waterRate!=null?o.waterRate.toLocaleString()+'円':'–'}</td>`;
+        `<td class="td-num" style="color:${waterC};font-weight:600">${o.waterRate!=null?o.waterRate.toLocaleString()+'円':'–'}</td>` +
+        `<td class="td-num" style="color:${taxDepC};font-weight:600">${o.taxDependency!=null?o.taxDependency.toFixed(1)+'%':'–'}</td>`;
 
     } else if (_rkTab === 2) {
       const rdrC = o.realDebtRatio!=null ? (o.realDebtRatio<10?'#1a73e8':o.realDebtRatio<18?'#188038':o.realDebtRatio<25?'#e37400':'#c5221f') : '#999';
