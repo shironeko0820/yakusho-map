@@ -1016,6 +1016,9 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
+  const initTab = (colorMode === 'furusatoNet') ? 1 : 0;
+  const tabAct = (i) => initTab === i ? ' active' : '';
+
   infoWindow.setContent(`
     <div class="info-window">
       <div class="iw-header">
@@ -1023,16 +1026,16 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-tabs">
-        <button class="iw-tab-btn active" onclick="iwSwitchTab(0)">社会指標</button>
-        <button class="iw-tab-btn"        onclick="iwSwitchTab(1)">財政概要</button>
-        <button class="iw-tab-btn"        onclick="iwSwitchTab(2)">健全化指数</button>
-        <button class="iw-tab-btn"        onclick="iwSwitchTab(3)">5大指標</button>
+        <button class="iw-tab-btn${tabAct(0)}" onclick="iwSwitchTab(0)">社会指標</button>
+        <button class="iw-tab-btn${tabAct(1)}" onclick="iwSwitchTab(1)">財政概要</button>
+        <button class="iw-tab-btn${tabAct(2)}" onclick="iwSwitchTab(2)">健全化指数</button>
+        <button class="iw-tab-btn${tabAct(3)}" onclick="iwSwitchTab(3)">5大指標</button>
       </div>
       <div class="iw-tab-wrapper">
-        <div class="iw-tab-content active">${t0.join('')}</div>
-        <div class="iw-tab-content">${tf.join('')}</div>
-        <div class="iw-tab-content">${t1.join('')}</div>
-        <div class="iw-tab-content">${t2.join('')}</div>
+        <div class="iw-tab-content${tabAct(0)}">${t0.join('')}</div>
+        <div class="iw-tab-content${tabAct(1)}">${tf.join('')}</div>
+        <div class="iw-tab-content${tabAct(2)}">${t1.join('')}</div>
+        <div class="iw-tab-content${tabAct(3)}">${t2.join('')}</div>
       </div>
       <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr' : '1fr'}">
         <button class="btn-fiscal"
