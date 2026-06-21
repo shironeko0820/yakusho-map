@@ -1016,7 +1016,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = (colorMode === 'furusatoNet') ? 1 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
