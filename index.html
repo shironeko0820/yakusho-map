@@ -22,6 +22,12 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakusho-map-site.vercel.app">
   <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yakusho-map-site.vercel.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="まちカルテ — 全国市区町村の財政状況を地図で確認">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://yakusho-map-site.vercel.app/og-image.svg">
   <link rel="canonical" href="https://yakusho-map-site.vercel.app/">
   <meta name="google-site-verification" content="EmI-LzbozQNP85F7RnCjTbQcPo4eEWJF0aRoulD4tZk" />
 
@@ -513,7 +519,10 @@
 </div>
 
 <header>
-  <h1>🏛 まちカルテ</h1>
+  <div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;">
+    <h1>🏛 まちカルテ</h1>
+    <p style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.3;">全国1,894市区町村の財政・社会指標を地図で比較</p>
+  </div>
   <div class="search-bar">
     <select id="prefSelect">
       <option value="">都道府県を選択</option>
@@ -1625,6 +1634,30 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+<noscript>
+<div style="padding:24px;font-family:sans-serif;line-height:1.8;max-width:800px;">
+  <h1>まちカルテ — 全国市区町村の財政状況マップ</h1>
+  <p>全国1,894市区町村（市・区・町・村）の財政データを地図で可視化する無料Webサービスです。総務省が公表する決算データをもとに、各自治体の財政状況を色分けして一目で比較できます。</p>
+  <h2>確認できる指標</h2>
+  <ul>
+    <li>財政力指数（自治体の財政的な豊かさ）</li>
+    <li>経常収支比率（財政の硬直度）</li>
+    <li>実質公債費比率・将来負担比率（借金の健全性）</li>
+    <li>ラスパイレス指数（職員給与水準）</li>
+    <li>財政調整基金残高（貯金）</li>
+    <li>地方債残高（借金の総額）</li>
+    <li>ふるさと納税 純収支（受入額 − 住民税控除額）</li>
+    <li>水道料金（月20m³あたりの料金）</li>
+    <li>地方交付税依存度（交付税合計 ÷ 歳入総額）</li>
+    <li>人口推移・2040年推計・出生率・高齢化率</li>
+    <li>一人当たり課税所得</li>
+  </ul>
+  <h2>データ出典</h2>
+  <p>総務省 市町村別決算状況調 / 地方公営企業年鑑 / 住民基本台帳人口移動報告 / 国立社会保障・人口問題研究所</p>
+  <p><a href="https://yakusho-map-site.vercel.app/">まちカルテを開く</a></p>
+</div>
+</noscript>
 
 </body>
 </html>

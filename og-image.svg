@@ -1,0 +1,59 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1565C0"/>
+  <rect width="1200" height="6" y="624" fill="#0D47A1"/>
+
+  <!-- 左帯アクセント -->
+  <rect width="8" height="630" fill="#1a73e8"/>
+
+  <!-- タイトル -->
+  <text x="90" y="230" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="96" font-weight="700" fill="white">まちカルテ</text>
+
+  <!-- サブタイトル -->
+  <text x="94" y="305" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="38" fill="rgba(255,255,255,0.88)">全国市区町村の財政状況を地図で確認</text>
+
+  <!-- 区切り線 -->
+  <rect x="90" y="335" width="500" height="2" fill="rgba(255,255,255,0.3)"/>
+
+  <!-- 指標タグ -->
+  <!-- 財政力指数 -->
+  <rect x="90" y="360" width="160" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="170" y="386" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">財政力指数</text>
+
+  <!-- 経常収支比率 -->
+  <rect x="264" y="360" width="196" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="362" y="386" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">経常収支比率</text>
+
+  <!-- ふるさと納税 -->
+  <rect x="474" y="360" width="196" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="572" y="386" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">ふるさと納税</text>
+
+  <!-- 水道料金 -->
+  <rect x="90" y="416" width="148" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="164" y="442" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">水道料金</text>
+
+  <!-- 交付税依存度 -->
+  <rect x="252" y="416" width="208" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="356" y="442" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">交付税依存度</text>
+
+  <!-- 人口推移 -->
+  <rect x="474" y="416" width="148" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <text x="548" y="442" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="white" text-anchor="middle">人口推移</text>
+
+  <!-- マップ装飾（右側） -->
+  <circle cx="900" cy="315" r="180" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="900" cy="315" r="130" fill="rgba(255,255,255,0.05)"/>
+  <!-- ピン -->
+  <circle cx="860" cy="270" r="18" fill="#E24B4A"/>
+  <circle cx="920" cy="310" r="14" fill="#EF9F27"/>
+  <circle cx="870" cy="350" r="16" fill="#639922"/>
+  <circle cx="945" cy="260" r="12" fill="#1a73e8"/>
+  <circle cx="810" cy="330" r="10" fill="#E24B4A"/>
+  <circle cx="960" cy="350" r="16" fill="#639922"/>
+  <circle cx="840" cy="295" r="12" fill="#1565C0"/>
+
+  <!-- URL -->
+  <text x="90" y="575" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="24" fill="rgba(255,255,255,0.55)">yakusho-map-site.vercel.app</text>
+
+  <!-- データ出典 -->
+  <text x="90" y="610" font-family="'Hiragino Sans','Meiryo',sans-serif" font-size="20" fill="rgba(255,255,255,0.45)">データ出典: 総務省公表データ ／ 全国1,894市区町村</text>
+</svg>
