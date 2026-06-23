@@ -15,10 +15,10 @@
   <link rel="apple-touch-icon" href="/icon.svg">
 
   <!-- SEO -->
-  <meta name="description" content="全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳（サンキー図）・過去年度との比較を無料で閲覧できます。総務省「市町村別決算状況調」データを使用。">
+  <meta name="description" content="全国1,894市区町村の財政データを地図で可視化。財政力指数・経常収支比率・将来負担比率・ふるさと納税収支・人口推移をマーカーの色で一目比較。総務省公表データをもとに無料公開。">
   <meta name="keywords" content="財政力指数,市区町村,財政状況,歳入,歳出,財政マップ,地方財政,役所">
   <meta property="og:title" content="まちカルテ｜市区町村の財政状況を地図で確認">
-  <meta property="og:description" content="全国1,894市区町村の財政力指数・歳入歳出内訳をサンキー図で可視化。無料で閲覧できます。">
+  <meta property="og:description" content="全国1,894市区町村の財政力指数・経常収支比率・将来負担比率・ふるさと納税収支・人口推移を地図で一目比較。無料で閲覧できます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakusho-map-site.vercel.app">
   <meta property="og:locale" content="ja_JP">
@@ -32,7 +32,7 @@
     "@type": "WebSite",
     "name": "まちカルテ",
     "url": "https://yakusho-map-site.vercel.app/",
-    "description": "全国1,894市区町村の財政状況を地図で確認できるサービス。財政力指数・歳入歳出の内訳をサンキー図で可視化。",
+    "description": "全国1,894市区町村の財政データを地図で可視化。財政力指数・経常収支比率・将来負担比率・ふるさと納税収支・人口推移を一目比較。",
     "inLanguage": "ja"
   }
   </script>
@@ -536,7 +536,6 @@
     <option value="fiscalStrength">財政力指数で色分け</option>
     <option value="furusatoNet">ふるさと納税 純収支で色分け</option>
     <option value="waterRate">水道料金で色分け</option>
-    <option value="taxDependency">地方交付税依存度で色分け</option>
   </select>
   <div class="cc-legend" id="ccLegend">
     <div class="cc-bar">
@@ -805,15 +804,6 @@ function getMarkerColor(office) {
     if (v <= 4200) return '#E24B4A';
     return '#A32D2D';
   }
-  if (colorMode === 'taxDependency') {
-    const v = office.taxDependency;
-    if (v == null) return '#888780';
-    if (v <= 5)  return '#1565C0';
-    if (v <= 15) return '#1a73e8';
-    if (v <= 25) return '#639922';
-    if (v <= 35) return '#EF9F27';
-    return '#E24B4A';
-  }
   return '#1a73e8';
 }
 
@@ -828,13 +818,9 @@ function setColorMode(mode) {
       ? ['0.2以下', '0.5', '1.0以上']
       : mode === 'waterRate'
       ? ['〜2,000円', '3,400円', '4,200円〜']
-      : mode === 'taxDependency'
-      ? ['〜5%', '15%', '35%〜']
       : ['流出', '均衡', '受益'];
     const barColors = mode === 'waterRate'
       ? ['#1565C0', '#1a73e8', '#EF9F27', '#E24B4A', '#A32D2D']
-      : mode === 'taxDependency'
-      ? ['#1565C0', '#1a73e8', '#639922', '#EF9F27', '#E24B4A']
       : ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11'];
     legend.querySelectorAll('.cc-bar div').forEach((d, i) => { d.style.background = barColors[i]; });
     document.getElementById('ccL1').textContent = l1;
@@ -983,7 +969,7 @@ function openInfo(marker, o) {
   }
   if (o.taxDependency != null) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
-    tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（R5）</span>`));
+    tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
   }
 
   // ── Tab 2: 財政健全化4指標 ───────────────────────────────
@@ -1054,7 +1040,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'taxDependency' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'fiscalStrength' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
@@ -1436,7 +1422,7 @@ let _rkReady = false;
 
 const RK_LEGENDS = [
   '人口（2024年1月）・出生率（2018〜2022年平均）・高齢化率（2024年1月）・課税所得（2024年度）',
-  '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円） ／ 水道料金＝月20m³（総務省R5年鑑） ／ 交付税依存度＝地方交付税合計÷歳入総額（R5、市区のみ）',
+  '財調基金比率＝財政調整基金÷標準財政規模 ／ 地方債/人＝残高÷人口（万円） ／ 水道料金＝月20m³（2023年度） ／ 交付税依存度＝地方交付税合計÷歳入総額（2023年度、市区のみ）',
   '実質公債費比率：警戒25% ／ 将来負担比率：警戒350%',
   '財政力指数・経常収支比率・実質公債費比率・将来負担比率・ラスパイレス指数（5大指標）'
 ];
