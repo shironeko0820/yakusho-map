@@ -984,7 +984,7 @@ function openInfo(marker, o) {
     const m = o.mayorSalary;
     const mc = m >= 1350000 ? '#185fa5' : m >= 1330000 ? '#1a73e8' : '#5f6368';
     const ml = m >= 1350000 ? '高' : m >= 1330000 ? '標準' : '低';
-    tf.push(iwRow('💼', '首長月額報酬', `<strong style="color:${mc}">¥${(m/10000).toFixed(1)}万</strong><br><span class="iw-sub">${ml}（2026年6月現在、特別区のみ）</span>`));
+    tf.push(iwRow('💼', '首長月額報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">${ml}（2026年6月現在、特別区のみ）</span>`));
   }
 
   // ── Tab 2: 財政健全化4指標 ───────────────────────────────
