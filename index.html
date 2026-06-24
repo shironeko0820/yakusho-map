@@ -982,9 +982,8 @@ function openInfo(marker, o) {
   }
   if (o.mayorSalary != null) {
     const m = o.mayorSalary;
-    const mc = m >= 1350000 ? '#185fa5' : m >= 1330000 ? '#1a73e8' : '#5f6368';
-    const ml = m >= 1350000 ? '高' : m >= 1330000 ? '標準' : '低';
-    tf.push(iwRow('💼', '首長月額報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">${ml}（2026年6月現在、特別区のみ）</span>`));
+    const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
+    tf.push(iwRow('💼', '首長月額報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約79万円（令和5年度 総務省調査）</span>`));
   }
 
   // ── Tab 2: 財政健全化4指標 ───────────────────────────────
