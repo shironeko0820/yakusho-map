@@ -980,6 +980,11 @@ function openInfo(marker, o) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
     tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
   }
+  if (o.savingsPerCapita != null) {
+    const s = o.savingsPerCapita;
+    const sc = s < 5 ? '#c5221f' : s < 15 ? '#e37400' : s < 35 ? '#639922' : s < 80 ? '#1a73e8' : '#1565C0';
+    tf.push(iwRow('🏦', '積立金残高/人', `<strong style="color:${sc}">${s.toFixed(1)}万円</strong><br><span class="iw-sub">全国中央値 約22万円（2023年度 総務省調査）</span>`));
+  }
   if (o.mayorSalary != null) {
     const m = o.mayorSalary;
     const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
