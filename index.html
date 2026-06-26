@@ -972,7 +972,7 @@ function openInfo(marker, o) {
   if (o.localTaxPerCapita != null) {
     const lt = o.localTaxPerCapita;
     const lc = lt < 8 ? '#c5221f' : lt < 12 ? '#e37400' : lt < 20 ? '#639922' : lt < 30 ? '#1a73e8' : '#1565C0';
-    tf.push(iwRow('🪙', '地方税/人', `<strong style="color:${lc}">${lt.toFixed(1)}万円</strong><br><span class="iw-sub">2023年度決算（東京23区のみ・順次拡充予定）</span>`));
+    tf.push(iwRow('🪙', '地方税/人', `<strong style="color:${lc}">${lt.toFixed(1)}万円</strong><br><span class="iw-sub">全国中央値 約14万円（2023年度決算 総務省調査）</span>`));
   }
   if (o.taxDependency != null) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
