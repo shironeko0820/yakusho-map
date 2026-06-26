@@ -1030,6 +1030,11 @@ function openInfo(marker, o) {
     const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
     t1.push(iwRow('💼', '首長月額報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円</strong><br><span class="iw-sub">全国中央値 約79万円（2023年度 総務省調査）</span>`));
   }
+  if (o.councilSalary != null) {
+    const cs = o.councilSalary;
+    const cc = cs < 200000 ? '#1565C0' : cs < 300000 ? '#1a73e8' : cs < 450000 ? '#188038' : cs < 650000 ? '#e37400' : '#c5221f';
+    t1.push(iwRow('🗳️', '議員報酬月額', `<strong style="color:${cc}">${(cs/10000).toFixed(1)}万円</strong><br><span class="iw-sub">全国中央値 約29万円（市議会R6年12月・町村議会R7年7月調査）</span>`));
+  }
 
   const distBadge = (o.dist != null)
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
