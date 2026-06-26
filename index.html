@@ -969,6 +969,11 @@ function openInfo(marker, o) {
     const yr = o.curExpYear ? ` ${o.curExpYear}年度決算` : '';
     tf.push(iwRow('🔄', '経常収支比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">全国平均 90.4%${yr}</span>`));
   }
+  if (o.localTaxPerCapita != null) {
+    const lt = o.localTaxPerCapita;
+    const lc = lt < 8 ? '#c5221f' : lt < 12 ? '#e37400' : lt < 20 ? '#639922' : lt < 30 ? '#1a73e8' : '#1565C0';
+    tf.push(iwRow('🪙', '地方税/人', `<strong style="color:${lc}">${lt.toFixed(1)}万円</strong><br><span class="iw-sub">2023年度決算（東京23区のみ・順次拡充予定）</span>`));
+  }
   if (o.taxDependency != null) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
     tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
