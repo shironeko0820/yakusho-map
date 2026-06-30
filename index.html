@@ -988,6 +988,11 @@ function openInfo(marker, o) {
     const perStr = perCapita ? `<strong>${perCapita}万円/人</strong><br><span class="iw-sub">地方債残高の市民一人あたり換算</span>` : '<span class="iw-sub">データなし</span>';
     tf.push(iwRow('🏛', '地方債残高', perStr));
   }
+  if (o.expPerCapita != null) {
+    const ep = o.expPerCapita;
+    const ec = ep < 45 ? '#1565C0' : ep < 55 ? '#188038' : ep < 70 ? '#e37400' : '#c5221f';
+    tf.push(iwRow('📊', '一人あたり歳出', `<strong style="color:${ec}">${ep.toFixed(1)}万円/人</strong><br><span class="iw-sub">行政サービスの規模　全国中央値 約54万円/人（市区・2023年度決算 総務省調査）</span>`));
+  }
   if (o.furusatoNet != null) {
     tf.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
   }
