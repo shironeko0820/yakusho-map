@@ -227,8 +227,8 @@
     }
     .iw-tab-btn {
       flex: 1;
-      padding: 6px 2px;
-      font-size: 10.5px;
+      padding: 5px 1px;
+      font-size: 10px;
       font-weight: 600;
       border: none;
       background: none;
@@ -911,8 +911,54 @@ function iwExpTop3(top3) {
 
 function openInfo(marker, o) {
   _infoOpen = true;
-  // ── Tab 0: 基本情報 ──────────────────────────────────────
+  // ── Tab 0: 財政力 ────────────────────────────────────────
   const t0 = [];
+  if (o.fiscalStrength != null) {
+    const v = o.fiscalStrength;
+    const c = v >= 1.0 ? '#1a73e8' : v >= 0.5 ? '#188038' : '#c5221f';
+    const l = v >= 1.0 ? '強' : v >= 0.5 ? '中' : '弱';
+    t0.push(iwRow('📊', '財政力指数', `<strong style="color:${c}">${v.toFixed(2)}（${l}）</strong><br><span class="iw-sub">全国平均 0.49</span>`));
+  }
+  if (o.curExpRatio != null) {
+    const v = o.curExpRatio;
+    const c = v < 80 ? '#1a73e8' : v < 90 ? '#188038' : v < 100 ? '#e37400' : '#c5221f';
+    const l = v < 80 ? '余裕大' : v < 90 ? '普通' : v < 100 ? '硬直気味' : '硬直';
+    const yr = o.curExpYear ? ` ${o.curExpYear}年度決算` : '';
+    t0.push(iwRow('🔄', '経常収支比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">全国平均 90.4%${yr}</span>`));
+  }
+  if (o.taxDependency != null) {
+    const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
+    t0.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
+  }
+
+  // ── Tab 1: お金の流れ ────────────────────────────────────
+  const t1 = [];
+  if (o.localTaxPerCapita != null) {
+    const lt = o.localTaxPerCapita;
+    const lc = lt < 8 ? '#c5221f' : lt < 12 ? '#e37400' : lt < 20 ? '#639922' : lt < 30 ? '#1a73e8' : '#1565C0';
+    t1.push(iwRow('🪙', '地方税負担額', `<strong style="color:${lc}">${lt.toFixed(1)}万円/人</strong><br><span class="iw-sub">ひとり当たり何円納税しているか　全国中央値 約14万円/人（2023年度決算 総務省調査）</span>`));
+  }
+  if (o.expPerCapita != null) {
+    const ep = o.expPerCapita;
+    const ec = ep < 45 ? '#1565C0' : ep < 55 ? '#188038' : ep < 70 ? '#e37400' : '#c5221f';
+    t1.push(iwRow('📊', '一人あたり歳出', `<strong style="color:${ec}">${ep.toFixed(1)}万円/人</strong><br><span class="iw-sub">行政サービスの規模　全国中央値 約54万円/人（市区・2023年度決算 総務省調査）</span>`));
+  }
+  if (o.savingsPerCapita != null) {
+    const s = o.savingsPerCapita;
+    const sc = s < 5 ? '#c5221f' : s < 15 ? '#e37400' : s < 35 ? '#639922' : s < 80 ? '#1a73e8' : '#1565C0';
+    t1.push(iwRow('🏦', '積立金残高', `<strong style="color:${sc}">${s.toFixed(1)}万円/人</strong><br><span class="iw-sub">ひとり当たりの市の貯金額　全国中央値 約22万円/人（2023年度 総務省調査）</span>`));
+  }
+  if (o.bondBalance != null) {
+    const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
+    const perStr = perCapita ? `<strong>${perCapita}万円/人</strong><br><span class="iw-sub">地方債残高の市民一人あたり換算</span>` : '<span class="iw-sub">データなし</span>';
+    t1.push(iwRow('🏛', '地方債残高', perStr));
+  }
+  if (o.furusatoNet != null) {
+    t1.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
+  }
+
+  // ── Tab 2: 社会指標 ──────────────────────────────────────
+  const t2 = [];
   if (o.population != null && o.population > 0) {
     const pop = o.population >= 10000
       ? (o.population / 10000).toFixed(1) + '万人'
@@ -922,9 +968,9 @@ function openInfo(marker, o) {
       const pct = (o.pop2040 - o.population) / o.population * 100;
       const tc = pct >= 0 ? '#1a73e8' : pct > -15 ? '#e37400' : '#c5221f';
       const badge = `<span style="font-size:10px;color:${tc};margin-left:4px;white-space:nowrap">${pct >= 0 ? '▲' : '▼'}${pct >= 0 ? '+' : ''}${pct.toFixed(1)}% (2040推計)</span>`;
-      t0.push(iwRow('👥', '人口', `<strong>${pop}</strong>${badge}${popSparkSvg(o)}`));
+      t2.push(iwRow('👥', '人口', `<strong>${pop}</strong>${badge}${popSparkSvg(o)}`));
     } else {
-      t0.push(iwRow('👥', '人口', `<strong>${pop}</strong><br><span class="iw-sub">2024年1月現在</span>`));
+      t2.push(iwRow('👥', '人口', `<strong>${pop}</strong><br><span class="iw-sub">2024年1月現在</span>`));
     }
   }
   if (o.tfr != null) {
@@ -933,14 +979,14 @@ function openInfo(marker, o) {
     const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
     const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
     const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
-    t0.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">2018〜2022年平均 / 全国 ${NAT_TFR}</span>`));
+    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">2018〜2022年平均 / 全国 ${NAT_TFR}</span>`));
   }
   if (o.agingRate != null) {
     const NAT_AGE = 29.1;
     const ageColor = o.agingRate >= 40 ? '#c5221f' : o.agingRate >= 33 ? '#e37400' : o.agingRate >= 25 ? '#5f6368' : o.agingRate >= 20 ? '#1a73e8' : '#0d47a1';
     const ageLabel = o.agingRate >= 40 ? '▲かなり高い' : o.agingRate >= 33 ? '▲やや高い' : o.agingRate >= 25 ? '≒全国平均' : o.agingRate >= 20 ? '▼低い' : '▼かなり低い';
     const ageBadge = `<span style="font-size:10px;color:${ageColor};margin-left:4px">${ageLabel}</span>`;
-    t0.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">2024年1月 / 全国 ${NAT_AGE}%</span>`));
+    t2.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">2024年1月 / 全国 ${NAT_AGE}%</span>`));
   }
   if (o.incomePerCapita != null) {
     const NAT_INC = 393;
@@ -948,70 +994,38 @@ function openInfo(marker, o) {
     const incColor = incRatio >= 120 ? '#1a73e8' : incRatio >= 110 ? '#185fa5' : incRatio <= 80 ? '#c5221f' : incRatio <= 90 ? '#e37400' : '#5f6368';
     const incLabel = incRatio >= 120 ? '▲かなり高い' : incRatio >= 110 ? '▲高い' : incRatio <= 80 ? '▼低い' : incRatio <= 90 ? '▼やや低い' : '≒全国平均';
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
-    t0.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
+    t2.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
+  }
+
+  // ── Tab 3: 行政詳細 ──────────────────────────────────────
+  const t3 = [];
+  if (o.mayorSalary != null) {
+    const m = o.mayorSalary;
+    const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
+    t3.push(iwRow('💼', '首長報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約79万円/月（2023年度 総務省調査）</span>`));
+  }
+  if (o.councilSalary != null) {
+    const cs = o.councilSalary;
+    const cc = cs < 200000 ? '#1565C0' : cs < 300000 ? '#1a73e8' : cs < 450000 ? '#188038' : cs < 650000 ? '#e37400' : '#c5221f';
+    t3.push(iwRow('🗳️', '議員報酬', `<strong style="color:${cc}">${(cs/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約29万円/月（市議会2024年12月・町村議会2025年7月調査）</span>`));
   }
   if (o.waterRate != null) {
     const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
-    t0.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
+    t3.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
-  // ── Tab 1: 財政力 ────────────────────────────────────────
-  const tf = [];
-  if (o.fiscalStrength != null) {
-    const v = o.fiscalStrength;
-    const c = v >= 1.0 ? '#1a73e8' : v >= 0.5 ? '#188038' : '#c5221f';
-    const l = v >= 1.0 ? '強' : v >= 0.5 ? '中' : '弱';
-    tf.push(iwRow('📊', '財政力指数', `<strong style="color:${c}">${v.toFixed(2)}（${l}）</strong><br><span class="iw-sub">全国平均 0.49</span>`));
-  }
-  if (o.curExpRatio != null) {
-    const v = o.curExpRatio;
-    const c = v < 80 ? '#1a73e8' : v < 90 ? '#188038' : v < 100 ? '#e37400' : '#c5221f';
-    const l = v < 80 ? '余裕大' : v < 90 ? '普通' : v < 100 ? '硬直気味' : '硬直';
-    const yr = o.curExpYear ? ` ${o.curExpYear}年度決算` : '';
-    tf.push(iwRow('🔄', '経常収支比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">全国平均 90.4%${yr}</span>`));
-  }
-  if (o.localTaxPerCapita != null) {
-    const lt = o.localTaxPerCapita;
-    const lc = lt < 8 ? '#c5221f' : lt < 12 ? '#e37400' : lt < 20 ? '#639922' : lt < 30 ? '#1a73e8' : '#1565C0';
-    tf.push(iwRow('🪙', '地方税負担額', `<strong style="color:${lc}">${lt.toFixed(1)}万円/人</strong><br><span class="iw-sub">ひとり当たり何円納税しているか　全国中央値 約14万円/人（2023年度決算 総務省調査）</span>`));
-  }
-  if (o.taxDependency != null) {
-    const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
-    tf.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
-  }
-  if (o.savingsPerCapita != null) {
-    const s = o.savingsPerCapita;
-    const sc = s < 5 ? '#c5221f' : s < 15 ? '#e37400' : s < 35 ? '#639922' : s < 80 ? '#1a73e8' : '#1565C0';
-    tf.push(iwRow('🏦', '積立金残高', `<strong style="color:${sc}">${s.toFixed(1)}万円/人</strong><br><span class="iw-sub">ひとり当たりの市の貯金額　全国中央値 約22万円/人（2023年度 総務省調査）</span>`));
-  }
-  if (o.bondBalance != null) {
-    const perCapita = (o.population > 0) ? (o.bondBalance * 1000 / o.population / 10000).toFixed(1) : null;
-    const perStr = perCapita ? `<strong>${perCapita}万円/人</strong><br><span class="iw-sub">地方債残高の市民一人あたり換算</span>` : '<span class="iw-sub">データなし</span>';
-    tf.push(iwRow('🏛', '地方債残高', perStr));
-  }
-  if (o.expPerCapita != null) {
-    const ep = o.expPerCapita;
-    const ec = ep < 45 ? '#1565C0' : ep < 55 ? '#188038' : ep < 70 ? '#e37400' : '#c5221f';
-    tf.push(iwRow('📊', '一人あたり歳出', `<strong style="color:${ec}">${ep.toFixed(1)}万円/人</strong><br><span class="iw-sub">行政サービスの規模　全国中央値 約54万円/人（市区・2023年度決算 総務省調査）</span>`));
-  }
-  if (o.furusatoNet != null) {
-    tf.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
-  }
-
-  // ── Tab 2: 詳細指標 ─────────────────────────────────────
-  const t1 = [];
   if (o.realDebtRatio != null) {
     const v = o.realDebtRatio;
     const c = v < 10 ? '#1a73e8' : v < 18 ? '#188038' : v < 25 ? '#e37400' : '#c5221f';
     const l = v < 10 ? '健全' : v < 18 ? '普通' : v < 25 ? '注意' : '危険';
-    t1.push(iwRow('💳', '実質公債費比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒25%</span>`));
-  } else { t1.push(iwRowNa('💳', '実質公債費比率')); }
+    t3.push(iwRow('💳', '実質公債費比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒25%</span>`));
+  } else { t3.push(iwRowNa('💳', '実質公債費比率')); }
   if (o.futBurdenRatio != null) {
     const v = o.futBurdenRatio;
     const c = v < 100 ? '#1a73e8' : v < 200 ? '#188038' : v < 350 ? '#e37400' : '#c5221f';
     const l = v < 100 ? '良好' : v < 200 ? '普通' : v < 350 ? '注意' : '危険';
-    t1.push(iwRow('📉', '将来負担比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒350%</span>`));
+    t3.push(iwRow('📉', '将来負担比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒350%</span>`));
   } else {
-    t1.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
+    t3.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
   }
   if (o.finAdj != null && o.stdFin != null) {
     const amt      = (o.finAdj / 100000).toFixed(1);
@@ -1019,33 +1033,23 @@ function openInfo(marker, o) {
     const ratio    = ratioNum.toFixed(2);
     const rColor   = ratioNum >= 20 ? '#1a73e8' : ratioNum >= 10 ? '#188038' : ratioNum >= 5 ? '#e37400' : '#c5221f';
     const yrLabel  = o.finAdjYr ? ` ${o.finAdjYr}年度決算` : '';
-    t1.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
+    t3.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
   }
   if (o.expTop3 && o.expTop3.length) {
-    t1.push(iwExpTop3(o.expTop3));
+    t3.push(iwExpTop3(o.expTop3));
   }
   if (o.laspeyres != null) {
     const v = o.laspeyres;
     const c = v < 90 ? '#1a73e8' : v < 100 ? '#188038' : v < 102 ? '#e37400' : '#c5221f';
     const l = v < 90 ? '低' : v < 100 ? '標準' : v < 102 ? 'やや高' : '高';
-    t1.push(iwRow('👔', 'ラスパイレス指数', `<strong style="color:${c}">${v.toFixed(1)}（${l}）</strong><br><span class="iw-sub">全国平均 96.9　100=国家公務員水準</span>`));
-  } else { t1.push(iwRowNa('👔', 'ラスパイレス指数')); }
-  if (o.mayorSalary != null) {
-    const m = o.mayorSalary;
-    const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
-    t1.push(iwRow('💼', '首長報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約79万円/月（2023年度 総務省調査）</span>`));
-  }
-  if (o.councilSalary != null) {
-    const cs = o.councilSalary;
-    const cc = cs < 200000 ? '#1565C0' : cs < 300000 ? '#1a73e8' : cs < 450000 ? '#188038' : cs < 650000 ? '#e37400' : '#c5221f';
-    t1.push(iwRow('🗳️', '議員報酬', `<strong style="color:${cc}">${(cs/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約29万円/月（市議会2024年12月・町村議会2025年7月調査）</span>`));
-  }
+    t3.push(iwRow('👔', 'ラスパイレス指数', `<strong style="color:${c}">${v.toFixed(1)}（${l}）</strong><br><span class="iw-sub">全国平均 96.9　100=国家公務員水準</span>`));
+  } else { t3.push(iwRowNa('👔', 'ラスパイレス指数')); }
 
   const distBadge = (o.dist != null)
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'fiscalStrength' ? 1 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
@@ -1055,14 +1059,16 @@ function openInfo(marker, o) {
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
       </div>
       <div class="iw-tabs">
-        <button class="iw-tab-btn${tabAct(0)}" onclick="iwSwitchTab(0)">社会指標</button>
-        <button class="iw-tab-btn${tabAct(1)}" onclick="iwSwitchTab(1)">財政力</button>
-        <button class="iw-tab-btn${tabAct(2)}" onclick="iwSwitchTab(2)">詳細指標</button>
+        <button class="iw-tab-btn${tabAct(0)}" onclick="iwSwitchTab(0)">財政力</button>
+        <button class="iw-tab-btn${tabAct(1)}" onclick="iwSwitchTab(1)">お金の流れ</button>
+        <button class="iw-tab-btn${tabAct(2)}" onclick="iwSwitchTab(2)">社会指標</button>
+        <button class="iw-tab-btn${tabAct(3)}" onclick="iwSwitchTab(3)">行政詳細</button>
       </div>
       <div class="iw-tab-wrapper">
         <div class="iw-tab-content${tabAct(0)}">${t0.join('')}</div>
-        <div class="iw-tab-content${tabAct(1)}">${tf.join('')}</div>
-        <div class="iw-tab-content${tabAct(2)}">${t1.join('')}</div>
+        <div class="iw-tab-content${tabAct(1)}">${t1.join('')}</div>
+        <div class="iw-tab-content${tabAct(2)}">${t2.join('')}</div>
+        <div class="iw-tab-content${tabAct(3)}">${t3.join('')}</div>
       </div>
       <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr' : '1fr'}">
         <button class="btn-fiscal"
