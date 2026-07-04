@@ -996,6 +996,13 @@ function openInfo(marker, o) {
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
     t2.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
   }
+  if (o.votingRate != null) {
+    const NAT_VR = 58.5;
+    const vrColor = o.votingRate >= 65 ? '#1a73e8' : o.votingRate >= 60 ? '#5f6368' : o.votingRate >= 55 ? '#e37400' : '#c5221f';
+    const vrLabel = o.votingRate >= 65 ? '▲高い' : o.votingRate >= 60 ? '≒全国平均' : o.votingRate >= 55 ? '▼やや低い' : '▼低い';
+    const vrBadge = `<span style="font-size:10px;color:${vrColor};margin-left:4px">${vrLabel}</span>`;
+    t2.push(iwRow('🗳️', '投票率', `<strong style="color:${vrColor}">${o.votingRate.toFixed(1)}%</strong>${vrBadge}<br><span class="iw-sub">参院選2025（令和7年7月） / 全国平均 ${NAT_VR}%</span>`));
+  }
 
   // ── Tab 3: 行政詳細 ──────────────────────────────────────
   const t3 = [];
