@@ -47596,7 +47596,7 @@
     "expPerCapita": null,
     "councilTeisu": 7,
     "councilCostPerCapita": 7297,
-    "votingRate": 85.7
+    "votingRate": 72.3
   },
   {
     "name": "可児郡御嵩町役所",
@@ -47673,7 +47673,8 @@
     "councilSalary": 180000,
     "expPerCapita": null,
     "councilTeisu": 7,
-    "councilCostPerCapita": 10141
+    "councilCostPerCapita": 10141,
+    "votingRate": 85.7
   },
   {
     "name": "静岡市葵区役所",
