@@ -85588,7 +85588,8 @@
     "councilSalary": 696000,
     "expPerCapita": 49.4,
     "councilTeisu": 40,
-    "councilCostPerCapita": 841
+    "councilCostPerCapita": 841,
+    "votingRate": 57.2
   },
   {
     "name": "都城市役所",
@@ -85643,7 +85644,8 @@
     "councilSalary": 500000,
     "expPerCapita": 80.5,
     "councilTeisu": 29,
-    "councilCostPerCapita": 1077
+    "councilCostPerCapita": 1077,
+    "votingRate": 54.2
   },
   {
     "name": "延岡市役所",
@@ -85699,7 +85701,8 @@
     "councilSalary": 516000,
     "expPerCapita": 60.3,
     "councilTeisu": 27,
-    "councilCostPerCapita": 1443
+    "councilCostPerCapita": 1443,
+    "votingRate": 60.4
   },
   {
     "name": "日南市役所",
@@ -85755,7 +85758,8 @@
     "councilSalary": 397000,
     "expPerCapita": 70.7,
     "councilTeisu": 19,
-    "councilCostPerCapita": 1846
+    "councilCostPerCapita": 1846,
+    "votingRate": 52.9
   },
   {
     "name": "小林市役所",
@@ -85811,7 +85815,8 @@
     "councilSalary": 369000,
     "expPerCapita": 75,
     "councilTeisu": 19,
-    "councilCostPerCapita": 1959
+    "councilCostPerCapita": 1959,
+    "votingRate": 54
   },
   {
     "name": "日向市役所",
@@ -85867,7 +85872,8 @@
     "councilSalary": 433000,
     "expPerCapita": 56.7,
     "councilTeisu": 20,
-    "councilCostPerCapita": 1771
+    "councilCostPerCapita": 1771,
+    "votingRate": 54.5
   },
   {
     "name": "串間市役所",
@@ -85923,7 +85929,8 @@
     "councilSalary": 365000,
     "expPerCapita": 97.5,
     "councilTeisu": 13,
-    "councilCostPerCapita": 3447
+    "councilCostPerCapita": 3447,
+    "votingRate": 57.7
   },
   {
     "name": "西都市役所",
@@ -85978,7 +85985,8 @@
     "councilSalary": 424000,
     "expPerCapita": 83.3,
     "councilTeisu": 15,
-    "councilCostPerCapita": 2678
+    "councilCostPerCapita": 2678,
+    "votingRate": 56.9
   },
   {
     "name": "えびの市役所",
@@ -86033,7 +86041,8 @@
     "councilSalary": 357000,
     "expPerCapita": 79.6,
     "councilTeisu": 14,
-    "councilCostPerCapita": 3422
+    "councilCostPerCapita": 3422,
+    "votingRate": 58.8
   },
   {
     "name": "北諸県郡三股町役所",
@@ -86071,7 +86080,8 @@
     "councilSalary": 236000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 1313
+    "councilCostPerCapita": 1313,
+    "votingRate": 55.8
   },
   {
     "name": "西諸県郡高原町役所",
@@ -86109,7 +86119,8 @@
     "councilSalary": 202000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 2822
+    "councilCostPerCapita": 2822,
+    "votingRate": 61.2
   },
   {
     "name": "東諸県郡国富町役所",
@@ -86148,7 +86159,8 @@
     "councilSalary": 232000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 1966
+    "councilCostPerCapita": 1966,
+    "votingRate": 56.3
   },
   {
     "name": "東諸県郡綾町役所",
@@ -86187,7 +86199,8 @@
     "councilSalary": 201000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 3475
+    "councilCostPerCapita": 3475,
+    "votingRate": 64
   },
   {
     "name": "児湯郡高鍋町役所",
@@ -86225,7 +86238,8 @@
     "councilSalary": 210000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 1809
+    "councilCostPerCapita": 1809,
+    "votingRate": 57.3
   },
   {
     "name": "児湯郡新富町役所",
@@ -86263,7 +86277,8 @@
     "councilSalary": 283000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 2438
+    "councilCostPerCapita": 2438,
+    "votingRate": 61.5
   },
   {
     "name": "児湯郡西米良村役所",
@@ -86301,7 +86316,8 @@
     "councilSalary": 200000,
     "expPerCapita": null,
     "councilTeisu": 8,
-    "councilCostPerCapita": 18805
+    "councilCostPerCapita": 18805,
+    "votingRate": 90.7
   },
   {
     "name": "児湯郡木城町役所",
@@ -86339,7 +86355,8 @@
     "councilSalary": 211000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 5256
+    "councilCostPerCapita": 5256,
+    "votingRate": 58
   },
   {
     "name": "児湯郡川南町役所",
@@ -86377,7 +86394,8 @@
     "councilSalary": 208000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 2173
+    "councilCostPerCapita": 2173,
+    "votingRate": 58
   },
   {
     "name": "児湯郡都農町役所",
@@ -86415,7 +86433,8 @@
     "councilSalary": 205000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 2424
+    "councilCostPerCapita": 2424,
+    "votingRate": 60.4
   },
   {
     "name": "東臼杵郡門川町役所",
@@ -86453,7 +86472,8 @@
     "councilSalary": 208000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 2027
+    "councilCostPerCapita": 2027,
+    "votingRate": 55.7
   },
   {
     "name": "東臼杵郡諸塚村役所",
@@ -86491,7 +86511,8 @@
     "councilSalary": 204000,
     "expPerCapita": null,
     "councilTeisu": 8,
-    "councilCostPerCapita": 13432
+    "councilCostPerCapita": 13432,
+    "votingRate": 87.3
   },
   {
     "name": "東臼杵郡椎葉村役所",
@@ -86529,7 +86550,8 @@
     "councilSalary": 203000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 9736
+    "councilCostPerCapita": 9736,
+    "votingRate": 75.1
   },
   {
     "name": "東臼杵郡美郷町役所",
@@ -86567,7 +86589,8 @@
     "councilSalary": 202000,
     "expPerCapita": null,
     "councilTeisu": 11,
-    "councilCostPerCapita": 5701
+    "councilCostPerCapita": 5701,
+    "votingRate": 73.3
   },
   {
     "name": "西臼杵郡高千穂町役所",
@@ -86605,7 +86628,8 @@
     "councilSalary": 232000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 3279
+    "councilCostPerCapita": 3279,
+    "votingRate": 68.9
   },
   {
     "name": "西臼杵郡日之影町役所",
@@ -86643,7 +86667,8 @@
     "councilSalary": 212000,
     "expPerCapita": null,
     "councilTeisu": 8,
-    "councilCostPerCapita": 5840
+    "councilCostPerCapita": 5840,
+    "votingRate": 73.8
   },
   {
     "name": "西臼杵郡五ヶ瀬町役所",
@@ -86681,7 +86706,8 @@
     "councilSalary": 228000,
     "expPerCapita": null,
     "councilTeisu": 9,
-    "councilCostPerCapita": 7274
+    "councilCostPerCapita": 7274,
+    "votingRate": 75.6
   },
   {
     "name": "鹿児島市役所",
