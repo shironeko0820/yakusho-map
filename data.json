@@ -77309,7 +77309,7 @@
     "expPerCapita": 66.7,
     "councilTeisu": 57,
     "councilCostPerCapita": 756,
-    "votingRate": 57
+    "votingRate": 51.6
   },
   {
     "name": "北九州市八幡東区役所",
@@ -77366,7 +77366,7 @@
     "expPerCapita": 66.7,
     "councilTeisu": 57,
     "councilCostPerCapita": 756,
-    "votingRate": 56.3
+    "votingRate": 54.2
   },
   {
     "name": "北九州市八幡西区役所",
@@ -77423,7 +77423,7 @@
     "expPerCapita": 66.7,
     "councilTeisu": 57,
     "councilCostPerCapita": 756,
-    "votingRate": 58.6
+    "votingRate": 51.9
   },
   {
     "name": "福岡市東区役所",
@@ -77479,7 +77479,8 @@
     "councilSalary": 1060000,
     "expPerCapita": 69.3,
     "councilTeisu": 62,
-    "councilCostPerCapita": 475
+    "councilCostPerCapita": 475,
+    "votingRate": 56.3
   },
   {
     "name": "福岡市博多区役所",
@@ -77593,7 +77594,7 @@
     "expPerCapita": 69.3,
     "councilTeisu": 62,
     "councilCostPerCapita": 475,
-    "votingRate": 57.5
+    "votingRate": 57.4
   },
   {
     "name": "福岡市南区役所",
@@ -77649,7 +77650,8 @@
     "councilSalary": 1060000,
     "expPerCapita": 69.3,
     "councilTeisu": 62,
-    "councilCostPerCapita": 475
+    "councilCostPerCapita": 475,
+    "votingRate": 57
   },
   {
     "name": "福岡市西区役所",
@@ -77705,7 +77707,8 @@
     "councilSalary": 1060000,
     "expPerCapita": 69.3,
     "councilTeisu": 62,
-    "councilCostPerCapita": 475
+    "councilCostPerCapita": 475,
+    "votingRate": 58.5
   },
   {
     "name": "福岡市城南区役所",
@@ -78159,7 +78162,7 @@
     "expPerCapita": 53.6,
     "councilTeisu": 19,
     "councilCostPerCapita": 1667,
-    "votingRate": 53.9
+    "votingRate": 53.8
   },
   {
     "name": "八女市役所",
@@ -78833,7 +78836,7 @@
     "expPerCapita": 44.3,
     "councilTeisu": 18,
     "councilCostPerCapita": 1630,
-    "votingRate": 59.9
+    "votingRate": 59.8
   },
   {
     "name": "古賀市役所",
@@ -79001,7 +79004,7 @@
     "expPerCapita": 63.4,
     "councilTeisu": 14,
     "councilCostPerCapita": 2480,
-    "votingRate": 55.2
+    "votingRate": 55
   },
   {
     "name": "宮若市役所",
@@ -79057,7 +79060,7 @@
     "expPerCapita": 67,
     "councilTeisu": 16,
     "councilCostPerCapita": 2931,
-    "votingRate": 54.7
+    "votingRate": 54.6
   },
   {
     "name": "嘉麻市役所",
@@ -79114,7 +79117,7 @@
     "expPerCapita": 81.4,
     "councilTeisu": 16,
     "councilCostPerCapita": 2375,
-    "votingRate": 53.4
+    "votingRate": 53.3
   },
   {
     "name": "朝倉市役所",
@@ -79170,7 +79173,7 @@
     "expPerCapita": 79.4,
     "councilTeisu": 18,
     "councilCostPerCapita": 1995,
-    "votingRate": 55.5
+    "votingRate": 55.4
   },
   {
     "name": "みやま市役所",
@@ -79491,7 +79494,7 @@
     "expPerCapita": null,
     "councilTeisu": 13,
     "councilCostPerCapita": 1539,
-    "votingRate": 52.1
+    "votingRate": 52
   },
   {
     "name": "糟屋郡新宮町役所",
@@ -79647,7 +79650,7 @@
     "expPerCapita": null,
     "councilTeisu": 12,
     "councilCostPerCapita": 3316,
-    "votingRate": 56.9
+    "votingRate": 57
   },
   {
     "name": "遠賀郡水巻町役所",
@@ -79923,7 +79926,7 @@
     "expPerCapita": null,
     "councilTeisu": 14,
     "councilCostPerCapita": 1545,
-    "votingRate": 55.9
+    "votingRate": 55.8
   },
   {
     "name": "朝倉郡東峰村役所",
@@ -80001,7 +80004,7 @@
     "expPerCapita": null,
     "councilTeisu": 12,
     "councilCostPerCapita": 2158,
-    "votingRate": 55.4
+    "votingRate": 55.2
   },
   {
     "name": "三潴郡大木町役所",
@@ -80040,7 +80043,7 @@
     "expPerCapita": null,
     "councilTeisu": 12,
     "councilCostPerCapita": 2447,
-    "votingRate": 56.6
+    "votingRate": 56.5
   },
   {
     "name": "八女郡広川町役所",
@@ -80237,7 +80240,7 @@
     "expPerCapita": null,
     "councilTeisu": 16,
     "councilCostPerCapita": 3091,
-    "votingRate": 49.1
+    "votingRate": 49
   },
   {
     "name": "田川郡大任町役所",
@@ -80277,7 +80280,7 @@
     "expPerCapita": null,
     "councilTeisu": 11,
     "councilCostPerCapita": 6431,
-    "votingRate": 55.1
+    "votingRate": 55
   },
   {
     "name": "田川郡赤村役所",
@@ -80355,7 +80358,7 @@
     "expPerCapita": null,
     "councilTeisu": 18,
     "councilCostPerCapita": 2679,
-    "votingRate": 51.4
+    "votingRate": 51.3
   },
   {
     "name": "京都郡苅田町役所",
@@ -80434,7 +80437,7 @@
     "expPerCapita": null,
     "councilTeisu": 14,
     "councilCostPerCapita": 2383,
-    "votingRate": 55.8
+    "votingRate": 55.7
   },
   {
     "name": "築上郡吉富町役所",
