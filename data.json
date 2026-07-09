@@ -38624,7 +38624,8 @@
     "councilSalary": 715000,
     "expPerCapita": 43.9,
     "councilTeisu": 38,
-    "councilCostPerCapita": 802
+    "councilCostPerCapita": 802,
+    "votingRate": 54.4
   },
   {
     "name": "高岡市役所",
@@ -38680,7 +38681,8 @@
     "councilSalary": 645000,
     "expPerCapita": 45.6,
     "councilTeisu": 27,
-    "councilCostPerCapita": 1274
+    "councilCostPerCapita": 1274,
+    "votingRate": 56.9
   },
   {
     "name": "魚津市役所",
@@ -38736,7 +38738,8 @@
     "councilSalary": 480000,
     "expPerCapita": 51.8,
     "councilTeisu": 17,
-    "councilCostPerCapita": 2493
+    "councilCostPerCapita": 2493,
+    "votingRate": 55.5
   },
   {
     "name": "氷見市役所",
@@ -38792,7 +38795,8 @@
     "councilSalary": 495000,
     "expPerCapita": 59.1,
     "councilTeisu": 17,
-    "councilCostPerCapita": 2337
+    "councilCostPerCapita": 2337,
+    "votingRate": 63.2
   },
   {
     "name": "滑川市役所",
@@ -38847,7 +38851,8 @@
     "councilSalary": 424000,
     "expPerCapita": 44.4,
     "councilTeisu": 15,
-    "councilCostPerCapita": 2332
+    "councilCostPerCapita": 2332,
+    "votingRate": 57.4
   },
   {
     "name": "黒部市役所",
@@ -38903,7 +38908,8 @@
     "councilSalary": 466000,
     "expPerCapita": 58.1,
     "councilTeisu": 17,
-    "councilCostPerCapita": 2395
+    "councilCostPerCapita": 2395,
+    "votingRate": 58.3
   },
   {
     "name": "砺波市役所",
@@ -38959,7 +38965,8 @@
     "councilSalary": 454000,
     "expPerCapita": 49.9,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2085
+    "councilCostPerCapita": 2085,
+    "votingRate": 66.2
   },
   {
     "name": "小矢部市役所",
@@ -39015,7 +39022,8 @@
     "councilSalary": 445000,
     "expPerCapita": 52.4,
     "councilTeisu": 16,
-    "councilCostPerCapita": 3013
+    "councilCostPerCapita": 3013,
+    "votingRate": 67.7
   },
   {
     "name": "南砺市役所",
@@ -39070,7 +39078,8 @@
     "councilSalary": 460000,
     "expPerCapita": 76.3,
     "councilTeisu": 17,
-    "councilCostPerCapita": 1999
+    "councilCostPerCapita": 1999,
+    "votingRate": 68.1
   },
   {
     "name": "射水市役所",
@@ -39126,7 +39135,8 @@
     "councilSalary": 515000,
     "expPerCapita": 45.5,
     "councilTeisu": 22,
-    "councilCostPerCapita": 1494
+    "councilCostPerCapita": 1494,
+    "votingRate": 61
   },
   {
     "name": "中新川郡舟橋村役所",
@@ -39165,7 +39175,8 @@
     "councilSalary": 200000,
     "expPerCapita": null,
     "councilTeisu": 7,
-    "councilCostPerCapita": 5092
+    "councilCostPerCapita": 5092,
+    "votingRate": 66.2
   },
   {
     "name": "中新川郡上市町役所",
@@ -39204,7 +39215,8 @@
     "councilSalary": 290000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 2195
+    "councilCostPerCapita": 2195,
+    "votingRate": 59.4
   },
   {
     "name": "中新川郡立山町役所",
@@ -39243,7 +39255,8 @@
     "councilSalary": 290000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 1983
+    "councilCostPerCapita": 1983,
+    "votingRate": 57.1
   },
   {
     "name": "下新川郡入善町役所",
@@ -39282,7 +39295,8 @@
     "councilSalary": 294000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 2183
+    "councilCostPerCapita": 2183,
+    "votingRate": 62.7
   },
   {
     "name": "下新川郡朝日町役所",
@@ -39320,7 +39334,8 @@
     "councilSalary": 290000,
     "expPerCapita": null,
     "councilTeisu": 11,
-    "councilCostPerCapita": 3572
+    "councilCostPerCapita": 3572,
+    "votingRate": 65.9
   },
   {
     "name": "金沢市役所",
