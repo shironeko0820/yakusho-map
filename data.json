@@ -56025,7 +56025,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 60
   },
   {
     "name": "京都市上京区役所",
@@ -56081,7 +56082,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 61.31
   },
   {
     "name": "京都市左京区役所",
@@ -56137,7 +56139,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 62.82
   },
   {
     "name": "京都市中京区役所",
@@ -56193,7 +56196,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 61.32
   },
   {
     "name": "京都市東山区役所",
@@ -56249,7 +56253,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 56.44
   },
   {
     "name": "京都市下京区役所",
@@ -56305,7 +56310,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 58.76
   },
   {
     "name": "京都市南区役所",
@@ -56361,7 +56367,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 53.86
   },
   {
     "name": "京都市右京区役所",
@@ -56417,7 +56424,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 57.75
   },
   {
     "name": "京都市伏見区役所",
@@ -56473,7 +56481,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 53.94
   },
   {
     "name": "京都市山科区役所",
@@ -56529,7 +56538,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 54.61
   },
   {
     "name": "京都市西京区役所",
@@ -56585,7 +56595,8 @@
     "councilSalary": 896000,
     "expPerCapita": 69.3,
     "councilTeisu": 67,
-    "councilCostPerCapita": 524
+    "councilCostPerCapita": 524,
+    "votingRate": 58.06
   },
   {
     "name": "福知山市役所",
@@ -56641,7 +56652,8 @@
     "councilSalary": 495000,
     "expPerCapita": 66.2,
     "councilTeisu": 24,
-    "councilCostPerCapita": 1891
+    "councilCostPerCapita": 1891,
+    "votingRate": 57.89
   },
   {
     "name": "舞鶴市役所",
@@ -56697,7 +56709,8 @@
     "councilSalary": 570000,
     "expPerCapita": 50.3,
     "councilTeisu": 25,
-    "councilCostPerCapita": 2229
+    "councilCostPerCapita": 2229,
+    "votingRate": 57.51
   },
   {
     "name": "綾部市役所",
@@ -56753,7 +56766,8 @@
     "councilSalary": 450000,
     "expPerCapita": 64.4,
     "councilTeisu": 18,
-    "councilCostPerCapita": 3083
+    "councilCostPerCapita": 3083,
+    "votingRate": 58.83
   },
   {
     "name": "宇治市役所",
@@ -56808,7 +56822,8 @@
     "councilSalary": 635000,
     "expPerCapita": 39.4,
     "councilTeisu": 28,
-    "councilCostPerCapita": 1179
+    "councilCostPerCapita": 1179,
+    "votingRate": 57.43
   },
   {
     "name": "宮津市役所",
@@ -56864,7 +56879,8 @@
     "councilSalary": 430000,
     "expPerCapita": 75.4,
     "councilTeisu": 14,
-    "councilCostPerCapita": 4425
+    "councilCostPerCapita": 4425,
+    "votingRate": 61.12
   },
   {
     "name": "亀岡市役所",
@@ -56920,7 +56936,8 @@
     "councilSalary": 560000,
     "expPerCapita": 52.1,
     "councilTeisu": 24,
-    "councilCostPerCapita": 1859
+    "councilCostPerCapita": 1859,
+    "votingRate": 58.47
   },
   {
     "name": "城陽市役所",
@@ -56976,7 +56993,8 @@
     "councilSalary": 560000,
     "expPerCapita": 45.4,
     "councilTeisu": 20,
-    "councilCostPerCapita": 1815
+    "councilCostPerCapita": 1815,
+    "votingRate": 58.5
   },
   {
     "name": "向日市役所",
@@ -57031,7 +57049,8 @@
     "councilSalary": 475000,
     "expPerCapita": 41.3,
     "councilTeisu": 18,
-    "councilCostPerCapita": 1814
+    "councilCostPerCapita": 1814,
+    "votingRate": 59.91
   },
   {
     "name": "長岡京市役所",
@@ -57087,7 +57106,8 @@
     "councilSalary": 520000,
     "expPerCapita": 44.3,
     "councilTeisu": 22,
-    "councilCostPerCapita": 1668
+    "councilCostPerCapita": 1668,
+    "votingRate": 63.06
   },
   {
     "name": "八幡市役所",
@@ -57143,7 +57163,8 @@
     "councilSalary": 550000,
     "expPerCapita": 44.2,
     "councilTeisu": 21,
-    "councilCostPerCapita": 2002
+    "councilCostPerCapita": 2002,
+    "votingRate": 58.17
   },
   {
     "name": "京田辺市役所",
@@ -57198,7 +57219,8 @@
     "councilSalary": 515000,
     "expPerCapita": 47,
     "councilTeisu": 20,
-    "councilCostPerCapita": 1720
+    "councilCostPerCapita": 1720,
+    "votingRate": 61.65
   },
   {
     "name": "京丹後市役所",
@@ -57254,7 +57276,8 @@
     "councilSalary": 430000,
     "expPerCapita": 74.9,
     "councilTeisu": 20,
-    "councilCostPerCapita": 2022
+    "councilCostPerCapita": 2022,
+    "votingRate": 60.71
   },
   {
     "name": "南丹市役所",
@@ -57310,7 +57333,8 @@
     "councilSalary": 470000,
     "expPerCapita": 82.1,
     "councilTeisu": 20,
-    "councilCostPerCapita": 3745
+    "councilCostPerCapita": 3745,
+    "votingRate": 62.97
   },
   {
     "name": "木津川市役所",
@@ -57365,7 +57389,8 @@
     "councilSalary": 490000,
     "expPerCapita": 41,
     "councilTeisu": 20,
-    "councilCostPerCapita": 1473
+    "councilCostPerCapita": 1473,
+    "votingRate": 63.62
   },
   {
     "name": "乙訓郡大山崎町役所",
@@ -57403,7 +57428,8 @@
     "councilSalary": 290000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 2508
+    "councilCostPerCapita": 2508,
+    "votingRate": 65.64
   },
   {
     "name": "久世郡久御山町役所",
@@ -57441,7 +57467,8 @@
     "councilSalary": 284000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 3101
+    "councilCostPerCapita": 3101,
+    "votingRate": 58.5
   },
   {
     "name": "綴喜郡井手町役所",
@@ -57479,7 +57506,8 @@
     "councilSalary": 240000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 4121
+    "councilCostPerCapita": 4121,
+    "votingRate": 59.06
   },
   {
     "name": "綴喜郡宇治田原町役所",
@@ -57518,7 +57546,8 @@
     "councilSalary": 240000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 3914
+    "councilCostPerCapita": 3914,
+    "votingRate": 64.37
   },
   {
     "name": "相楽郡笠置町役所",
@@ -57556,7 +57585,8 @@
     "councilSalary": 170000,
     "expPerCapita": null,
     "councilTeisu": 8,
-    "councilCostPerCapita": 14624
+    "councilCostPerCapita": 14624,
+    "votingRate": 68.48
   },
   {
     "name": "相楽郡和束町役所",
@@ -57594,7 +57624,8 @@
     "councilSalary": 184000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 6310
+    "councilCostPerCapita": 6310,
+    "votingRate": 70.67
   },
   {
     "name": "相楽郡精華町役所",
@@ -57633,7 +57664,8 @@
     "councilSalary": 287000,
     "expPerCapita": null,
     "councilTeisu": 18,
-    "councilCostPerCapita": 1696
+    "councilCostPerCapita": 1696,
+    "votingRate": 64.63
   },
   {
     "name": "相楽郡南山城村役所",
@@ -57671,7 +57703,8 @@
     "councilSalary": 170000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 8337
+    "councilCostPerCapita": 8337,
+    "votingRate": 69.38
   },
   {
     "name": "船井郡京丹波町役所",
@@ -57710,7 +57743,8 @@
     "councilSalary": 230000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 2816
+    "councilCostPerCapita": 2816,
+    "votingRate": 66.41
   },
   {
     "name": "与謝郡伊根町役所",
@@ -57748,7 +57782,8 @@
     "councilSalary": 170000,
     "expPerCapita": null,
     "councilTeisu": 9,
-    "councilCostPerCapita": 9592
+    "councilCostPerCapita": 9592,
+    "votingRate": 73.46
   },
   {
     "name": "与謝郡与謝野町役所",
@@ -57787,7 +57822,8 @@
     "councilSalary": 250000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2427
+    "councilCostPerCapita": 2427,
+    "votingRate": 60.93
   },
   {
     "name": "大阪市都島区役所",
@@ -61719,7 +61755,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 64.06
   },
   {
     "name": "神戸市灘区役所",
@@ -61775,7 +61812,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 63.37
   },
   {
     "name": "神戸市兵庫区役所",
@@ -61831,7 +61869,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 56.63
   },
   {
     "name": "神戸市長田区役所",
@@ -61887,7 +61926,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 55.36
   },
   {
     "name": "神戸市須磨区役所",
@@ -61943,7 +61983,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 62.34
   },
   {
     "name": "神戸市垂水区役所",
@@ -61999,7 +62040,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 60.07
   },
   {
     "name": "神戸市北区役所",
@@ -62055,7 +62097,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 60.36
   },
   {
     "name": "神戸市中央区役所",
@@ -62111,7 +62154,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 58.55
   },
   {
     "name": "神戸市西区役所",
@@ -62167,7 +62211,8 @@
     "councilSalary": 1140000,
     "expPerCapita": 62.1,
     "councilTeisu": 65,
-    "councilCostPerCapita": 596
+    "councilCostPerCapita": 596,
+    "votingRate": 60.58
   },
   {
     "name": "姫路市役所",
@@ -62223,7 +62268,8 @@
     "councilSalary": 823000,
     "expPerCapita": 43.5,
     "councilTeisu": 45,
-    "councilCostPerCapita": 845
+    "councilCostPerCapita": 845,
+    "votingRate": 56.38
   },
   {
     "name": "尼崎市役所",
@@ -62279,7 +62325,8 @@
     "councilSalary": 797000,
     "expPerCapita": 48.9,
     "councilTeisu": 42,
-    "councilCostPerCapita": 877
+    "councilCostPerCapita": 877,
+    "votingRate": 55.96
   },
   {
     "name": "明石市役所",
@@ -62335,7 +62382,8 @@
     "councilSalary": 732000,
     "expPerCapita": 42,
     "councilTeisu": 30,
-    "councilCostPerCapita": 859
+    "councilCostPerCapita": 859,
+    "votingRate": 62.59
   },
   {
     "name": "西宮市役所",
@@ -62390,7 +62438,8 @@
     "councilSalary": 785650,
     "expPerCapita": 40.9,
     "councilTeisu": 41,
-    "councilCostPerCapita": 801
+    "councilCostPerCapita": 801,
+    "votingRate": 63.47
   },
   {
     "name": "洲本市役所",
@@ -62446,7 +62495,8 @@
     "councilSalary": 505000,
     "expPerCapita": 58.4,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2639
+    "councilCostPerCapita": 2639,
+    "votingRate": 58.33
   },
   {
     "name": "芦屋市役所",
@@ -62502,7 +62552,8 @@
     "councilSalary": 737000,
     "expPerCapita": 46,
     "councilTeisu": 21,
-    "councilCostPerCapita": 1960
+    "councilCostPerCapita": 1960,
+    "votingRate": 66.96
   },
   {
     "name": "伊丹市役所",
@@ -62557,7 +62608,8 @@
     "councilSalary": 720000,
     "expPerCapita": 43.4,
     "councilTeisu": 28,
-    "councilCostPerCapita": 1201
+    "councilCostPerCapita": 1201,
+    "votingRate": 59.27
   },
   {
     "name": "相生市役所",
@@ -62613,7 +62665,8 @@
     "councilSalary": 495000,
     "expPerCapita": 52.2,
     "councilTeisu": 14,
-    "councilCostPerCapita": 3028
+    "councilCostPerCapita": 3028,
+    "votingRate": 61.42
   },
   {
     "name": "豊岡市役所",
@@ -62669,7 +62722,8 @@
     "councilSalary": 455000,
     "expPerCapita": 62.8,
     "councilTeisu": 24,
-    "councilCostPerCapita": 1711
+    "councilCostPerCapita": 1711,
+    "votingRate": 61.07
   },
   {
     "name": "加古川市役所",
@@ -62724,7 +62778,8 @@
     "councilSalary": 675000,
     "expPerCapita": 38.4,
     "councilTeisu": 31,
-    "councilCostPerCapita": 971
+    "councilCostPerCapita": 971,
+    "votingRate": 58.88
   },
   {
     "name": "赤穂市役所",
@@ -62780,7 +62835,8 @@
     "councilSalary": 486000,
     "expPerCapita": 49.1,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2342
+    "councilCostPerCapita": 2342,
+    "votingRate": 58.3
   },
   {
     "name": "西脇市役所",
@@ -62835,7 +62891,8 @@
     "councilSalary": 465000,
     "expPerCapita": 57.3,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2338
+    "councilCostPerCapita": 2338,
+    "votingRate": 60.88
   },
   {
     "name": "宝塚市役所",
@@ -62891,7 +62948,8 @@
     "councilSalary": 682600,
     "expPerCapita": 40,
     "councilTeisu": 26,
-    "councilCostPerCapita": 930
+    "councilCostPerCapita": 930,
+    "votingRate": 61.54
   },
   {
     "name": "三木市役所",
@@ -62947,7 +63005,8 @@
     "councilSalary": 554000,
     "expPerCapita": 47,
     "councilTeisu": 16,
-    "councilCostPerCapita": 1437
+    "councilCostPerCapita": 1437,
+    "votingRate": 58.29
   },
   {
     "name": "高砂市役所",
@@ -63003,7 +63062,8 @@
     "councilSalary": 629000,
     "expPerCapita": 49.9,
     "councilTeisu": 19,
-    "councilCostPerCapita": 1642
+    "councilCostPerCapita": 1642,
+    "votingRate": 58.73
   },
   {
     "name": "川西市役所",
@@ -63059,7 +63119,8 @@
     "councilSalary": 701000,
     "expPerCapita": 40,
     "councilTeisu": 24,
-    "councilCostPerCapita": 1310
+    "councilCostPerCapita": 1310,
+    "votingRate": 62.62
   },
   {
     "name": "小野市役所",
@@ -63114,7 +63175,8 @@
     "councilSalary": 528000,
     "expPerCapita": 44.3,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2149
+    "councilCostPerCapita": 2149,
+    "votingRate": 60.19
   },
   {
     "name": "三田市役所",
@@ -63169,7 +63231,8 @@
     "councilSalary": 636000,
     "expPerCapita": 38.7,
     "councilTeisu": 22,
-    "councilCostPerCapita": 1566
+    "councilCostPerCapita": 1566,
+    "votingRate": 64.41
   },
   {
     "name": "加西市役所",
@@ -63224,7 +63287,8 @@
     "councilSalary": 451000,
     "expPerCapita": 64.4,
     "councilTeisu": 15,
-    "councilCostPerCapita": 1935
+    "councilCostPerCapita": 1935,
+    "votingRate": 59.35
   },
   {
     "name": "丹波篠山市役所",
@@ -63280,7 +63344,8 @@
     "councilSalary": 475000,
     "expPerCapita": 58.9,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2588
+    "councilCostPerCapita": 2588,
+    "votingRate": 63.01
   },
   {
     "name": "養父市役所",
@@ -63335,7 +63400,8 @@
     "councilSalary": 430000,
     "expPerCapita": 93.7,
     "councilTeisu": 16,
-    "councilCostPerCapita": 3842
+    "councilCostPerCapita": 3842,
+    "votingRate": 66.11
   },
   {
     "name": "丹波市役所",
@@ -63390,7 +63456,8 @@
     "councilSalary": 467000,
     "expPerCapita": 57.7,
     "councilTeisu": 18,
-    "councilCostPerCapita": 1656
+    "councilCostPerCapita": 1656,
+    "votingRate": 62.08
   },
   {
     "name": "南あわじ市役所",
@@ -63446,7 +63513,8 @@
     "councilSalary": 450000,
     "expPerCapita": 71,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2186
+    "councilCostPerCapita": 2186,
+    "votingRate": 58.5
   },
   {
     "name": "朝来市役所",
@@ -63501,7 +63569,8 @@
     "councilSalary": 441000,
     "expPerCapita": 70.8,
     "councilTeisu": 18,
-    "councilCostPerCapita": 3373
+    "councilCostPerCapita": 3373,
+    "votingRate": 66
   },
   {
     "name": "淡路市役所",
@@ -63557,7 +63626,8 @@
     "councilSalary": 450000,
     "expPerCapita": 90.3,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2316
+    "councilCostPerCapita": 2316,
+    "votingRate": 65.41
   },
   {
     "name": "宍粟市役所",
@@ -63613,7 +63683,8 @@
     "councilSalary": 448000,
     "expPerCapita": 68.7,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2488
+    "councilCostPerCapita": 2488,
+    "votingRate": 62.29
   },
   {
     "name": "加東市役所",
@@ -63668,7 +63739,8 @@
     "councilSalary": 450000,
     "expPerCapita": 64,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2177
+    "councilCostPerCapita": 2177,
+    "votingRate": 59.88
   },
   {
     "name": "たつの市役所",
@@ -63723,7 +63795,8 @@
     "councilSalary": 524000,
     "expPerCapita": 50.6,
     "councilTeisu": 20,
-    "councilCostPerCapita": 1718
+    "councilCostPerCapita": 1718,
+    "votingRate": 60.8
   },
   {
     "name": "川辺郡猪名川町役所",
@@ -63761,7 +63834,8 @@
     "councilSalary": 300000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 1979
+    "councilCostPerCapita": 1979,
+    "votingRate": 68.54
   },
   {
     "name": "多可郡多可町役所",
@@ -63799,7 +63873,8 @@
     "councilSalary": 215000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 1904
+    "councilCostPerCapita": 1904,
+    "votingRate": 63.81
   },
   {
     "name": "加古郡稲美町役所",
@@ -63837,7 +63912,8 @@
     "councilSalary": 295000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 1620
+    "councilCostPerCapita": 1620,
+    "votingRate": 60.66
   },
   {
     "name": "加古郡播磨町役所",
@@ -63875,7 +63951,8 @@
     "councilSalary": 285000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 1371
+    "councilCostPerCapita": 1371,
+    "votingRate": 59.99
   },
   {
     "name": "神崎郡市川町役所",
@@ -63914,7 +63991,8 @@
     "councilSalary": 225000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 2973
+    "councilCostPerCapita": 2973,
+    "votingRate": 69.02
   },
   {
     "name": "神崎郡福崎町役所",
@@ -63953,7 +64031,8 @@
     "councilSalary": 255000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 2283
+    "councilCostPerCapita": 2283,
+    "votingRate": 60.36
   },
   {
     "name": "神崎郡神河町役所",
@@ -63992,7 +64071,8 @@
     "councilSalary": 225000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 3118
+    "councilCostPerCapita": 3118,
+    "votingRate": 73.53
   },
   {
     "name": "揖保郡太子町役所",
@@ -64031,7 +64111,8 @@
     "councilSalary": 271000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 969
+    "councilCostPerCapita": 969,
+    "votingRate": 59.87
   },
   {
     "name": "赤穂郡上郡町役所",
@@ -64070,7 +64151,8 @@
     "councilSalary": 271000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 2337
+    "councilCostPerCapita": 2337,
+    "votingRate": 62.9
   },
   {
     "name": "佐用郡佐用町役所",
@@ -64108,7 +64190,8 @@
     "councilSalary": 270000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 2991
+    "councilCostPerCapita": 2991,
+    "votingRate": 66.89
   },
   {
     "name": "美方郡香美町役所",
@@ -64147,7 +64230,8 @@
     "councilSalary": 214000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2624
+    "councilCostPerCapita": 2624,
+    "votingRate": 65.45
   },
   {
     "name": "美方郡新温泉町役所",
@@ -64186,7 +64270,8 @@
     "councilSalary": 208000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 3050
+    "councilCostPerCapita": 3050,
+    "votingRate": 66.26
   },
   {
     "name": "奈良市役所",
