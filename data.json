@@ -67410,7 +67410,8 @@
     "councilSalary": 584000,
     "expPerCapita": 61.4,
     "councilTeisu": 32,
-    "councilCostPerCapita": 1238
+    "councilCostPerCapita": 1238,
+    "votingRate": 52.36
   },
   {
     "name": "米子市役所",
@@ -67466,7 +67467,8 @@
     "councilSalary": 556000,
     "expPerCapita": 55.4,
     "councilTeisu": 26,
-    "councilCostPerCapita": 1195
+    "councilCostPerCapita": 1195,
+    "votingRate": 51.45
   },
   {
     "name": "倉吉市役所",
@@ -67522,7 +67524,8 @@
     "councilSalary": 500000,
     "expPerCapita": 75.4,
     "councilTeisu": 17,
-    "councilCostPerCapita": 2307
+    "councilCostPerCapita": 2307,
+    "votingRate": 56.78
   },
   {
     "name": "境港市役所",
@@ -67578,7 +67581,8 @@
     "councilSalary": 487800,
     "expPerCapita": 65.1,
     "councilTeisu": 15,
-    "councilCostPerCapita": 2685
+    "councilCostPerCapita": 2685,
+    "votingRate": 55.35
   },
   {
     "name": "岩美郡岩美町役所",
@@ -67616,7 +67620,8 @@
     "councilSalary": 229000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 3024
+    "councilCostPerCapita": 3024,
+    "votingRate": 57.14
   },
   {
     "name": "八頭郡若桜町役所",
@@ -67654,7 +67659,8 @@
     "councilSalary": 220000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 9544
+    "councilCostPerCapita": 9544,
+    "votingRate": 67.65
   },
   {
     "name": "八頭郡智頭町役所",
@@ -67693,7 +67699,8 @@
     "councilSalary": 280000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 6444
+    "councilCostPerCapita": 6444,
+    "votingRate": 72.02
   },
   {
     "name": "八頭郡八頭町役所",
@@ -67732,7 +67739,8 @@
     "councilSalary": 237000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 2528
+    "councilCostPerCapita": 2528,
+    "votingRate": 62.23
   },
   {
     "name": "東伯郡三朝町役所",
@@ -67770,7 +67778,8 @@
     "councilSalary": 238000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 5774
+    "councilCostPerCapita": 5774,
+    "votingRate": 67.68
   },
   {
     "name": "東伯郡湯梨浜町役所",
@@ -67809,7 +67818,8 @@
     "councilSalary": 238000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 2098
+    "councilCostPerCapita": 2098,
+    "votingRate": 57.49
   },
   {
     "name": "東伯郡琴浦町役所",
@@ -67848,7 +67858,8 @@
     "councilSalary": 238000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2827
+    "councilCostPerCapita": 2827,
+    "votingRate": 61.39
   },
   {
     "name": "東伯郡北栄町役所",
@@ -67887,7 +67898,8 @@
     "councilSalary": 238000,
     "expPerCapita": null,
     "councilTeisu": 15,
-    "councilCostPerCapita": 2990
+    "councilCostPerCapita": 2990,
+    "votingRate": 61.8
   },
   {
     "name": "西伯郡日吉津村役所",
@@ -67925,7 +67937,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 7790
+    "councilCostPerCapita": 7790,
+    "votingRate": 68.57
   },
   {
     "name": "西伯郡大山町役所",
@@ -67963,7 +67976,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 16,
-    "councilCostPerCapita": 2998
+    "councilCostPerCapita": 2998,
+    "votingRate": 58.58
   },
   {
     "name": "西伯郡南部町役所",
@@ -68002,7 +68016,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 3843
+    "councilCostPerCapita": 3843,
+    "votingRate": 58.58
   },
   {
     "name": "西伯郡伯耆町役所",
@@ -68040,7 +68055,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 3560
+    "councilCostPerCapita": 3560,
+    "votingRate": 61.21
   },
   {
     "name": "日野郡日南町役所",
@@ -68078,7 +68094,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 7054
+    "councilCostPerCapita": 7054,
+    "votingRate": 68.78
   },
   {
     "name": "日野郡日野町役所",
@@ -68116,7 +68133,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 10284
+    "councilCostPerCapita": 10284,
+    "votingRate": 66.65
   },
   {
     "name": "日野郡江府町役所",
@@ -68155,7 +68173,8 @@
     "councilSalary": 235000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 11190
+    "councilCostPerCapita": 11190,
+    "votingRate": 65.12
   },
   {
     "name": "松江市役所",
