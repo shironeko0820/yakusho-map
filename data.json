@@ -68230,7 +68230,8 @@
     "councilSalary": 584000,
     "expPerCapita": 56.7,
     "councilTeisu": 34,
-    "councilCostPerCapita": 1216
+    "councilCostPerCapita": 1216,
+    "votingRate": 56.86
   },
   {
     "name": "浜田市役所",
@@ -68286,7 +68287,8 @@
     "councilSalary": 450000,
     "expPerCapita": 79,
     "councilTeisu": 22,
-    "councilCostPerCapita": 2391
+    "councilCostPerCapita": 2391,
+    "votingRate": 60.41
   },
   {
     "name": "出雲市役所",
@@ -68342,7 +68344,8 @@
     "councilSalary": 550000,
     "expPerCapita": 55.2,
     "councilTeisu": 30,
-    "councilCostPerCapita": 1147
+    "councilCostPerCapita": 1147,
+    "votingRate": 57.88
   },
   {
     "name": "益田市役所",
@@ -68398,7 +68401,8 @@
     "councilSalary": 389000,
     "expPerCapita": 65.7,
     "councilTeisu": 20,
-    "councilCostPerCapita": 2136
+    "councilCostPerCapita": 2136,
+    "votingRate": 59.71
   },
   {
     "name": "大田市役所",
@@ -68454,7 +68458,8 @@
     "councilSalary": 420000,
     "expPerCapita": 77.7,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2818
+    "councilCostPerCapita": 2818,
+    "votingRate": 59.27
   },
   {
     "name": "安来市役所",
@@ -68510,7 +68515,8 @@
     "councilSalary": 413000,
     "expPerCapita": 74.3,
     "councilTeisu": 18,
-    "councilCostPerCapita": 2488
+    "councilCostPerCapita": 2488,
+    "votingRate": 59.35
   },
   {
     "name": "江津市役所",
@@ -68566,7 +68572,8 @@
     "councilSalary": 353000,
     "expPerCapita": 78.9,
     "councilTeisu": 16,
-    "councilCostPerCapita": 3116
+    "councilCostPerCapita": 3116,
+    "votingRate": 61.14
   },
   {
     "name": "雲南市役所",
@@ -68622,7 +68629,8 @@
     "councilSalary": 434000,
     "expPerCapita": 91.8,
     "councilTeisu": 19,
-    "councilCostPerCapita": 2820
+    "councilCostPerCapita": 2820,
+    "votingRate": 65.61
   },
   {
     "name": "仁多郡奥出雲町役所",
@@ -68661,7 +68669,8 @@
     "councilSalary": 248000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 3149
+    "councilCostPerCapita": 3149,
+    "votingRate": 62.51
   },
   {
     "name": "飯石郡飯南町役所",
@@ -68700,7 +68709,8 @@
     "councilSalary": 205000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 5489
+    "councilCostPerCapita": 5489,
+    "votingRate": 80.95
   },
   {
     "name": "邑智郡川本町役所",
@@ -68738,7 +68748,8 @@
     "councilSalary": 233000,
     "expPerCapita": null,
     "councilTeisu": 9,
-    "councilCostPerCapita": 8294
+    "councilCostPerCapita": 8294,
+    "votingRate": 72.46
   },
   {
     "name": "邑智郡美郷町役所",
@@ -68777,7 +68788,8 @@
     "councilSalary": 204700,
     "expPerCapita": null,
     "councilTeisu": 11,
-    "councilCostPerCapita": 6536
+    "councilCostPerCapita": 6536,
+    "votingRate": 80.55
   },
   {
     "name": "邑智郡邑南町役所",
@@ -68816,7 +68828,8 @@
     "councilSalary": 233000,
     "expPerCapita": null,
     "councilTeisu": 13,
-    "councilCostPerCapita": 3734
+    "councilCostPerCapita": 3734,
+    "votingRate": 70.3
   },
   {
     "name": "鹿足郡津和野町役所",
@@ -68855,7 +68868,8 @@
     "councilSalary": 197000,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 4309
+    "councilCostPerCapita": 4309,
+    "votingRate": 71.42
   },
   {
     "name": "鹿足郡吉賀町役所",
@@ -68894,7 +68908,8 @@
     "councilSalary": 203500,
     "expPerCapita": null,
     "councilTeisu": 12,
-    "councilCostPerCapita": 5126
+    "councilCostPerCapita": 5126,
+    "votingRate": 69.15
   },
   {
     "name": "隠岐郡海士町役所",
@@ -68932,7 +68947,8 @@
     "councilSalary": 171000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 9268
+    "councilCostPerCapita": 9268,
+    "votingRate": 75.8
   },
   {
     "name": "隠岐郡西ノ島町役所",
@@ -68971,7 +68987,8 @@
     "councilSalary": 173000,
     "expPerCapita": null,
     "councilTeisu": 10,
-    "councilCostPerCapita": 8148
+    "councilCostPerCapita": 8148,
+    "votingRate": 65.81
   },
   {
     "name": "隠岐郡知夫村役所",
@@ -69010,7 +69027,8 @@
     "councilSalary": 167000,
     "expPerCapita": null,
     "councilTeisu": 8,
-    "councilCostPerCapita": 27081
+    "councilCostPerCapita": 27081,
+    "votingRate": 77.93
   },
   {
     "name": "隠岐郡隠岐の島町役所",
@@ -69049,7 +69067,8 @@
     "councilSalary": 246000,
     "expPerCapita": null,
     "councilTeisu": 14,
-    "councilCostPerCapita": 3096
+    "councilCostPerCapita": 3096,
+    "votingRate": 57.44
   },
   {
     "name": "岡山市北区役所",
