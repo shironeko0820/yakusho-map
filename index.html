@@ -973,6 +973,15 @@ function openInfo(marker, o) {
       t2.push(iwRow('👥', '人口', `<strong>${pop}</strong><br><span class="iw-sub">2024年1月現在</span>`));
     }
   }
+  if (o.netMigration != null && o.population > 0) {
+    const nmRate = o.netMigration / o.population * 1000;
+    const nmSign = o.netMigration >= 0 ? '+' : '';
+    const nmRateSign = nmRate >= 0 ? '+' : '';
+    const nmColor = nmRate >= 5 ? '#1a73e8' : nmRate >= 0 ? '#34a853' : nmRate >= -5 ? '#e37400' : '#c5221f';
+    const nmLabel = nmRate >= 5 ? '▲転入超過' : nmRate >= 0 ? '▲やや転入超過' : nmRate >= -5 ? '▼やや転出超過' : '▼転出超過';
+    const nmBadge = `<span style="font-size:10px;color:${nmColor};margin-left:4px">${nmLabel}</span>`;
+    t2.push(iwRow('🏘️', '転入<br>超過数', `<strong style="color:${nmColor}">${nmSign}${o.netMigration.toLocaleString()}人 / ${nmRateSign}${nmRate.toFixed(1)}‰</strong>${nmBadge}<br><span class="iw-sub">全国中央値 −3.0‰（2024年 総務省）</span>`));
+  }
   if (o.tfr != null) {
     const NAT_TFR = 1.33;
     const ratio = o.tfr / NAT_TFR;
