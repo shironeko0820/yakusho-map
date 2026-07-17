@@ -1012,6 +1012,10 @@ function openInfo(marker, o) {
     const vrBadge = `<span style="font-size:10px;color:${vrColor};margin-left:4px">${vrLabel}</span>`;
     t2.push(iwRow('🗳️', '投票率', `<strong style="color:${vrColor}">${o.votingRate.toFixed(1)}%</strong>${vrBadge}<br><span class="iw-sub">参院選2025（令和7年7月） / 全国平均 ${NAT_VR}%</span>`));
   }
+  if (o.waterRate != null) {
+    const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
+    t2.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
+  }
 
   // ── Tab 3: 行政詳細 ──────────────────────────────────────
   const t3 = [];
@@ -1034,10 +1038,6 @@ function openInfo(marker, o) {
     if (isSeirei) cpNote += '<br>※市全体の人口で算出（政令市は市議会のため）';
     if (isSmall)  cpNote += '<br>※人口が少ないため高い値になります';
     t3.push(iwRow('💰', '議員コスト', `<strong style="color:${cpc}">${cp.toLocaleString()}円/人/年</strong><br><span class="iw-sub">${cpNote}</span>`));
-  }
-  if (o.waterRate != null) {
-    const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
-    t3.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
   if (o.realDebtRatio != null) {
     const v = o.realDebtRatio;
