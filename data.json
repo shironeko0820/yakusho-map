@@ -32930,7 +32930,9 @@
     "councilTeisu": 28,
     "councilCostPerCapita": 901,
     "votingRate": 64.3,
-    "netMigration": 1002
+    "netMigration": 1002,
+    "wastePerCapita": 673.5,
+    "recyclingRate": 40
   },
   {
     "name": "町田市役所",

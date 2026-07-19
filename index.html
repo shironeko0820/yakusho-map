@@ -1016,6 +1016,18 @@ function openInfo(marker, o) {
     const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
     t2.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
+  if (o.wastePerCapita != null) {
+    const wp = o.wastePerCapita;
+    const wpc = wp <= 700 ? '#1565C0' : wp <= 800 ? '#1a73e8' : wp <= 900 ? '#e37400' : '#c5221f';
+    const wpL = wp <= 700 ? '優良' : wp <= 800 ? '良好' : wp <= 900 ? '平均前後' : '多い';
+    t2.push(iwRow('🗑️', 'ごみ排出量<br>（1人1日）', `<strong style="color:${wpc}">${wp.toFixed(0)}g（${wpL}）</strong><br><span class="iw-sub">全国平均 880g（令和5年度 環境省）</span>`));
+  }
+  if (o.recyclingRate != null) {
+    const rr = o.recyclingRate;
+    const rrc = rr >= 30 ? '#1565C0' : rr >= 20 ? '#1a73e8' : rr >= 10 ? '#e37400' : '#c5221f';
+    const rrL = rr >= 30 ? '高い' : rr >= 20 ? '全国平均程度' : rr >= 10 ? 'やや低い' : '低い';
+    t2.push(iwRow('♻️', 'リサイクル率', `<strong style="color:${rrc}">${rr.toFixed(1)}%（${rrL}）</strong><br><span class="iw-sub">全国平均 20%（令和5年度 環境省）</span>`));
+  }
 
   // ── Tab 3: 首長・議会 ─────────────────────────────────────
   const t3 = [];
