@@ -957,7 +957,7 @@ function openInfo(marker, o) {
     t1.push(iwRow('🏡', 'ふるさと納税', iwFurusato(o.furusatoRecv, o.furusatoDeduct)));
   }
 
-  // ── Tab 2: 社会指標 ──────────────────────────────────────
+  // ── Tab 2: 人口 ──────────────────────────────────────────
   const t2 = [];
   if (o.population != null && o.population > 0) {
     const pop = o.population >= 10000
@@ -980,7 +980,7 @@ function openInfo(marker, o) {
     const nmColor = nmRate >= 5 ? '#1a73e8' : nmRate >= 0 ? '#34a853' : nmRate >= -5 ? '#e37400' : '#c5221f';
     const nmLabel = nmRate >= 5 ? '▲転入超過' : nmRate >= 0 ? '▲やや転入超過' : nmRate >= -5 ? '▼やや転出超過' : '▼転出超過';
     const nmBadge = `<span style="font-size:10px;color:${nmColor};margin-left:4px">${nmLabel}</span>`;
-    t2.push(iwRow('🏘️', '転入<br>超過数', `<strong style="color:${nmColor}">${nmSign}${o.netMigration.toLocaleString()}人 / ${nmRateSign}${nmRate.toFixed(1)}‰</strong>${nmBadge}<br><span class="iw-sub">全国中央値 −3.0‰（2024年 総務省）</span>`));
+    t2.push(iwRow('🏘️', '転入<br>超過数', `<strong style="color:${nmColor}">${nmSign}${o.netMigration.toLocaleString()}人 / ${nmRateSign}${nmRate.toFixed(1)}‰</strong>${nmBadge}<br><span class="iw-sub">全国中央値 −3.0‰（2024年）</span>`));
   }
   if (o.tfr != null) {
     const NAT_TFR = 1.33;
@@ -988,58 +988,69 @@ function openInfo(marker, o) {
     const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
     const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
     const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
-    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">2018〜2022年平均 / 全国 ${NAT_TFR}</span>`));
+    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">全国平均 ${NAT_TFR}（2018-22年）</span>`));
   }
   if (o.agingRate != null) {
     const NAT_AGE = 29.1;
     const ageColor = o.agingRate >= 40 ? '#c5221f' : o.agingRate >= 33 ? '#e37400' : o.agingRate >= 25 ? '#5f6368' : o.agingRate >= 20 ? '#1a73e8' : '#0d47a1';
     const ageLabel = o.agingRate >= 40 ? '▲かなり高い' : o.agingRate >= 33 ? '▲やや高い' : o.agingRate >= 25 ? '≒全国平均' : o.agingRate >= 20 ? '▼低い' : '▼かなり低い';
     const ageBadge = `<span style="font-size:10px;color:${ageColor};margin-left:4px">${ageLabel}</span>`;
-    t2.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">2024年1月 / 全国 ${NAT_AGE}%</span>`));
+    t2.push(iwRow('🧓', '高齢化率', `<strong>${o.agingRate.toFixed(1)}%</strong>${ageBadge}<br><span class="iw-sub">全国平均 ${NAT_AGE}%（2024年1月）</span>`));
   }
+
+  // ── Tab 3: 生活 ──────────────────────────────────────────
+  const t3 = [];
   if (o.incomePerCapita != null) {
     const NAT_INC = 393;
     const incRatio = o.incomePerCapita / NAT_INC * 100;
     const incColor = incRatio >= 120 ? '#1a73e8' : incRatio >= 110 ? '#185fa5' : incRatio <= 80 ? '#c5221f' : incRatio <= 90 ? '#e37400' : '#5f6368';
     const incLabel = incRatio >= 120 ? '▲かなり高い' : incRatio >= 110 ? '▲高い' : incRatio <= 80 ? '▼低い' : incRatio <= 90 ? '▼やや低い' : '≒全国平均';
     const incBadge = `<span style="font-size:10px;color:${incColor};margin-left:4px">${incLabel}</span>`;
-    t2.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">2024年度 / 全国平均 ${NAT_INC}万円（${Math.round(incRatio)}%）</span>`));
+    t3.push(iwRow('💴', '一人当たり<br>課税所得', `<strong>${o.incomePerCapita.toLocaleString()}万円</strong>${incBadge}<br><span class="iw-sub">全国平均 ${NAT_INC}万円（2024年度）</span>`));
   }
   if (o.votingRate != null) {
     const NAT_VR = 58.5;
     const vrColor = o.votingRate >= 65 ? '#1a73e8' : o.votingRate >= 60 ? '#5f6368' : o.votingRate >= 55 ? '#e37400' : '#c5221f';
     const vrLabel = o.votingRate >= 65 ? '▲高い' : o.votingRate >= 60 ? '≒全国平均' : o.votingRate >= 55 ? '▼やや低い' : '▼低い';
     const vrBadge = `<span style="font-size:10px;color:${vrColor};margin-left:4px">${vrLabel}</span>`;
-    t2.push(iwRow('🗳️', '投票率', `<strong style="color:${vrColor}">${o.votingRate.toFixed(1)}%</strong>${vrBadge}<br><span class="iw-sub">参院選2025（令和7年7月） / 全国平均 ${NAT_VR}%</span>`));
+    t3.push(iwRow('🗳️', '投票率', `<strong style="color:${vrColor}">${o.votingRate.toFixed(1)}%</strong>${vrBadge}<br><span class="iw-sub">参院選2025 全国平均 ${NAT_VR}%</span>`));
   }
   if (o.waterRate != null) {
     const wc = o.waterRate <= 2000 ? '#1565C0' : o.waterRate <= 2800 ? '#1a73e8' : o.waterRate <= 3400 ? '#e37400' : o.waterRate <= 4200 ? '#c5221f' : '#8B0000';
-    t2.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
+    t3.push(iwRow('🚰', '水道料金<br>（月20m³）', `<strong style="color:${wc}">${o.waterRate.toLocaleString()}円</strong><br><span class="iw-sub">全国平均 約3,200円</span>`));
   }
-  if (o.wastePerCapita != null) {
-    const wp = o.wastePerCapita;
-    const wpc = wp <= 700 ? '#1565C0' : wp <= 800 ? '#1a73e8' : wp <= 900 ? '#e37400' : '#c5221f';
-    const wpL = wp <= 700 ? '優良' : wp <= 800 ? '良好' : wp <= 900 ? '平均前後' : '多い';
-    t2.push(iwRow('🗑️', 'ごみ排出量<br>（1人1日）', `<strong style="color:${wpc}">${wp.toFixed(0)}g（${wpL}）</strong><br><span class="iw-sub">全国平均 880g（令和5年度 環境省）</span>`));
-  }
-  if (o.recyclingRate != null) {
-    const rr = o.recyclingRate;
-    const rrc = rr >= 30 ? '#1565C0' : rr >= 20 ? '#1a73e8' : rr >= 10 ? '#e37400' : '#c5221f';
-    const rrL = rr >= 30 ? '高い' : rr >= 20 ? '全国平均程度' : rr >= 10 ? 'やや低い' : '低い';
-    t2.push(iwRow('♻️', 'リサイクル率', `<strong style="color:${rrc}">${rr.toFixed(1)}%（${rrL}）</strong><br><span class="iw-sub">全国平均 20%（令和5年度 環境省）</span>`));
+  if (o.wastePerCapita != null || o.recyclingRate != null) {
+    let wasteVal = '', recycleVal = '';
+    if (o.wastePerCapita != null) {
+      const wp = o.wastePerCapita;
+      const wpc = wp <= 700 ? '#1565C0' : wp <= 800 ? '#1a73e8' : wp <= 900 ? '#e37400' : '#c5221f';
+      const wpL = wp <= 700 ? '優良' : wp <= 800 ? '良好' : wp <= 900 ? '平均前後' : '多い';
+      wasteVal = `<strong style="color:${wpc}">${wp.toFixed(0)}g</strong><span style="font-size:10px;color:${wpc};margin-left:2px">${wpL}</span>`;
+    }
+    if (o.recyclingRate != null) {
+      const rr = o.recyclingRate;
+      const rrc = rr >= 30 ? '#1565C0' : rr >= 20 ? '#1a73e8' : rr >= 10 ? '#e37400' : '#c5221f';
+      const rrL = rr >= 30 ? '高' : rr >= 20 ? '普通' : rr >= 10 ? 'やや低' : '低';
+      recycleVal = `<strong style="color:${rrc}">${rr.toFixed(1)}%</strong><span style="font-size:10px;color:${rrc};margin-left:2px">${rrL}</span>`;
+    }
+    const combined = [wasteVal, recycleVal].filter(Boolean).join(' ／ ♻️ ');
+    const subs = [];
+    if (o.wastePerCapita != null) subs.push('ごみ880g');
+    if (o.recyclingRate != null) subs.push('リサイクル20%');
+    t3.push(iwRow('🗑️', 'ごみ(1人1日)<br>リサイクル率', `${combined}<br><span class="iw-sub">全国平均: ${subs.join('・')}（R5環境省）</span>`));
   }
 
-  // ── Tab 3: 首長・議会 ─────────────────────────────────────
-  const t3 = [];
+  // ── Tab 4: 首長・議会 ─────────────────────────────────────
+  const t4 = [];
   if (o.mayorSalary != null) {
     const m = o.mayorSalary;
     const mc = m < 600000 ? '#1565C0' : m < 750000 ? '#1a73e8' : m < 870000 ? '#639922' : m < 1000000 ? '#e37400' : '#c5221f';
-    t3.push(iwRow('💼', '首長報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約79万円/月（2023年度 総務省調査）</span>`));
+    t4.push(iwRow('💼', '首長報酬', `<strong style="color:${mc}">${(m/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約79万円/月（2023年度 総務省調査）</span>`));
   }
   if (o.councilSalary != null) {
     const cs = o.councilSalary;
     const cc = cs < 200000 ? '#1565C0' : cs < 300000 ? '#1a73e8' : cs < 450000 ? '#188038' : cs < 650000 ? '#e37400' : '#c5221f';
-    t3.push(iwRow('🗳️', '議員報酬', `<strong style="color:${cc}">${(cs/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約29万円/月（市議会2024年12月・町村議会2025年7月調査）</span>`));
+    t4.push(iwRow('🗳️', '議員報酬', `<strong style="color:${cc}">${(cs/10000).toFixed(1)}万円/月</strong><br><span class="iw-sub">全国中央値 約29万円/月（市議会2024年12月・町村議会2025年7月調査）</span>`));
   }
   if (o.councilCostPerCapita != null) {
     const cp = o.councilCostPerCapita;
@@ -1049,30 +1060,30 @@ function openInfo(marker, o) {
     let cpNote = `定数${o.councilTeisu}人　全国中央値 約2,300円/人/年（2024〜2025年調査）`;
     if (isSeirei) cpNote += '<br>※市全体の人口で算出（政令市は市議会のため）';
     if (isSmall)  cpNote += '<br>※人口が少ないため高い値になります';
-    t3.push(iwRow('💰', '議員コスト', `<strong style="color:${cpc}">${cp.toLocaleString()}円/人/年</strong><br><span class="iw-sub">${cpNote}</span>`));
+    t4.push(iwRow('💰', '議員コスト', `<strong style="color:${cpc}">${cp.toLocaleString()}円/人/年</strong><br><span class="iw-sub">${cpNote}</span>`));
   }
   if (o.laspeyres != null) {
     const v = o.laspeyres;
     const c = v < 90 ? '#1a73e8' : v < 100 ? '#188038' : v < 102 ? '#e37400' : '#c5221f';
     const l = v < 90 ? '低' : v < 100 ? '標準' : v < 102 ? 'やや高' : '高';
-    t3.push(iwRow('👔', 'ラスパイレス指数', `<strong style="color:${c}">${v.toFixed(1)}（${l}）</strong><br><span class="iw-sub">全国平均 96.9　100=国家公務員水準</span>`));
-  } else { t3.push(iwRowNa('👔', 'ラスパイレス指数')); }
+    t4.push(iwRow('👔', 'ラスパイレス指数', `<strong style="color:${c}">${v.toFixed(1)}（${l}）</strong><br><span class="iw-sub">全国平均 96.9　100=国家公務員水準</span>`));
+  } else { t4.push(iwRowNa('👔', 'ラスパイレス指数')); }
 
-  // ── Tab 4: 財政詳細 ──────────────────────────────────────
-  const t4 = [];
+  // ── Tab 5: 財政詳細 ──────────────────────────────────────
+  const t5 = [];
   if (o.realDebtRatio != null) {
     const v = o.realDebtRatio;
     const c = v < 10 ? '#1a73e8' : v < 18 ? '#188038' : v < 25 ? '#e37400' : '#c5221f';
     const l = v < 10 ? '健全' : v < 18 ? '普通' : v < 25 ? '注意' : '危険';
-    t4.push(iwRow('💳', '実質公債費比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒25%</span>`));
-  } else { t4.push(iwRowNa('💳', '実質公債費比率')); }
+    t5.push(iwRow('💳', '実質公債費比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒25%</span>`));
+  } else { t5.push(iwRowNa('💳', '実質公債費比率')); }
   if (o.futBurdenRatio != null) {
     const v = o.futBurdenRatio;
     const c = v < 100 ? '#1a73e8' : v < 200 ? '#188038' : v < 350 ? '#e37400' : '#c5221f';
     const l = v < 100 ? '良好' : v < 200 ? '普通' : v < 350 ? '注意' : '危険';
-    t4.push(iwRow('📉', '将来負担比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒350%</span>`));
+    t5.push(iwRow('📉', '将来負担比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒350%</span>`));
   } else {
-    t4.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
+    t5.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（基準未満）</span>`));
   }
   if (o.finAdj != null && o.stdFin != null) {
     const amt      = (o.finAdj / 100000).toFixed(1);
@@ -1080,17 +1091,17 @@ function openInfo(marker, o) {
     const ratio    = ratioNum.toFixed(2);
     const rColor   = ratioNum >= 20 ? '#1a73e8' : ratioNum >= 10 ? '#188038' : ratioNum >= 5 ? '#e37400' : '#c5221f';
     const yrLabel  = o.finAdjYr ? ` ${o.finAdjYr}年度決算` : '';
-    t4.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
+    t5.push(iwRow('🏦', '財政調整基金', `<strong>${amt}億円</strong><br><span class="iw-sub"><span style="color:${rColor}">規模比 ${ratio}%</span>${yrLabel}</span>`));
   }
   if (o.expTop3 && o.expTop3.length) {
-    t4.push(iwExpTop3(o.expTop3));
+    t5.push(iwExpTop3(o.expTop3));
   }
 
   const distBadge = (o.dist != null)
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 2 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   infoWindow.setContent(`
@@ -1102,9 +1113,10 @@ function openInfo(marker, o) {
       <div class="iw-tabs">
         <button class="iw-tab-btn${tabAct(0)}" onclick="iwSwitchTab(0)">財政力</button>
         <button class="iw-tab-btn${tabAct(1)}" onclick="iwSwitchTab(1)">お金の流れ</button>
-        <button class="iw-tab-btn${tabAct(2)}" onclick="iwSwitchTab(2)">社会指標</button>
-        <button class="iw-tab-btn${tabAct(3)}" onclick="iwSwitchTab(3)">首長・議会</button>
-        <button class="iw-tab-btn${tabAct(4)}" onclick="iwSwitchTab(4)">財政詳細</button>
+        <button class="iw-tab-btn${tabAct(2)}" onclick="iwSwitchTab(2)">人口</button>
+        <button class="iw-tab-btn${tabAct(3)}" onclick="iwSwitchTab(3)">生活</button>
+        <button class="iw-tab-btn${tabAct(4)}" onclick="iwSwitchTab(4)">首長・議会</button>
+        <button class="iw-tab-btn${tabAct(5)}" onclick="iwSwitchTab(5)">財政詳細</button>
       </div>
       <div class="iw-tab-wrapper">
         <div class="iw-tab-content${tabAct(0)}">${t0.join('')}</div>
@@ -1112,6 +1124,7 @@ function openInfo(marker, o) {
         <div class="iw-tab-content${tabAct(2)}">${t2.join('')}</div>
         <div class="iw-tab-content${tabAct(3)}">${t3.join('')}</div>
         <div class="iw-tab-content${tabAct(4)}">${t4.join('')}</div>
+        <div class="iw-tab-content${tabAct(5)}">${t5.join('')}</div>
       </div>
       <div class="iw-footer" style="grid-template-columns:${o.url ? '1fr 1fr' : '1fr'}">
         <button class="btn-fiscal"
