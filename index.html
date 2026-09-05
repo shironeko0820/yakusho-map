@@ -197,15 +197,63 @@
       border-bottom: 1px solid #ffc107;
     }
 
-    /* Info window */
-    .gm-style .gm-style-iw-c {
-      border-radius: 8px !important;
-      padding: 0 !important;
-      max-width: 300px !important;
+    /* ── Leaflet core CSS ─────────────────────────────────── */
+    .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
+    .leaflet-container{overflow:hidden}
+    .leaflet-tile,img.leaflet-marker-icon,img.leaflet-marker-shadow{-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+    .leaflet-tile{position:absolute;left:0;top:0;filter:inherit;visibility:hidden}
+    .leaflet-tile-loaded{visibility:inherit}
+    .leaflet-zoom-box{width:0;height:0;box-sizing:border-box;z-index:800}
+    .leaflet-marker-icon,.leaflet-marker-shadow{display:block}
+    .leaflet-container img{max-width:none!important;max-height:none!important}
+    .leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}
+    .leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+    .leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}
+    .leaflet-control{position:relative;z-index:800;pointer-events:auto;float:left;clear:both}
+    .leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}
+    .leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}
+    .leaflet-right .leaflet-control{float:right}
+    .leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}
+    .leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}
+    .leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}
+    .leaflet-zoom-animated{transform-origin:0 0}
+    svg.leaflet-zoom-animated{will-change:transform}
+    .leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}
+    .leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:grabbing}
+    .leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}
+    .leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive{pointer-events:auto}
+    .leaflet-container{background:#e8e0d8;outline-offset:1px;font-family:sans-serif;font-size:12px}
+    .leaflet-container a{color:#0078A8}
+    .leaflet-bar{box-shadow:0 1px 5px rgba(0,0,0,.4);border-radius:4px}
+    .leaflet-bar a,.leaflet-bar a:hover{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#000;box-sizing:border-box}
+    .leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}
+    .leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}
+    .leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px monospace}
+    .leaflet-control-attribution{background:rgba(255,255,255,.8);margin:0;font-size:10px;padding:2px 6px}
+    .leaflet-control-attribution a{text-decoration:none;color:#0078A8}
+    /* ── Leaflet.markercluster CSS ───────────────────────── */
+    .leaflet-cluster-anim .leaflet-marker-icon,.leaflet-cluster-anim .leaflet-marker-shadow{transition:transform .3s ease-out,opacity .3s ease-in}
+    .marker-cluster-small{background-color:rgba(181,226,140,.6)}.marker-cluster-small div{background-color:rgba(110,204,57,.6)}
+    .marker-cluster-medium{background-color:rgba(241,211,87,.6)}.marker-cluster-medium div{background-color:rgba(240,194,12,.6)}
+    .marker-cluster-large{background-color:rgba(253,156,115,.6)}.marker-cluster-large div{background-color:rgba(241,128,23,.6)}
+    .marker-cluster{background-clip:padding-box;border-radius:20px}
+    .marker-cluster div{width:30px;height:30px;margin-left:5px;margin-top:5px;text-align:center;border-radius:15px;font:bold 12px "Helvetica Neue",Arial,Helvetica,sans-serif}
+    .marker-cluster span{line-height:30px}
+    /* ── InfoWindow スライドパネル ──────────────────────────── */
+    #iwPanel {
+      position: fixed;
+      top: 0;
+      right: -310px;
+      width: 300px;
+      height: 100vh;
+      background: white;
+      box-shadow: -3px 0 14px rgba(0,0,0,.18);
+      border-radius: 8px 0 0 8px;
+      transition: right .28s ease;
+      z-index: 600;
+      overflow-y: auto;
     }
-
-    .gm-style .gm-style-iw-d { overflow: visible !important; max-height: none !important; }
-    .gm-style .gm-style-iw { max-height: none !important; overflow: visible !important; }
+    #iwPanel.open { right: 0; }
 
     .info-window { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; width: 290px; }
 
@@ -492,6 +540,9 @@
   </div>
 </div>
 
+<!-- InfoWindow スライドパネル（右スライドイン） -->
+<div id="iwPanel"></div>
+
 <!-- 財政フローパネル（左スライドイン） -->
 <div id="fiscalPanel">
   <div class="fp-header">
@@ -632,7 +683,7 @@ const DATA_URL = './data.json'; // 静的JSONから読み込み（Vercel CDN配�
 /* =========================================================
    グローバル変数
    ========================================================= */
-let map, clusterer, infoWindow;
+let map, clusterer;
 let allOffices = [];
 let myLocationMarker = null;
 let colorMode = 'none';
@@ -644,20 +695,15 @@ let currentMarkers = [];
 const ZOOM_VIEWPORT = 9; // このズーム以上でビューポート絞り込みを適用
 
 /* =========================================================
-   Google Maps 初期化
+   Leaflet 初期化
    ========================================================= */
 async function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 36.5, lng: 137.5 },
-    zoom: 5,
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true,
-    styles: [
-      { featureType: "poi.business", stylers: [{ visibility: "off" }] }
-    ]
-  });
-  infoWindow = new google.maps.InfoWindow();
+  map = L.map('map', { zoomControl: false }).setView([36.5, 137.5], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+  L.control.zoom({ position: 'topright' }).addTo(map);
 
   setProgress(10, 'データを読み込み中...');
 
@@ -672,12 +718,13 @@ async function initMap() {
     setProgress(90, 'マーカーを配置中...');
     buildPrefSelect(allOffices);
     renderMarkers(allOffices);
-    infoWindow.addListener('closeclick', () => { _infoOpen = false; });
-    map.addListener('idle', () => {
+    const _onMapIdle = () => {
       if (_infoOpen) return;
       if (_idleTimer) clearTimeout(_idleTimer);
       _idleTimer = setTimeout(_applyViewport, 200);
-    });
+    };
+    map.on('moveend', _onMapIdle);
+    map.on('zoomend', _onMapIdle);
     setProgress(100, '完了');
     setTimeout(() => {
       document.getElementById('loading').classList.add('hidden');
@@ -724,32 +771,34 @@ function _buildMarkerSvg(color) {
 
 function _buildIcon(office) {
   const color = colorMode === 'none' ? '#1a73e8' : getMarkerColor(office);
-  return {
-    url: _buildMarkerSvg(color),
-    scaledSize: new google.maps.Size(28, 36),
-    anchor: new google.maps.Point(14, 36),
-  };
+  return L.icon({
+    iconUrl: _buildMarkerSvg(color),
+    iconSize: [28, 36],
+    iconAnchor: [14, 36],
+  });
 }
 
 function _flushMarkers(offices) {
-  if (clusterer) { clusterer.clearMarkers(); }
+  if (clusterer) { map.removeLayer(clusterer); }
   const markers = offices.map(office => {
-    const marker = new google.maps.Marker({
-      position: { lat: office.lat, lng: office.lng },
-      title: office.name,
+    const marker = L.marker([office.lat, office.lng], {
       icon: _buildIcon(office),
+      title: office.name,
     });
-    marker.addListener('click', () => openInfo(marker, office));
+    marker.on('click', () => openInfo(marker, office));
     return marker;
   });
   currentMarkers = markers.map((marker, i) => ({ marker, office: offices[i] }));
-  clusterer = new markerClusterer.MarkerClusterer({ map, markers });
+  clusterer = L.markerClusterGroup({ chunkedLoading: true, showCoverageOnHover: false });
+  clusterer.addLayers(markers);
+  map.addLayer(clusterer);
 }
 
 function _refreshIcons() {
   currentMarkers.forEach(({ marker, office }) => {
     marker.setIcon(_buildIcon(office));
   });
+  if (clusterer) clusterer.refreshClusters();
 }
 
 function _applyViewport() {
@@ -762,11 +811,11 @@ function _applyViewport() {
     } else {
       const ne = bounds.getNorthEast();
       const sw = bounds.getSouthWest();
-      const latPad = (ne.lat() - sw.lat()) * 0.3;
-      const lngPad = (ne.lng() - sw.lng()) * 0.3;
+      const latPad = (ne.lat - sw.lat) * 0.3;
+      const lngPad = (ne.lng - sw.lng) * 0.3;
       offices = currentOffices.filter(o =>
-        o.lat >= sw.lat() - latPad && o.lat <= ne.lat() + latPad &&
-        o.lng >= sw.lng() - lngPad && o.lng <= ne.lng() + lngPad
+        o.lat >= sw.lat - latPad && o.lat <= ne.lat + latPad &&
+        o.lng >= sw.lng - lngPad && o.lng <= ne.lng + lngPad
       );
     }
   } else {
@@ -1104,11 +1153,13 @@ function openInfo(marker, o) {
   const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
-  infoWindow.setContent(`
+  const panel = document.getElementById('iwPanel');
+  panel.innerHTML = `
     <div class="info-window">
-      <div class="iw-header">
+      <div class="iw-header" style="position:relative">
         <h3>${o.name}${distBadge}</h3>
         ${o.pref ? `<div class="pref">${o.pref}</div>` : ''}
+        <button onclick="closeIwPanel()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:20px;line-height:1;padding:0">×</button>
       </div>
       <div class="iw-tabs">
         <button class="iw-tab-btn${tabAct(0)}" onclick="iwSwitchTab(0)">財政力</button>
@@ -1131,8 +1182,13 @@ function openInfo(marker, o) {
            onclick="openFiscal('${o.name.replace(/'/g,"\\'")}','${(o.pref||'').replace(/'/g,"\\'")}')">📊 財政</button>
         ${o.url ? `<a class="btn-website" href="${o.url}" target="_blank" rel="noopener noreferrer">🌐 公式HP</a>` : ''}
       </div>
-    </div>`);
-  infoWindow.open(map, marker);
+    </div>`;
+  panel.classList.add('open');
+}
+
+function closeIwPanel() {
+  document.getElementById('iwPanel').classList.remove('open');
+  _infoOpen = false;
 }
 
 /* =========================================================
@@ -1187,18 +1243,14 @@ function search() {
   });
 
   renderMarkers(result);
-  infoWindow.close();
+  closeIwPanel();
 
   if (result.length === 1) {
-    map.setCenter({ lat: result[0].lat, lng: result[0].lng });
-    map.setZoom(15);
+    map.setView([result[0].lat, result[0].lng], 15);
   } else if (result.length > 1 && pref) {
     const lats = result.map(o => o.lat);
     const lngs = result.map(o => o.lng);
-    map.fitBounds(new google.maps.LatLngBounds(
-      { lat: Math.min(...lats), lng: Math.min(...lngs) },
-      { lat: Math.max(...lats), lng: Math.max(...lngs) }
-    ));
+    map.fitBounds([[Math.min(...lats), Math.min(...lngs)], [Math.max(...lats), Math.max(...lngs)]]);
   }
 }
 
@@ -1207,15 +1259,14 @@ function resetMap() {
   document.getElementById('searchInput').value = '';
   // 現在地マーカーを削除
   if (myLocationMarker) {
-    myLocationMarker.setMap(null);
+    map.removeLayer(myLocationMarker);
     myLocationMarker = null;
   }
   // distプロパティをクリア
   allOffices.forEach(o => delete o.dist);
   renderMarkers(allOffices);
-  map.setCenter({ lat: 36.5, lng: 137.5 });
-  map.setZoom(5);
-  infoWindow.close();
+  map.setView([36.5, 137.5], 5);
+  closeIwPanel();
 }
 
 document.getElementById('searchInput').addEventListener('keydown', e => {
@@ -1235,7 +1286,7 @@ function locateMe() {
 
   btn.disabled = true;
   btn.textContent = '📍 取得中...';
-  infoWindow.close();
+  closeIwPanel();
 
   navigator.geolocation.getCurrentPosition(
     pos => {
@@ -1243,21 +1294,14 @@ function locateMe() {
       const lng = pos.coords.longitude;
 
       // 現在地マーカーを配置
-      if (myLocationMarker) myLocationMarker.setMap(null);
-      myLocationMarker = new google.maps.Marker({
-        position: { lat, lng },
-        map,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 11,
-          fillColor: '#4285F4',
-          fillOpacity: 1,
-          strokeColor: '#ffffff',
-          strokeWeight: 3,
-        },
-        title: '現在地',
-        zIndex: 999,
-      });
+      if (myLocationMarker) map.removeLayer(myLocationMarker);
+      myLocationMarker = L.circleMarker([lat, lng], {
+        radius: 11,
+        color: '#ffffff',
+        weight: 3,
+        fillColor: '#4285F4',
+        fillOpacity: 1,
+      }).addTo(map);
 
       // 全役所の距離を計算・近い順TOP10
       const TOP_N = 10;
@@ -1269,15 +1313,13 @@ function locateMe() {
       renderMarkers(sorted, true);
 
       // 現在地 + TOP10が収まるようにfitBounds
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend({ lat, lng });
-      sorted.forEach(o => bounds.extend({ lat: o.lat, lng: o.lng }));
-      map.fitBounds(bounds, { top: 60, right: 20, bottom: 20, left: 20 });
+      const bounds = L.latLngBounds([[lat, lng]]);
+      sorted.forEach(o => bounds.extend([o.lat, o.lng]));
+      map.fitBounds(bounds, { paddingTopLeft: [20, 60], paddingBottomRight: [20, 20] });
 
-      // 最寄りの役所のInfoWindowを自動表示
+      // 最寄りの役所のパネルを自動表示
       const nearest = sorted[0];
-      const nearestMarker = clusterer.markers[0];
-      if (nearestMarker) openInfo(nearestMarker, nearest);
+      if (currentMarkers.length > 0) openInfo(currentMarkers[0].marker, nearest);
 
       btn.disabled = false;
       btn.textContent = '📍 現在地';
@@ -1661,7 +1703,7 @@ function renderRanking() {
 function jumpToOffice(name) {
   const o = allOffices.find(x => x.name === name);
   if (!o) return;
-  map.panTo({ lat: o.lat, lng: o.lng });
+  map.panTo([o.lat, o.lng]);
   map.setZoom(15);
   closeRanking();
 }
@@ -1675,10 +1717,9 @@ function setProgress(pct, msg) {
 }
 </script>
 
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4myQ-yye_b-uoEQEk_Bntf3nS_00YSWc&callback=initMap&language=ja"
-  async defer>
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script>window.addEventListener('load', initMap);</script>
 
 <!-- Service Worker 登録 -->
 <script>
