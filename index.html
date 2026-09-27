@@ -596,6 +596,7 @@
     <option value="fiscalStrength">財政力指数で色分け</option>
     <option value="furusatoNet">ふるさと納税 純収支で色分け</option>
     <option value="waterRate">水道料金で色分け</option>
+    <option value="mynumberRate">マイナンバーカード交付率で色分け</option>
   </select>
   <div class="cc-legend" id="ccLegend">
     <div class="cc-bar">
@@ -862,6 +863,15 @@ function getMarkerColor(office) {
     if (v <= 4200) return '#E24B4A';
     return '#A32D2D';
   }
+  if (colorMode === 'mynumberRate') {
+    const v = office.mynumberRate;
+    if (v == null) return '#888780';
+    if (v >= 90) return '#3B6D11';
+    if (v >= 85) return '#639922';
+    if (v >= 80) return '#EF9F27';
+    if (v >= 75) return '#E24B4A';
+    return '#A32D2D';
+  }
   return '#1a73e8';
 }
 
@@ -876,9 +886,11 @@ function setColorMode(mode) {
       ? ['0.2以下', '0.5', '1.0以上']
       : mode === 'waterRate'
       ? ['〜2,000円', '3,400円', '4,200円〜']
+      : mode === 'mynumberRate'
+      ? ['〜75%', '80%', '90%〜']
       : ['流出', '均衡', '受益'];
-    const barColors = mode === 'waterRate'
-      ? ['#1565C0', '#1a73e8', '#EF9F27', '#E24B4A', '#A32D2D']
+    const barColors = (mode === 'waterRate' || mode === 'mynumberRate')
+      ? ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11']
       : ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11'];
     legend.querySelectorAll('.cc-bar div').forEach((d, i) => { d.style.background = barColors[i]; });
     document.getElementById('ccL1').textContent = l1;
@@ -1088,6 +1100,13 @@ function openInfo(marker, o) {
     if (o.recyclingRate != null) subs.push('リサイクル20%');
     t3.push(iwRow('🗑️', 'ごみ(1人1日)<br>リサイクル率', `${combined}<br><span class="iw-sub">全国平均: ${subs.join('・')}（R5環境省）</span>`));
   }
+  if (o.mynumberRate != null) {
+    const NAT_MN = 84.3;
+    const mnc = o.mynumberRate >= 90 ? '#3B6D11' : o.mynumberRate >= 85 ? '#639922' : o.mynumberRate >= 80 ? '#e37400' : '#c5221f';
+    const mnL = o.mynumberRate >= 90 ? '▲高い' : o.mynumberRate >= 85 ? '≒全国平均' : o.mynumberRate >= 80 ? '▼やや低い' : '▼低い';
+    const mnBadge = `<span style="font-size:10px;color:${mnc};margin-left:4px">${mnL}</span>`;
+    t3.push(iwRow('🪪', 'マイナンバー<br>カード保有率', `<strong style="color:${mnc}">${o.mynumberRate.toFixed(1)}%</strong>${mnBadge}<br><span class="iw-sub">全国平均 ${NAT_MN}%（R8.8末 総務省）</span>`));
+  }
 
   // ── Tab 4: 首長・議会 ─────────────────────────────────────
   const t4 = [];
@@ -1150,7 +1169,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'waterRate' ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : (colorMode === 'waterRate' || colorMode === 'mynumberRate') ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   const panel = document.getElementById('iwPanel');
