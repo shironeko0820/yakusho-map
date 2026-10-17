@@ -597,6 +597,7 @@
     <option value="furusatoNet">ふるさと納税 純収支で色分け</option>
     <option value="waterRate">水道料金で色分け</option>
     <option value="mynumberRate">マイナンバーカード交付率で色分け</option>
+    <option value="tfrMuni">合計特殊出生率で色分け</option>
   </select>
   <div class="cc-legend" id="ccLegend">
     <div class="cc-bar">
@@ -872,6 +873,15 @@ function getMarkerColor(office) {
     if (v >= 75) return '#E24B4A';
     return '#A32D2D';
   }
+  if (colorMode === 'tfrMuni') {
+    const v = office.tfrMuni;
+    if (v == null) return '#888780';
+    if (v >= 1.6) return '#3B6D11';
+    if (v >= 1.4) return '#639922';
+    if (v >= 1.2) return '#EF9F27';
+    if (v >= 1.0) return '#E24B4A';
+    return '#A32D2D';
+  }
   return '#1a73e8';
 }
 
@@ -888,6 +898,8 @@ function setColorMode(mode) {
       ? ['〜2,000円', '3,400円', '4,200円〜']
       : mode === 'mynumberRate'
       ? ['〜75%', '80%', '90%〜']
+      : mode === 'tfrMuni'
+      ? ['〜1.0', '1.2', '1.6〜']
       : ['流出', '均衡', '受益'];
     const barColors = (mode === 'waterRate' || mode === 'mynumberRate')
       ? ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11']
@@ -1043,13 +1055,20 @@ function openInfo(marker, o) {
     const nmBadge = `<span style="font-size:10px;color:${nmColor};margin-left:4px">${nmLabel}</span>`;
     t2.push(iwRow('🏘️', '転入<br>超過数', `<strong style="color:${nmColor}">${nmSign}${o.netMigration.toLocaleString()}人 / ${nmRateSign}${nmRate.toFixed(1)}‰</strong>${nmBadge}<br><span class="iw-sub">全国中央値 −3.0‰（2024年）</span>`));
   }
-  if (o.tfr != null) {
+  if (o.tfrMuni != null) {
+    const NAT_TFR = 1.33;
+    const ratio = o.tfrMuni / NAT_TFR;
+    const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
+    const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
+    const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
+    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong style="color:${tfrColor}">${o.tfrMuni.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">全国平均 ${NAT_TFR}（H30〜R4平均 厚労省）</span>`));
+  } else if (o.tfr != null) {
     const NAT_TFR = 1.33;
     const ratio = o.tfr / NAT_TFR;
     const tfrColor = ratio >= 1.1 ? '#1a73e8' : ratio <= 0.9 ? '#c5221f' : ratio <= 0.97 ? '#e37400' : '#5f6368';
     const tfrLabel = ratio >= 1.1 ? '▲高い' : ratio <= 0.9 ? '▼低い' : ratio <= 0.97 ? '▼やや低い' : '≒全国平均';
     const tfrBadge = `<span style="font-size:10px;color:${tfrColor};margin-left:4px">${tfrLabel}</span>`;
-    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">全国平均 ${NAT_TFR}（2018-22年）</span>`));
+    t2.push(iwRow('👶', '合計特殊<br>出生率', `<strong>${o.tfr.toFixed(2)}</strong>${tfrBadge}<br><span class="iw-sub">全国平均 ${NAT_TFR}（都道府県平均 2018-22年）</span>`));
   }
   if (o.agingRate != null) {
     const NAT_AGE = 29.1;
@@ -1169,7 +1188,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : (colorMode === 'waterRate' || colorMode === 'mynumberRate') ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'tfrMuni' ? 2 : (colorMode === 'waterRate' || colorMode === 'mynumberRate') ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   const panel = document.getElementById('iwPanel');
