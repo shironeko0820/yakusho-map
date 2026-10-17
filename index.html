@@ -598,6 +598,7 @@
     <option value="waterRate">水道料金で色分け</option>
     <option value="mynumberRate">マイナンバーカード交付率で色分け</option>
     <option value="tfrMuni">合計特殊出生率で色分け</option>
+    <option value="vacancyRate">空き家率で色分け</option>
   </select>
   <div class="cc-legend" id="ccLegend">
     <div class="cc-bar">
@@ -882,6 +883,15 @@ function getMarkerColor(office) {
     if (v >= 1.0) return '#E24B4A';
     return '#A32D2D';
   }
+  if (colorMode === 'vacancyRate') {
+    const v = office.vacancyRate;
+    if (v == null) return '#888780';
+    if (v < 10) return '#3B6D11';
+    if (v < 13) return '#639922';
+    if (v < 17) return '#EF9F27';
+    if (v < 22) return '#E24B4A';
+    return '#A32D2D';
+  }
   return '#1a73e8';
 }
 
@@ -900,6 +910,8 @@ function setColorMode(mode) {
       ? ['〜75%', '80%', '90%〜']
       : mode === 'tfrMuni'
       ? ['〜1.0', '1.2', '1.6〜']
+      : mode === 'vacancyRate'
+      ? ['〜10%', '17%', '22%〜']
       : ['流出', '均衡', '受益'];
     const barColors = (mode === 'waterRate' || mode === 'mynumberRate')
       ? ['#A32D2D', '#E24B4A', '#EF9F27', '#639922', '#3B6D11']
@@ -1126,6 +1138,13 @@ function openInfo(marker, o) {
     const mnBadge = `<span style="font-size:10px;color:${mnc};margin-left:4px">${mnL}</span>`;
     t3.push(iwRow('🪪', 'マイナンバー<br>カード保有率', `<strong style="color:${mnc}">${o.mynumberRate.toFixed(1)}%</strong>${mnBadge}<br><span class="iw-sub">全国平均 ${NAT_MN}%（R8.8末 総務省）</span>`));
   }
+  if (o.vacancyRate != null) {
+    const NAT_VR = 13.8;
+    const vrc = o.vacancyRate < 10 ? '#3B6D11' : o.vacancyRate < 13 ? '#639922' : o.vacancyRate < 17 ? '#e37400' : o.vacancyRate < 22 ? '#c5221f' : '#8B0000';
+    const vrL = o.vacancyRate < 10 ? '▲低い' : o.vacancyRate < 17 ? '≒全国平均' : '▼高い';
+    const vrBadge = `<span style="font-size:10px;color:${vrc};margin-left:4px">${vrL}</span>`;
+    t3.push(iwRow('🏚️', '空き家率', `<strong style="color:${vrc}">${o.vacancyRate.toFixed(1)}%</strong>${vrBadge}<br><span class="iw-sub">全国平均 ${NAT_VR}%（R5 住宅・土地統計調査）</span>`));
+  }
 
   // ── Tab 4: 首長・議会 ─────────────────────────────────────
   const t4 = [];
@@ -1188,7 +1207,7 @@ function openInfo(marker, o) {
     ? `<span class="dist-badge">📍 ${o.dist < 1 ? Math.round(o.dist * 1000) + 'm' : o.dist.toFixed(1) + 'km'}</span>`
     : '';
 
-  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'tfrMuni' ? 2 : (colorMode === 'waterRate' || colorMode === 'mynumberRate') ? 3 : 0;
+  const initTab = colorMode === 'furusatoNet' ? 1 : colorMode === 'tfrMuni' ? 2 : (colorMode === 'waterRate' || colorMode === 'mynumberRate' || colorMode === 'vacancyRate') ? 3 : 0;
   const tabAct = (i) => initTab === i ? ' active' : '';
 
   const panel = document.getElementById('iwPanel');
