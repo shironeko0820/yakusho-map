@@ -1487,7 +1487,8 @@ async function openFiscal(name, pref) {
     const _latestYr = ['R6','R5','R4','R3','R2'].find(yr =>
       yr === 'R5' || (fd.h && fd.h[yr])
     ) || 'R5';
-    _showYear(_latestYr, fd);
+    // パネルのCSS transitionが完了してからチャートを描画
+    setTimeout(() => _showYear(_latestYr, fd), 320);
   } catch(err) {
     document.getElementById('fpSubtitle').textContent = 'エラー';
     document.getElementById('fpChart').innerHTML =
@@ -1534,7 +1535,12 @@ function _switchYear(yr) {
     sel.value = isDropYr ? yr : '';
     sel.classList.toggle('selected', isDropYr);
   }
-  _showYear(yr, _currentFd);
+  try {
+    _showYear(yr, _currentFd);
+  } catch(e) {
+    const chartDiv = document.getElementById('fpChart');
+    if (chartDiv) chartDiv.innerHTML = `<p style="padding:24px;color:#c5221f;text-align:center">描画エラー: ${e.message||''}</p>`;
+  }
 }
 
 function _showYear(yr, fd) {
@@ -1574,17 +1580,24 @@ function _drawSankey(data) {
   });
   dt.addRows(rows);
   const chartDiv = document.getElementById('fpChart');
-  const h = Math.max(320, Math.min(480, chartDiv.offsetHeight - 8));
-  new google.visualization.Sankey(chartDiv).draw(dt, {
-    height: h,
-    sankey: {
-      node: {
-        label: { fontSize: 11, fontName: 'Hiragino Sans, Meiryo, sans-serif', bold: false },
-        width: 10, nodePadding: 10, interactivity: true
-      },
-      link: { colorMode: 'gradient' }
-    }
-  });
+  chartDiv.innerHTML = '';
+  const w = chartDiv.clientWidth || 380;
+  const h = Math.max(320, Math.min(480, chartDiv.clientHeight - 8));
+  try {
+    new google.visualization.Sankey(chartDiv).draw(dt, {
+      width: w,
+      height: h,
+      sankey: {
+        node: {
+          label: { fontSize: 11, fontName: 'Hiragino Sans, Meiryo, sans-serif', bold: false },
+          width: 10, nodePadding: 10, interactivity: true
+        },
+        link: { colorMode: 'gradient' }
+      }
+    });
+  } catch(e) {
+    chartDiv.innerHTML = `<p style="padding:24px;color:#c5221f;text-align:center">グラフの描画に失敗しました<br><small>${e.message||''}</small></p>`;
+  }
 }
 
 function closeFiscal() {
