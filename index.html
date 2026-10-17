@@ -481,7 +481,7 @@
     .fp-year-select { flex: 1; padding: 0 4px; font-size: 12px; font-weight: 600; color: #888; border: none; border-left: 1px solid #e0e0e0; background: none; cursor: pointer; text-align: center; outline: none; appearance: none; -webkit-appearance: none; }
     .fp-year-select:focus { color: #188038; background: #f5f5f5; }
     .fp-year-select.selected { color: #188038; border-bottom: 3px solid #188038; margin-bottom: -2px; }
-    #fpChart { flex: 1; overflow: hidden; padding: 4px 0 0; }
+    #fpChart { flex: 1; min-height: 320px; padding: 4px 0 0; overflow: visible; }
     .fp-note { padding: 4px 14px; font-size: 10px; color: #aaa; flex-shrink: 0; line-height: 1.5; border-top: 1px solid #f0f0f0; }
     .fp-credit { padding: 5px 14px; font-size: 10px; color: #999; flex-shrink: 0; line-height: 1.5; }
     .fp-credit a { color: #1a73e8; }
@@ -1581,8 +1581,10 @@ function _drawSankey(data) {
   dt.addRows(rows);
   const chartDiv = document.getElementById('fpChart');
   chartDiv.innerHTML = '';
-  const w = chartDiv.clientWidth || 380;
-  const h = Math.max(320, Math.min(480, chartDiv.clientHeight - 8));
+  const panel = document.getElementById('fiscalPanel');
+  const w = (panel.clientWidth || 400) - 4;
+  const panelH = panel.clientHeight || window.innerHeight;
+  const h = Math.max(320, Math.min(500, panelH - 180));
   try {
     new google.visualization.Sankey(chartDiv).draw(dt, {
       width: w,
