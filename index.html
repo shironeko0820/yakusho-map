@@ -1011,6 +1011,20 @@ function openInfo(marker, o) {
     const yr = o.curExpYear ? ` ${o.curExpYear}年度決算` : '';
     t0.push(iwRow('🔄', '経常収支比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">全国平均 90.4%${yr}</span>`));
   }
+  if (o.realDebtRatio != null) {
+    const v = o.realDebtRatio;
+    const c = v < 10 ? '#1a73e8' : v < 18 ? '#188038' : v < 25 ? '#e37400' : '#c5221f';
+    const l = v < 10 ? '健全' : v < 18 ? '普通' : v < 25 ? '注意' : '危険';
+    t0.push(iwRow('💳', '実質公債費比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒ライン25%（2023年度）</span>`));
+  }
+  if (o.futBurdenRatio != null) {
+    const v = o.futBurdenRatio;
+    const c = v < 100 ? '#1a73e8' : v < 200 ? '#188038' : v < 350 ? '#e37400' : '#c5221f';
+    const l = v < 100 ? '良好' : v < 200 ? '普通' : v < 350 ? '注意' : '危険';
+    t0.push(iwRow('📉', '将来負担比率', `<strong style="color:${c}">${v.toFixed(1)}%（${l}）</strong><br><span class="iw-sub">警戒ライン350%（2023年度）</span>`));
+  } else {
+    t0.push(iwRow('📉', '将来負担比率', `<span style="color:#888">−（早期健全化基準未満）</span>`));
+  }
   if (o.taxDependency != null) {
     const tc = o.taxDependency <= 5 ? '#1565C0' : o.taxDependency <= 15 ? '#1a73e8' : o.taxDependency <= 25 ? '#639922' : o.taxDependency <= 35 ? '#e37400' : '#c5221f';
     t0.push(iwRow('📮', '交付税依存度', `<strong style="color:${tc}">${o.taxDependency.toFixed(1)}%</strong><br><span class="iw-sub">地方交付税合計÷歳入総額（2023年度）</span>`));
