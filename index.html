@@ -1578,15 +1578,23 @@ function _drawSankey(data) {
   _EXPENSE_LABELS.forEach((l, i) => {
     if (data.e[i] > 0) rows.push([C, l, data.e[i], `${C} → ${l}\n${_oku(data.e[i])}`]);
   });
-  dt.addRows(rows);
   const chartDiv = document.getElementById('fpChart');
+  if (rows.length === 0) {
+    chartDiv.innerHTML = '<p style="padding:24px;color:#999;text-align:center">データなし</p>';
+    return;
+  }
+  dt.addRows(rows);
   chartDiv.innerHTML = '';
-  const panel = document.getElementById('fiscalPanel');
-  const w = (panel.clientWidth || 400) - 4;
-  const panelH = panel.clientHeight || window.innerHeight;
-  const h = Math.max(320, Math.min(500, panelH - 180));
+  const w = Math.min(396, window.innerWidth - 4);
+  const h = Math.max(320, Math.min(500, window.innerHeight - 180));
+  chartDiv.style.width  = w + 'px';
+  chartDiv.style.height = h + 'px';
   try {
-    new google.visualization.Sankey(chartDiv).draw(dt, {
+    const chart = new google.visualization.Sankey(chartDiv);
+    google.visualization.events.addListener(chart, 'error', function(err) {
+      chartDiv.innerHTML = `<p style="padding:24px;color:#c5221f;text-align:center">グラフエラー: ${err.message||err.id||''}</p>`;
+    });
+    chart.draw(dt, {
       width: w,
       height: h,
       sankey: {
