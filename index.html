@@ -1473,7 +1473,7 @@ async function openFiscal(name, pref) {
   panel.classList.add('open');
 
   try {
-    await Promise.all([_loadFiscal(), _loadGoogleCharts()]);
+    await _loadFiscal();
     const key = _fiscalKey(name, pref);
     const fd  = _fiscalData[key] || _fiscalData[key.replace(/ヶ/g, 'ケ')];
     if (!fd) {
@@ -1565,49 +1565,89 @@ function _showYear(yr, fd) {
 function _oku(v) { return (v / 100000).toFixed(1) + '億円'; }
 
 function _drawSankey(data) {
-  const dt = new google.visualization.DataTable();
-  dt.addColumn('string', '歳入');
-  dt.addColumn('string', '歳出');
-  dt.addColumn('number', '金額');
-  dt.addColumn({type: 'string', role: 'tooltip'});
-  const C = '一般会計';
-  const rows = [];
-  _INCOME_LABELS.forEach((l, i)  => {
-    if (data.i[i] > 0) rows.push([l, C, data.i[i], `${l} → ${C}\n${_oku(data.i[i])}`]);
-  });
-  _EXPENSE_LABELS.forEach((l, i) => {
-    if (data.e[i] > 0) rows.push([C, l, data.e[i], `${C} → ${l}\n${_oku(data.e[i])}`]);
-  });
+  const IC = ['#4285F4','#0F9D58','#00ACC1','#AB47BC','#F4B400','#78909C'];
+  const EC = ['#E53935','#009688','#3F51B5','#6D4C41','#E65100','#7B1FA2','#78909C'];
   const chartDiv = document.getElementById('fpChart');
-  if (rows.length === 0) {
-    chartDiv.innerHTML = '<p style="padding:24px;color:#999;text-align:center">データなし</p>';
-    return;
-  }
-  dt.addRows(rows);
-  chartDiv.innerHTML = '';
-  const w = Math.min(396, window.innerWidth - 4);
-  const h = Math.max(320, Math.min(500, window.innerHeight - 180));
-  chartDiv.style.width  = w + 'px';
-  chartDiv.style.height = h + 'px';
-  try {
-    const chart = new google.visualization.Sankey(chartDiv);
-    google.visualization.events.addListener(chart, 'error', function(err) {
-      chartDiv.innerHTML = `<p style="padding:24px;color:#c5221f;text-align:center">グラフエラー: ${err.message||err.id||''}</p>`;
+
+  const iItems = [], eItems = [];
+  _INCOME_LABELS.forEach((l, i)  => { if (data.i[i] > 0) iItems.push({ label: l, val: data.i[i], color: IC[iItems.length % IC.length] }); });
+  _EXPENSE_LABELS.forEach((l, i) => { if (data.e[i] > 0) eItems.push({ label: l, val: data.e[i], color: EC[eItems.length % EC.length] }); });
+
+  if (!iItems.length) { chartDiv.innerHTML = '<p style="padding:24px;color:#999;text-align:center">データなし</p>'; return; }
+
+  const W  = Math.min(390, (chartDiv.clientWidth || 360));
+  const ML = 86, MR = 86, NW = 8, GAP = 3;
+  const iW = W - ML - MR;
+  const LX = ML, RX = ML + iW - NW, CX = ML + (iW - NW) / 2;
+
+  const totalI = iItems.reduce((s, x) => s + x.val, 0);
+  const totalE = eItems.reduce((s, x) => s + x.val, 0);
+  const total  = Math.max(totalI, totalE);
+  const H      = Math.min(460, Math.max(260, Math.max(iItems.length, eItems.length) * 32 + 30));
+  const aH     = H - 20;
+  const scale  = aH / total;
+
+  function layoutNodes(items, x, tot) {
+    const rawH = tot * scale;
+    let y = (aH - rawH) / 2 + 10;
+    return items.map(item => {
+      const h = Math.max(3, item.val * scale);
+      const nd = { ...item, x, y, h };
+      y += h + GAP;
+      return nd;
     });
-    chart.draw(dt, {
-      width: w,
-      height: h,
-      sankey: {
-        node: {
-          label: { fontSize: 11, fontName: 'Hiragino Sans, Meiryo, sans-serif', bold: false },
-          width: 10, nodePadding: 10, interactivity: true
-        },
-        link: { colorMode: 'gradient' }
-      }
-    });
-  } catch(e) {
-    chartDiv.innerHTML = `<p style="padding:24px;color:#c5221f;text-align:center">グラフの描画に失敗しました<br><small>${e.message||''}</small></p>`;
   }
+
+  const iN = layoutNodes(iItems, LX, totalI);
+  const eN = layoutNodes(eItems, RX, totalE);
+  const cIY = (aH - totalI * scale) / 2 + 10;
+  const cEY = (aH - totalE * scale) / 2 + 10;
+
+  const s = [];
+  s.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`);
+
+  // Income → center flow bands
+  let cy = cIY;
+  iN.forEach(n => {
+    const mx = (LX + NW + CX) / 2;
+    s.push(`<path d="M${LX+NW} ${n.y}C${mx} ${n.y} ${mx} ${cy} ${CX} ${cy}L${CX} ${cy+n.h}C${mx} ${cy+n.h} ${mx} ${n.y+n.h} ${LX+NW} ${n.y+n.h}Z" fill="${n.color}" opacity="0.22"/>`);
+    cy += n.h + GAP;
+  });
+
+  // Center → expense flow bands
+  cy = cEY;
+  eN.forEach(n => {
+    const mx = (CX + NW + RX) / 2;
+    s.push(`<path d="M${CX+NW} ${cy}C${mx} ${cy} ${mx} ${n.y} ${RX} ${n.y}L${RX} ${n.y+n.h}C${mx} ${n.y+n.h} ${mx} ${cy+n.h} ${CX+NW} ${cy+n.h}Z" fill="${n.color}" opacity="0.22"/>`);
+    cy += n.h + GAP;
+  });
+
+  // Income bars + labels
+  iN.forEach(n => {
+    const my = n.y + n.h / 2;
+    s.push(`<rect x="${n.x}" y="${n.y}" width="${NW}" height="${n.h}" fill="${n.color}" rx="2"/>`);
+    s.push(`<text x="${n.x-5}" y="${my}" text-anchor="end" dominant-baseline="middle" font-size="10" fill="#333" font-family="sans-serif">${n.label}</text>`);
+    if (n.h >= 14) s.push(`<text x="${n.x+NW+3}" y="${my}" dominant-baseline="middle" font-size="8.5" fill="${n.color}" font-family="sans-serif">${_oku(n.val)}</text>`);
+  });
+
+  // Expense bars + labels
+  eN.forEach(n => {
+    const my = n.y + n.h / 2;
+    s.push(`<rect x="${n.x}" y="${n.y}" width="${NW}" height="${n.h}" fill="${n.color}" rx="2"/>`);
+    s.push(`<text x="${n.x+NW+4}" y="${my}" dominant-baseline="middle" font-size="10" fill="#333" font-family="sans-serif">${n.label}</text>`);
+    if (n.h >= 14) s.push(`<text x="${n.x-3}" y="${my}" text-anchor="end" dominant-baseline="middle" font-size="8.5" fill="${n.color}" font-family="sans-serif">${_oku(n.val)}</text>`);
+  });
+
+  // Center bar
+  const cH = totalI * scale;
+  s.push(`<rect x="${CX}" y="${cIY}" width="${NW}" height="${cH}" fill="#188038" rx="2"/>`);
+  const cMid = cIY + cH / 2;
+  s.push(`<text x="${CX+NW/2}" y="${cMid}" text-anchor="middle" dominant-baseline="middle" font-size="7" fill="white" font-weight="bold" font-family="sans-serif" transform="rotate(-90,${CX+NW/2},${cMid})">一般会計</text>`);
+
+  s.push('</svg>');
+  chartDiv.style.width = '';
+  chartDiv.style.height = '';
+  chartDiv.innerHTML = s.join('');
 }
 
 function closeFiscal() {
